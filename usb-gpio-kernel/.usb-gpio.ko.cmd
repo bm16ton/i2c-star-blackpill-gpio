@@ -1,0 +1,1 @@
+cmd_/home/maddocks/gpio/usb-gpio-singh/usb-gpio.ko := ld -r  -m elf_x86_64  --build-id=sha1  -T scripts/module.lds -o /home/maddocks/gpio/usb-gpio-singh/usb-gpio.ko /home/maddocks/gpio/usb-gpio-singh/usb-gpio.o /home/maddocks/gpio/usb-gpio-singh/usb-gpio.mod.o;  true
