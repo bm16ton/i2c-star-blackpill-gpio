@@ -272,37 +272,6 @@ err:
 	*len = 0;
 	return USBD_REQ_HANDLED;
 }
-/*
-static enum usbd_request_return_codes usb_control_gpio_request(
-    usbd_device *usbd_dev, struct usb_setup_data *req, uint8_t **buf,
-    uint16_t *len,
-    void (**complete)(usbd_device *, struct usb_setup_data *req))
-{
-   (void)complete;
-	(void)usbd_dev;
-
-   if ((req->bmRequestType & 0x7F) != USB_REQ_TYPE_VENDOR)
-     return 0;
-
-   (*len) = 1;
-   (*buf)[0] = 1; //success
-
-   if (req->bRequest == 1)
-     {
-        gpio_clear(GPIOC, GPIO13);
-     }
-   else if (req->bRequest == 0)
-     {
-        gpio_set(GPIOC, GPIO13);
-     }
-   else
-     {
-        (*buf)[0] = -1; // FAILURE
-     }
-
-   return 1;
-}
-*/
 
 static void my_delay_1( void )
 {
@@ -481,7 +450,9 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			return USBD_REQ_HANDLED;
 			}
       }
-   if (req->bRequest == 1)
+  
+   else if (req->wValue == 0)
+     {   if (req->bRequest == 1)
      {
         if ( req->wIndex == 0 )
 			{
@@ -501,7 +472,8 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 	    else if ( req->wIndex == 1 )
 			{
 				gpio_clear(GPIOC, GPIO14);
-			}
+			}		
+	}
    else
      {
         (*buf)[0] = -1; // FAILURE
