@@ -53,7 +53,9 @@ _gpio_work_job(struct work_struct *work)
 {
    struct my_usb *sd = container_of(work, struct my_usb, work);
 
-   printk(KERN_ALERT "Modifying port i/o: %d", gpio_val);
+   printk(KERN_ALERT "gpioval i/o: %d", gpio_val);
+   printk(KERN_ALERT "usbval i/o: %d", usbval);
+   printk(KERN_ALERT "offset i/o: %d",offs);
    usb_control_msg(sd->udev,
                    usb_sndctrlpipe(sd->udev, 0),
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_OUT,
@@ -67,9 +69,9 @@ _gpio_work_job2(struct work_struct *work2)
 {
    struct my_usb *sd = container_of(work2, struct my_usb, work2);
 
-   printk(KERN_ALERT "Modifying port i/o: %d", gpio_val);
+   printk(KERN_ALERT "Read port i/o: %d", offs);
    usb_control_msg(sd->udev,
-                   usb_sndctrlpipe(sd->udev, 0),
+                   usb_rcvctrlpipe(sd->udev, 0),
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
                    usbval, offs,
                    NULL, 0,
@@ -97,6 +99,8 @@ _gpioa_set(struct gpio_chip *chip,
    struct my_usb *data = container_of(chip, struct my_usb,
                                       chip);
    printk(KERN_INFO "GPIO SET INFO for pin: %d", offset);
+
+   usbval = 0;
 
    if (offset == 0)
      {
@@ -150,6 +154,7 @@ struct my_usb *data = container_of(chip, struct my_usb,
 	return retval;
 }
 */
+/*
 static int
 _gpioa_get(struct gpio_chip *chip,
            unsigned offset)
@@ -171,6 +176,7 @@ _gpioa_get(struct gpio_chip *chip,
                    NULL, 0,
                    1000);
 }
+*/
 /*
 static int
 _gpioa_get(struct gpio_chip *chip,
@@ -191,6 +197,24 @@ _gpioa_get(struct gpio_chip *chip,
 }
 */
 //We are enabling output only pin
+static int
+_gpioa_get(struct gpio_chip *chip,
+           unsigned offset)
+{
+   //struct my_usb *data = container_of(chip, struct my_usb,
+   //                                  chip);
+   int ret = -1;
+   printk(KERN_INFO "GPIO GET INFO: %d", offset);
+
+   if (offset == 0)
+     ret = gpio_val;
+
+   if (offset == 1)
+     ret = gpio_val;
+     
+   return ret;
+}
+
 static int
 _direction_output(struct gpio_chip *chip,
                   unsigned offset, int value)

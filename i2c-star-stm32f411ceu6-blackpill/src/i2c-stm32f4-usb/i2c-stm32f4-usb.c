@@ -439,21 +439,19 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			{
 				(*buf)[0] = gpio_get(GPIOC, GPIO13);
 			    *len = 1;
-
 			return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 1 )
 			{
 				(*buf)[0] = gpio_get(GPIOC, GPIO14);
 			    *len = 1;
-
 			return USBD_REQ_HANDLED;
 			}
       }
-  
-   else if (req->wValue == 0)
-     {   if (req->bRequest == 1)
-     {
+  else if (req->wValue == 0)
+     { 
+	 if (req->bRequest == 1)
+        {
         if ( req->wIndex == 0 )
 			{
 				gpio_clear(GPIOC, GPIO13);
@@ -462,10 +460,10 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			{
 				gpio_set(GPIOC, GPIO14);
 			}
-      }
+        }
    else if (req->bRequest == 0)
      {
-     if ( req->wIndex == 0 )
+     if (req->wIndex == 0)
 			{
 				gpio_set(GPIOC, GPIO13);
 			}
@@ -473,15 +471,15 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			{
 				gpio_clear(GPIOC, GPIO14);
 			}		
-	}
+	  }
+    }
    else
      {
         (*buf)[0] = -1; // FAILURE
      }
-	}
+ 
    return 1;
 }
-
 
 
 
