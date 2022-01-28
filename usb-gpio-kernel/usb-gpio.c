@@ -11,6 +11,7 @@
 #include <linux/workqueue.h> //for work_struct
 #include <linux/gpio.h> //for led
 #include <linux/gpio/driver.h>
+#include <linux/irq.h>
 
 MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Amitesh Singh");
@@ -34,6 +35,17 @@ struct my_usb {
      struct work_struct work;
      struct work_struct work2;
      struct gpio_chip chip; //this is our GPIO chip
+     bool    hwirq;
+     int                      gpio_irq_map[4]; // GPIO to IRQ map (gpio_num elements)
+     
+         struct irq_chip   irq;                                // chip descriptor for IRQs
+    uint8_t           irq_num;                            // number of pins with IRQs
+    int               irq_base;                           // base IRQ allocated
+    struct irq_desc*  irq_descs    [4]; // IRQ descriptors used (irq_num elements)
+    int               irq_types    [4]; // IRQ types (irq_num elements)
+    bool              irq_enabled  [4]; // IRQ enabled flag (irq_num elements)
+    int               irq_gpio_map [4]; // IRQ to GPIO pin map (irq_num elements)
+    int               irq_hw;                             // IRQ for GPIO with hardware IRQ (default -1)
     
      u8 buf[4];
 };
@@ -83,19 +95,6 @@ _gpio_work_job2(struct work_struct *work2)
                    1000);
 }
 
-static int
-usb_read(struct my_usb *dev, int cmd, int value, int index, void *data, int len)
-{
-	/* do control transfer */
-//   struct usb_device *dev = interface_to_usbdev(interface);
-//   struct my_usb *data;
-
-	return usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
-			       cmd,
-			       USB_TYPE_VENDOR | USB_RECIP_INTERFACE |
-			       USB_DIR_IN, 3, index, data, len, 2000);
-}
-
 //this is called when you do echo 1 > value
 static void
 _gpioa_set(struct gpio_chip *chip,
@@ -110,19 +109,6 @@ _gpioa_set(struct gpio_chip *chip,
 		offs = offset;
         gpio_val = value;
         schedule_work(&data->work);
-/*   if (offset == 0)
-     {
-		offs = offset;
-        gpio_val = value;
-        schedule_work(&data->work);
-     }
-   if (offset == 1)
-     {
-		offs = offset;
-        gpio_val = value;
-        schedule_work(&data->work);
-     }
-*/
 }
 
 static int
@@ -131,9 +117,7 @@ _gpioa_get(struct gpio_chip *chip,
 {
    struct my_usb *data = container_of(chip, struct my_usb,
                                      chip);
-//   int ret = -1;
-//   int poop2;
-//   int retval, retval1, retval2, retval3, rval, rval1, rval2, rval3;
+
    int retval, retval1, retval2, retval3;
 
     printk(KERN_INFO "GPIO GET INFO: %d", offset);
@@ -154,21 +138,9 @@ _gpioa_get(struct gpio_chip *chip,
     printk("buf2 =  %d", retval2);
     printk("buf3 =  %d", retval3);
 
-/*
-    poop2 = retval1 - 2;
-     
-    printk("ret2 =  %d", poop2);
-    
-    if (poop2 == 0) {
-    return 0;
-    }
-    
-    if (poop2 == 1) {
-    return 1;
-    }
- */      
+ 
     return retval1 - 2; 
- //  return ret2;
+
 }
 
 static int
@@ -181,24 +153,9 @@ _direction_output(struct gpio_chip *chip,
    
         usbval = 2;
 		offs = offset;
-//        gpio_val = value;
+
         schedule_work(&data->work);
-/*
-   if (offset == 0)
-     {
-        usbval = 2;
-		offs = offset;
-//        gpio_val = value;
-        schedule_work(&data->work);
-     }
-   if (offset == 1)
-     {
-        usbval = 2;
-		offs = offset;
- //       gpio_val = value;
-        schedule_work(&data->work);
-     }
-*/
+
    return 0;
 }
 
@@ -214,24 +171,9 @@ _direction_input(struct gpio_chip *chip,
 
         usbval = 1;
 		offs = offset;
-//        gpio_val = value;
+
         schedule_work(&data->work);
-/*
-   if (offset == 0)
-     {
-        usbval = 1;
-		offs = offset;
-//        gpio_val = value;
-        schedule_work(&data->work);
-     }
-   if (offset == 1)
-     {
-        usbval = 1;
-		offs = offset;
- //       gpio_val = value;
-        schedule_work(&data->work);
-     }
-*/
+
    return 0;
 }
 

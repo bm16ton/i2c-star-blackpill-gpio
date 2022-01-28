@@ -1,10 +1,12 @@
 i2c-star usb-to-i2c fork with additional usb to gpio firmware and kernel driver for stm32f411 blackpill
 
 
-First night hacking away only 2 gpios pc13 (led) and pc14. Iused pc13 to make testing ez. currently setting high/low an direction in/out all work but reading current gpio state illudes me. once i conquer the usb read ill add irq generated from interrupt endpoint.
+4 working gpio PC13 LED, PC14, PC15, and PA0 BTN.
+
+PA0 reads fine (with realy good usb cable, usb ables apparently screw up the gpio state reading) the others have been tested without Pull UPs/DOWNs and didnt go great. Setting output/input wrks perect on all 4 pins but ovbiously the BTN-PA0 should be kept input and LED-C13 kept output. Ill mask their directions eventually.
 
 
-I had to patcg i2c-tiny-usb to keep it from attaching to interface 2, ill include the patch in folder. 
+I had to patch i2c-tiny-usb to keep it from attaching to interface 2, ill include the patch in folder. 
 
 
 tested on kernel 5.16.1
