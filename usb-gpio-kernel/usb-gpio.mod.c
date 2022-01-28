@@ -29,4 +29,4 @@ MODULE_INFO(depends, "");
 
 MODULE_ALIAS("usb:v0403pC631d*dc*dsc*dp*ic*isc*ip*in*");
 
-MODULE_INFO(srcversion, "C8D0F9006A55ABD58C8D098");
+MODULE_INFO(srcversion, "51DD0AEFBC0E785345E7C26");

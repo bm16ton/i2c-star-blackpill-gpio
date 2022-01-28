@@ -440,13 +440,13 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			{
 			getv = gpio_get(GPIOA, GPIO0);
 			if (getv == 0) {
-		        (*buf)[0] = 0; 
+		        (*buf)[0] = 1; 
 		        (*buf)[1] = 2;
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
 			    *len = 4;
 			} else if (getv == 1) {
-				(*buf)[0] = 0; 
+				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
@@ -458,13 +458,13 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			{
 			getv = gpio_get(GPIOA, GPIO0);
 			if (getv == 0) {
-		        (*buf)[0] = 0; 
+		        (*buf)[0] = 1; 
 		        (*buf)[1] = 2;
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
 			    *len = 4;
 			} else if (getv == 1) {
-				(*buf)[0] = 0; 
+				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;

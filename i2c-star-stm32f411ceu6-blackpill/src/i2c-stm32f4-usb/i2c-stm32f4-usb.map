@@ -1189,391 +1189,391 @@ END GROUP
  .text.usb_control_request
                 0x0000000008000894      0x144 i2c-stm32f4-usb.o
  .text.usb_control_gpio_request
-                0x00000000080009d8      0x178 i2c-stm32f4-usb.o
+                0x00000000080009d8      0x16c i2c-stm32f4-usb.o
  .text.startup.main
-                0x0000000008000b50      0x134 i2c-stm32f4-usb.o
-                0x0000000008000b50                main
+                0x0000000008000b44      0x134 i2c-stm32f4-usb.o
+                0x0000000008000b44                main
  .text.gpio_set
-                0x0000000008000c84        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_all.o)
-                0x0000000008000c84                gpio_set
+                0x0000000008000c78        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_all.o)
+                0x0000000008000c78                gpio_set
  .text.gpio_clear
-                0x0000000008000c88        0x6 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_all.o)
-                0x0000000008000c88                gpio_clear
+                0x0000000008000c7c        0x6 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_all.o)
+                0x0000000008000c7c                gpio_clear
  .text.gpio_get
-                0x0000000008000c8e        0x6 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_all.o)
-                0x0000000008000c8e                gpio_get
+                0x0000000008000c82        0x6 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_all.o)
+                0x0000000008000c82                gpio_get
  .text.gpio_mode_setup
-                0x0000000008000c94       0x40 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_f0234.o)
-                0x0000000008000c94                gpio_mode_setup
+                0x0000000008000c88       0x40 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_f0234.o)
+                0x0000000008000c88                gpio_mode_setup
  .text.gpio_set_output_options
-                0x0000000008000cd4       0x36 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_f0234.o)
-                0x0000000008000cd4                gpio_set_output_options
+                0x0000000008000cc8       0x36 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_f0234.o)
+                0x0000000008000cc8                gpio_set_output_options
  .text.gpio_set_af
-                0x0000000008000d0a       0x54 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_f0234.o)
-                0x0000000008000d0a                gpio_set_af
+                0x0000000008000cfe       0x54 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_f0234.o)
+                0x0000000008000cfe                gpio_set_af
  .text.i2c_peripheral_enable
-                0x0000000008000d5e        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000d5e                i2c_peripheral_enable
+                0x0000000008000d52        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000d52                i2c_peripheral_enable
  .text.i2c_peripheral_disable
-                0x0000000008000d68        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000d68                i2c_peripheral_disable
+                0x0000000008000d5c        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000d5c                i2c_peripheral_disable
  .text.i2c_send_start
-                0x0000000008000d72        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000d72                i2c_send_start
+                0x0000000008000d66        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000d66                i2c_send_start
  .text.i2c_send_stop
-                0x0000000008000d7c        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000d7c                i2c_send_stop
+                0x0000000008000d70        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000d70                i2c_send_stop
  .text.i2c_set_own_7bit_slave_address
-                0x0000000008000d86        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000d86                i2c_set_own_7bit_slave_address
+                0x0000000008000d7a        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000d7a                i2c_set_own_7bit_slave_address
  .text.i2c_set_clock_frequency
-                0x0000000008000d90        0xe /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000d90                i2c_set_clock_frequency
+                0x0000000008000d84        0xe /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000d84                i2c_set_clock_frequency
  .text.i2c_send_data
-                0x0000000008000d9e        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000d9e                i2c_send_data
+                0x0000000008000d92        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000d92                i2c_send_data
  .text.i2c_set_ccr
-                0x0000000008000da2        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000da2                i2c_set_ccr
+                0x0000000008000d96        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000d96                i2c_set_ccr
  .text.i2c_set_trise
-                0x0000000008000dae        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000dae                i2c_set_trise
+                0x0000000008000da2        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000da2                i2c_set_trise
  .text.i2c_send_7bit_address
-                0x0000000008000db2        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000db2                i2c_send_7bit_address
+                0x0000000008000da6        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000da6                i2c_send_7bit_address
  .text.i2c_get_data
-                0x0000000008000dbc        0x6 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
-                0x0000000008000dbc                i2c_get_data
+                0x0000000008000db0        0x6 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+                0x0000000008000db0                i2c_get_data
  .text.rcc_periph_clock_enable
-                0x0000000008000dc2       0x1c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc_common_all.o)
-                0x0000000008000dc2                rcc_periph_clock_enable
+                0x0000000008000db6       0x1c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc_common_all.o)
+                0x0000000008000db6                rcc_periph_clock_enable
  .text.rcc_periph_reset_pulse
-                0x0000000008000dde       0x24 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc_common_all.o)
-                0x0000000008000dde                rcc_periph_reset_pulse
- *fill*         0x0000000008000e02        0x2 
+                0x0000000008000dd2       0x24 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc_common_all.o)
+                0x0000000008000dd2                rcc_periph_reset_pulse
+ *fill*         0x0000000008000df6        0x2 
  .text.rcc_is_osc_ready
-                0x0000000008000e04       0x5c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000e04                rcc_is_osc_ready
+                0x0000000008000df8       0x5c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000df8                rcc_is_osc_ready
  .text.rcc_wait_for_osc_ready
-                0x0000000008000e60       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000e60                rcc_wait_for_osc_ready
+                0x0000000008000e54       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000e54                rcc_wait_for_osc_ready
  .text.rcc_osc_on
-                0x0000000008000e70       0x58 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000e70                rcc_osc_on
+                0x0000000008000e64       0x58 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000e64                rcc_osc_on
  .text.rcc_osc_off
-                0x0000000008000ec8       0x58 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000ec8                rcc_osc_off
+                0x0000000008000ebc       0x58 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000ebc                rcc_osc_off
  .text.rcc_set_sysclk_source
-                0x0000000008000f20       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000f20                rcc_set_sysclk_source
+                0x0000000008000f14       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000f14                rcc_set_sysclk_source
  .text.rcc_set_ppre2
-                0x0000000008000f34       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000f34                rcc_set_ppre2
+                0x0000000008000f28       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000f28                rcc_set_ppre2
  .text.rcc_set_ppre1
-                0x0000000008000f48       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000f48                rcc_set_ppre1
+                0x0000000008000f3c       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000f3c                rcc_set_ppre1
  .text.rcc_set_hpre
-                0x0000000008000f5c       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000f5c                rcc_set_hpre
+                0x0000000008000f50       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000f50                rcc_set_hpre
  .text.rcc_set_main_pll_hsi
-                0x0000000008000f70       0x44 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000f70                rcc_set_main_pll_hsi
+                0x0000000008000f64       0x44 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000f64                rcc_set_main_pll_hsi
  .text.rcc_set_main_pll_hse
-                0x0000000008000fb4       0x44 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000fb4                rcc_set_main_pll_hse
+                0x0000000008000fa8       0x44 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000fa8                rcc_set_main_pll_hse
  .text.rcc_clock_setup_pll
-                0x0000000008000ff8       0xf4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
-                0x0000000008000ff8                rcc_clock_setup_pll
+                0x0000000008000fec       0xf4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+                0x0000000008000fec                rcc_clock_setup_pll
  .text.usbd_init
-                0x00000000080010ec       0x50 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
-                0x00000000080010ec                usbd_init
+                0x00000000080010e0       0x50 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+                0x00000000080010e0                usbd_init
  .text.usbd_poll
-                0x000000000800113c        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
-                0x000000000800113c                usbd_poll
+                0x0000000008001130        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+                0x0000000008001130                usbd_poll
  .text.usbd_ep_setup
-                0x0000000008001144       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
-                0x0000000008001144                usbd_ep_setup
+                0x0000000008001138       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+                0x0000000008001138                usbd_ep_setup
  .text._usbd_reset
-                0x0000000008001154       0x30 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
-                0x0000000008001154                _usbd_reset
+                0x0000000008001148       0x30 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+                0x0000000008001148                _usbd_reset
  .text.usbd_ep_write_packet
-                0x0000000008001184       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
-                0x0000000008001184                usbd_ep_write_packet
+                0x0000000008001178       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+                0x0000000008001178                usbd_ep_write_packet
  .text.usbd_ep_read_packet
-                0x0000000008001194       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
-                0x0000000008001194                usbd_ep_read_packet
+                0x0000000008001188       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+                0x0000000008001188                usbd_ep_read_packet
  .text.usbd_ep_stall_set
-                0x00000000080011a4        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
-                0x00000000080011a4                usbd_ep_stall_set
+                0x0000000008001198        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+                0x0000000008001198                usbd_ep_stall_set
  .text.usbd_ep_stall_get
-                0x00000000080011ac        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
-                0x00000000080011ac                usbd_ep_stall_get
+                0x00000000080011a0        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+                0x00000000080011a0                usbd_ep_stall_get
  .text.usbd_ep_nak_set
-                0x00000000080011b4        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
-                0x00000000080011b4                usbd_ep_nak_set
+                0x00000000080011a8        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+                0x00000000080011a8                usbd_ep_nak_set
  .text.usb_standard_set_address
-                0x00000000080011bc       0x2a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x00000000080011b0       0x2a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_set_configuration
-                0x00000000080011e6       0x96 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x00000000080011da       0x96 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_get_configuration
-                0x000000000800127c       0x22 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x0000000008001270       0x22 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_get_interface
-                0x000000000800129e       0x38 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x0000000008001292       0x38 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_device_get_status
-                0x00000000080012d6       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x00000000080012ca       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_endpoint_get_status
-                0x00000000080012ee       0x2a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x00000000080012e2       0x2a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_endpoint_stall
-                0x0000000008001318       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x000000000800130c       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_endpoint_unstall
-                0x0000000008001328       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x000000000800131c       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_set_interface
-                0x0000000008001338       0x54 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x000000000800132c       0x54 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_get_descriptor
-                0x000000000800138c      0x264 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x0000000008001380      0x264 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usb_standard_interface_get_status
-                0x00000000080015f0       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x00000000080015e4       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
  .text.usbd_register_set_config_callback
-                0x0000000008001608       0x28 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
-                0x0000000008001608                usbd_register_set_config_callback
+                0x00000000080015fc       0x28 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x00000000080015fc                usbd_register_set_config_callback
  .text._usbd_standard_request_device
-                0x0000000008001630       0x4c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
-                0x0000000008001630                _usbd_standard_request_device
+                0x0000000008001624       0x4c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x0000000008001624                _usbd_standard_request_device
  .text._usbd_standard_request_interface
-                0x000000000800167c       0x34 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
-                0x000000000800167c                _usbd_standard_request_interface
+                0x0000000008001670       0x34 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x0000000008001670                _usbd_standard_request_interface
  .text._usbd_standard_request_endpoint
-                0x00000000080016b0       0x40 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
-                0x00000000080016b0                _usbd_standard_request_endpoint
+                0x00000000080016a4       0x40 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x00000000080016a4                _usbd_standard_request_endpoint
  .text._usbd_standard_request
-                0x00000000080016f0       0x38 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
-                0x00000000080016f0                _usbd_standard_request
+                0x00000000080016e4       0x38 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+                0x00000000080016e4                _usbd_standard_request
  .text.usb_control_send_chunk
-                0x0000000008001728       0x52 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+                0x000000000800171c       0x52 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
  .text.usb_control_request_dispatch
-                0x000000000800177a       0x60 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+                0x000000000800176e       0x60 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
  .text.stall_transaction
-                0x00000000080017da       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+                0x00000000080017ce       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
  .text.usb_control_recv_chunk
-                0x00000000080017ee       0x3c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+                0x00000000080017e2       0x3c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
  .text.usb_control_setup_read
-                0x000000000800182a       0x66 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+                0x000000000800181e       0x66 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
  .text.usbd_register_control_callback
-                0x0000000008001890       0x2c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
-                0x0000000008001890                usbd_register_control_callback
+                0x0000000008001884       0x2c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+                0x0000000008001884                usbd_register_control_callback
  .text._usbd_control_setup
-                0x00000000080018bc       0x60 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
-                0x00000000080018bc                _usbd_control_setup
+                0x00000000080018b0       0x60 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+                0x00000000080018b0                _usbd_control_setup
  .text._usbd_control_out
-                0x000000000800191c       0x82 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
-                0x000000000800191c                _usbd_control_out
+                0x0000000008001910       0x82 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+                0x0000000008001910                _usbd_control_out
  .text._usbd_control_in
-                0x000000000800199e       0x64 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
-                0x000000000800199e                _usbd_control_in
- *fill*         0x0000000008001a02        0x2 
+                0x0000000008001992       0x64 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+                0x0000000008001992                _usbd_control_in
+ *fill*         0x00000000080019f6        0x2 
  .text.stm32f107_usbd_init
-                0x0000000008001a04       0xd0 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_f107.o)
+                0x00000000080019f8       0xd0 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_f107.o)
  .text.blocking_handler
-                0x0000000008001ad4        0x2 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(vector.o)
-                0x0000000008001ad4                dma2_stream1_isr
-                0x0000000008001ad4                tim8_brk_tim12_isr
-                0x0000000008001ad4                dma1_stream7_isr
-                0x0000000008001ad4                usart3_isr
-                0x0000000008001ad4                tim7_isr
-                0x0000000008001ad4                dma2d_isr
-                0x0000000008001ad4                uart8_isr
-                0x0000000008001ad4                dma1_stream2_isr
-                0x0000000008001ad4                otg_hs_isr
-                0x0000000008001ad4                blocking_handler
-                0x0000000008001ad4                tim5_isr
-                0x0000000008001ad4                rtc_wkup_isr
-                0x0000000008001ad4                otg_fs_isr
-                0x0000000008001ad4                spi1_isr
-                0x0000000008001ad4                i2c3_er_isr
-                0x0000000008001ad4                exti2_isr
-                0x0000000008001ad4                spi5_isr
-                0x0000000008001ad4                usb_fs_wkup_isr
-                0x0000000008001ad4                tamp_stamp_isr
-                0x0000000008001ad4                can1_rx1_isr
-                0x0000000008001ad4                dma2_stream0_isr
-                0x0000000008001ad4                usart1_isr
-                0x0000000008001ad4                i2c3_ev_isr
-                0x0000000008001ad4                usage_fault_handler
-                0x0000000008001ad4                can2_rx0_isr
-                0x0000000008001ad4                dma1_stream6_isr
-                0x0000000008001ad4                can2_rx1_isr
-                0x0000000008001ad4                can1_sce_isr
-                0x0000000008001ad4                tim1_cc_isr
-                0x0000000008001ad4                can1_tx_isr
-                0x0000000008001ad4                tim1_up_tim10_isr
-                0x0000000008001ad4                sdio_isr
-                0x0000000008001ad4                eth_isr
-                0x0000000008001ad4                spi6_isr
-                0x0000000008001ad4                dma2_stream5_isr
-                0x0000000008001ad4                pvd_isr
-                0x0000000008001ad4                can1_rx0_isr
-                0x0000000008001ad4                rcc_isr
-                0x0000000008001ad4                dma2_stream3_isr
-                0x0000000008001ad4                flash_isr
-                0x0000000008001ad4                uart4_isr
-                0x0000000008001ad4                lcd_tft_isr
-                0x0000000008001ad4                rtc_alarm_isr
-                0x0000000008001ad4                exti15_10_isr
-                0x0000000008001ad4                hash_rng_isr
-                0x0000000008001ad4                tim1_trg_com_tim11_isr
-                0x0000000008001ad4                hard_fault_handler
-                0x0000000008001ad4                exti1_isr
-                0x0000000008001ad4                i2c1_ev_isr
-                0x0000000008001ad4                usart6_isr
-                0x0000000008001ad4                spi2_isr
-                0x0000000008001ad4                cryp_isr
-                0x0000000008001ad4                nvic_wwdg_isr
-                0x0000000008001ad4                dma1_stream1_isr
-                0x0000000008001ad4                dma2_stream4_isr
-                0x0000000008001ad4                exti3_isr
-                0x0000000008001ad4                tim3_isr
-                0x0000000008001ad4                usart2_isr
-                0x0000000008001ad4                sai1_isr
-                0x0000000008001ad4                fpu_isr
-                0x0000000008001ad4                dma1_stream4_isr
-                0x0000000008001ad4                i2c2_er_isr
-                0x0000000008001ad4                i2c2_ev_isr
-                0x0000000008001ad4                uart5_isr
-                0x0000000008001ad4                dma2_stream6_isr
-                0x0000000008001ad4                spi4_isr
-                0x0000000008001ad4                adc_isr
-                0x0000000008001ad4                dma2_stream7_isr
-                0x0000000008001ad4                tim8_up_tim13_isr
-                0x0000000008001ad4                fsmc_isr
-                0x0000000008001ad4                exti4_isr
-                0x0000000008001ad4                tim6_dac_isr
-                0x0000000008001ad4                dma1_stream3_isr
-                0x0000000008001ad4                tim8_trg_com_tim14_isr
-                0x0000000008001ad4                mem_manage_handler
-                0x0000000008001ad4                lcd_tft_err_isr
-                0x0000000008001ad4                can2_tx_isr
-                0x0000000008001ad4                exti9_5_isr
-                0x0000000008001ad4                tim1_brk_tim9_isr
-                0x0000000008001ad4                uart7_isr
-                0x0000000008001ad4                can2_sce_isr
-                0x0000000008001ad4                tim4_isr
-                0x0000000008001ad4                otg_hs_wkup_isr
-                0x0000000008001ad4                i2c1_er_isr
-                0x0000000008001ad4                dma1_stream0_isr
-                0x0000000008001ad4                tim8_cc_isr
-                0x0000000008001ad4                dcmi_isr
-                0x0000000008001ad4                dma2_stream2_isr
-                0x0000000008001ad4                eth_wkup_isr
-                0x0000000008001ad4                bus_fault_handler
-                0x0000000008001ad4                otg_hs_ep1_out_isr
-                0x0000000008001ad4                spi3_isr
-                0x0000000008001ad4                dma1_stream5_isr
-                0x0000000008001ad4                otg_hs_ep1_in_isr
-                0x0000000008001ad4                tim2_isr
-                0x0000000008001ad4                exti0_isr
+                0x0000000008001ac8        0x2 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(vector.o)
+                0x0000000008001ac8                dma2_stream1_isr
+                0x0000000008001ac8                tim8_brk_tim12_isr
+                0x0000000008001ac8                dma1_stream7_isr
+                0x0000000008001ac8                usart3_isr
+                0x0000000008001ac8                tim7_isr
+                0x0000000008001ac8                dma2d_isr
+                0x0000000008001ac8                uart8_isr
+                0x0000000008001ac8                dma1_stream2_isr
+                0x0000000008001ac8                otg_hs_isr
+                0x0000000008001ac8                blocking_handler
+                0x0000000008001ac8                tim5_isr
+                0x0000000008001ac8                rtc_wkup_isr
+                0x0000000008001ac8                otg_fs_isr
+                0x0000000008001ac8                spi1_isr
+                0x0000000008001ac8                i2c3_er_isr
+                0x0000000008001ac8                exti2_isr
+                0x0000000008001ac8                spi5_isr
+                0x0000000008001ac8                usb_fs_wkup_isr
+                0x0000000008001ac8                tamp_stamp_isr
+                0x0000000008001ac8                can1_rx1_isr
+                0x0000000008001ac8                dma2_stream0_isr
+                0x0000000008001ac8                usart1_isr
+                0x0000000008001ac8                i2c3_ev_isr
+                0x0000000008001ac8                usage_fault_handler
+                0x0000000008001ac8                can2_rx0_isr
+                0x0000000008001ac8                dma1_stream6_isr
+                0x0000000008001ac8                can2_rx1_isr
+                0x0000000008001ac8                can1_sce_isr
+                0x0000000008001ac8                tim1_cc_isr
+                0x0000000008001ac8                can1_tx_isr
+                0x0000000008001ac8                tim1_up_tim10_isr
+                0x0000000008001ac8                sdio_isr
+                0x0000000008001ac8                eth_isr
+                0x0000000008001ac8                spi6_isr
+                0x0000000008001ac8                dma2_stream5_isr
+                0x0000000008001ac8                pvd_isr
+                0x0000000008001ac8                can1_rx0_isr
+                0x0000000008001ac8                rcc_isr
+                0x0000000008001ac8                dma2_stream3_isr
+                0x0000000008001ac8                flash_isr
+                0x0000000008001ac8                uart4_isr
+                0x0000000008001ac8                lcd_tft_isr
+                0x0000000008001ac8                rtc_alarm_isr
+                0x0000000008001ac8                exti15_10_isr
+                0x0000000008001ac8                hash_rng_isr
+                0x0000000008001ac8                tim1_trg_com_tim11_isr
+                0x0000000008001ac8                hard_fault_handler
+                0x0000000008001ac8                exti1_isr
+                0x0000000008001ac8                i2c1_ev_isr
+                0x0000000008001ac8                usart6_isr
+                0x0000000008001ac8                spi2_isr
+                0x0000000008001ac8                cryp_isr
+                0x0000000008001ac8                nvic_wwdg_isr
+                0x0000000008001ac8                dma1_stream1_isr
+                0x0000000008001ac8                dma2_stream4_isr
+                0x0000000008001ac8                exti3_isr
+                0x0000000008001ac8                tim3_isr
+                0x0000000008001ac8                usart2_isr
+                0x0000000008001ac8                sai1_isr
+                0x0000000008001ac8                fpu_isr
+                0x0000000008001ac8                dma1_stream4_isr
+                0x0000000008001ac8                i2c2_er_isr
+                0x0000000008001ac8                i2c2_ev_isr
+                0x0000000008001ac8                uart5_isr
+                0x0000000008001ac8                dma2_stream6_isr
+                0x0000000008001ac8                spi4_isr
+                0x0000000008001ac8                adc_isr
+                0x0000000008001ac8                dma2_stream7_isr
+                0x0000000008001ac8                tim8_up_tim13_isr
+                0x0000000008001ac8                fsmc_isr
+                0x0000000008001ac8                exti4_isr
+                0x0000000008001ac8                tim6_dac_isr
+                0x0000000008001ac8                dma1_stream3_isr
+                0x0000000008001ac8                tim8_trg_com_tim14_isr
+                0x0000000008001ac8                mem_manage_handler
+                0x0000000008001ac8                lcd_tft_err_isr
+                0x0000000008001ac8                can2_tx_isr
+                0x0000000008001ac8                exti9_5_isr
+                0x0000000008001ac8                tim1_brk_tim9_isr
+                0x0000000008001ac8                uart7_isr
+                0x0000000008001ac8                can2_sce_isr
+                0x0000000008001ac8                tim4_isr
+                0x0000000008001ac8                otg_hs_wkup_isr
+                0x0000000008001ac8                i2c1_er_isr
+                0x0000000008001ac8                dma1_stream0_isr
+                0x0000000008001ac8                tim8_cc_isr
+                0x0000000008001ac8                dcmi_isr
+                0x0000000008001ac8                dma2_stream2_isr
+                0x0000000008001ac8                eth_wkup_isr
+                0x0000000008001ac8                bus_fault_handler
+                0x0000000008001ac8                otg_hs_ep1_out_isr
+                0x0000000008001ac8                spi3_isr
+                0x0000000008001ac8                dma1_stream5_isr
+                0x0000000008001ac8                otg_hs_ep1_in_isr
+                0x0000000008001ac8                tim2_isr
+                0x0000000008001ac8                exti0_isr
  .text.null_handler
-                0x0000000008001ad6        0x2 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(vector.o)
-                0x0000000008001ad6                null_handler
-                0x0000000008001ad6                sv_call_handler
-                0x0000000008001ad6                pend_sv_handler
-                0x0000000008001ad6                debug_monitor_handler
-                0x0000000008001ad6                nmi_handler
+                0x0000000008001aca        0x2 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(vector.o)
+                0x0000000008001aca                null_handler
+                0x0000000008001aca                sv_call_handler
+                0x0000000008001aca                pend_sv_handler
+                0x0000000008001aca                debug_monitor_handler
+                0x0000000008001aca                nmi_handler
  .text.reset_handler
-                0x0000000008001ad8       0x98 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(vector.o)
-                0x0000000008001ad8                reset_handler
+                0x0000000008001acc       0x98 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(vector.o)
+                0x0000000008001acc                reset_handler
  .text.systick_set_reload
-                0x0000000008001b70       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
-                0x0000000008001b70                systick_set_reload
+                0x0000000008001b64       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
+                0x0000000008001b64                systick_set_reload
  .text.systick_set_clocksource
-                0x0000000008001b80       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
-                0x0000000008001b80                systick_set_clocksource
+                0x0000000008001b74       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
+                0x0000000008001b74                systick_set_clocksource
  .text.systick_interrupt_enable
-                0x0000000008001b98       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
-                0x0000000008001b98                systick_interrupt_enable
+                0x0000000008001b8c       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
+                0x0000000008001b8c                systick_interrupt_enable
  .text.systick_counter_enable
-                0x0000000008001ba8       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
-                0x0000000008001ba8                systick_counter_enable
+                0x0000000008001b9c       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
+                0x0000000008001b9c                systick_counter_enable
  .text.flash_set_ws
-                0x0000000008001bb8       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_all.o)
-                0x0000000008001bb8                flash_set_ws
+                0x0000000008001bac       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_all.o)
+                0x0000000008001bac                flash_set_ws
  .text.flash_dcache_enable
-                0x0000000008001bcc       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
-                0x0000000008001bcc                flash_dcache_enable
+                0x0000000008001bc0       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
+                0x0000000008001bc0                flash_dcache_enable
  .text.flash_dcache_disable
-                0x0000000008001bdc       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
-                0x0000000008001bdc                flash_dcache_disable
+                0x0000000008001bd0       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
+                0x0000000008001bd0                flash_dcache_disable
  .text.flash_icache_enable
-                0x0000000008001bec       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
-                0x0000000008001bec                flash_icache_enable
+                0x0000000008001be0       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
+                0x0000000008001be0                flash_icache_enable
  .text.flash_icache_disable
-                0x0000000008001bfc       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
-                0x0000000008001bfc                flash_icache_disable
+                0x0000000008001bf0       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
+                0x0000000008001bf0                flash_icache_disable
  .text.pwr_set_vos_scale
-                0x0000000008001c0c       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(pwr.o)
-                0x0000000008001c0c                pwr_set_vos_scale
+                0x0000000008001c00       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(pwr.o)
+                0x0000000008001c00                pwr_set_vos_scale
  .text.dwc_set_address
-                0x0000000008001c24       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x0000000008001c24                dwc_set_address
+                0x0000000008001c18       0x18 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x0000000008001c18                dwc_set_address
  .text.dwc_ep_setup
-                0x0000000008001c3c      0x12a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x0000000008001c3c                dwc_ep_setup
+                0x0000000008001c30      0x12a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x0000000008001c30                dwc_ep_setup
  .text.dwc_endpoints_reset
-                0x0000000008001d66       0x4c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x0000000008001d66                dwc_endpoints_reset
+                0x0000000008001d5a       0x4c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x0000000008001d5a                dwc_endpoints_reset
  .text.dwc_ep_stall_set
-                0x0000000008001db2       0x7a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x0000000008001db2                dwc_ep_stall_set
+                0x0000000008001da6       0x7a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x0000000008001da6                dwc_ep_stall_set
  .text.dwc_ep_stall_get
-                0x0000000008001e2c       0x1c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x0000000008001e2c                dwc_ep_stall_get
+                0x0000000008001e20       0x1c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x0000000008001e20                dwc_ep_stall_get
  .text.dwc_ep_nak_set
-                0x0000000008001e48       0x28 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x0000000008001e48                dwc_ep_nak_set
+                0x0000000008001e3c       0x28 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x0000000008001e3c                dwc_ep_nak_set
  .text.dwc_ep_write_packet
-                0x0000000008001e70       0x4a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x0000000008001e70                dwc_ep_write_packet
+                0x0000000008001e64       0x4a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x0000000008001e64                dwc_ep_write_packet
  .text.dwc_ep_read_packet
-                0x0000000008001eba       0x74 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x0000000008001eba                dwc_ep_read_packet
+                0x0000000008001eae       0x74 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x0000000008001eae                dwc_ep_read_packet
  .text.dwc_poll
-                0x0000000008001f2e      0x1ec /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x0000000008001f2e                dwc_poll
+                0x0000000008001f22      0x1ec /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x0000000008001f22                dwc_poll
  .text.dwc_disconnect
-                0x000000000800211a       0x1c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
-                0x000000000800211a                dwc_disconnect
- *fill*         0x0000000008002136        0x2 
- .text          0x0000000008002138       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-abort.o)
-                0x0000000008002138                abort
- .text          0x0000000008002148       0x44 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fprintf.o)
-                0x0000000008002148                _fprintf_r
-                0x0000000008002164                fprintf
- .text          0x000000000800218c      0x564 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mallocr.o)
-                0x000000000800218c                _malloc_r
- .text          0x00000000080026f0      0x134 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memcpy.o)
-                0x00000000080026f0                memcpy
- .text          0x0000000008002824       0xa0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memset.o)
-                0x0000000008002824                memset
- .text          0x00000000080028c4        0x8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mlock.o)
-                0x00000000080028c4                __malloc_lock
-                0x00000000080028c8                __malloc_unlock
- .text          0x00000000080028cc       0x78 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-puts.o)
-                0x00000000080028cc                _puts_r
-                0x0000000008002934                puts
- .text          0x0000000008002944       0x24 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-sbrkr.o)
-                0x0000000008002944                _sbrk_r
- .text          0x0000000008002968      0x15c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-signal.o)
-                0x0000000008002990                _init_signal_r
-                0x000000000800299c                _signal_r
-                0x00000000080029d4                _raise_r
-                0x0000000008002a2c                __sigtramp_r
-                0x0000000008002a80                raise
-                0x0000000008002a90                signal
-                0x0000000008002aa0                _init_signal
-                0x0000000008002ab4                __sigtramp
- .text          0x0000000008002ac4       0x2c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-signalr.o)
-                0x0000000008002ac4                _kill_r
-                0x0000000008002aec                _getpid_r
- *fill*         0x0000000008002af0       0x10 
+                0x000000000800210e       0x1c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+                0x000000000800210e                dwc_disconnect
+ *fill*         0x000000000800212a        0x2 
+ .text          0x000000000800212c       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-abort.o)
+                0x000000000800212c                abort
+ .text          0x000000000800213c       0x44 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fprintf.o)
+                0x000000000800213c                _fprintf_r
+                0x0000000008002158                fprintf
+ .text          0x0000000008002180      0x564 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mallocr.o)
+                0x0000000008002180                _malloc_r
+ .text          0x00000000080026e4      0x134 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memcpy.o)
+                0x00000000080026e4                memcpy
+ .text          0x0000000008002818       0xa0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memset.o)
+                0x0000000008002818                memset
+ .text          0x00000000080028b8        0x8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mlock.o)
+                0x00000000080028b8                __malloc_lock
+                0x00000000080028bc                __malloc_unlock
+ .text          0x00000000080028c0       0x78 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-puts.o)
+                0x00000000080028c0                _puts_r
+                0x0000000008002928                puts
+ .text          0x0000000008002938       0x24 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-sbrkr.o)
+                0x0000000008002938                _sbrk_r
+ .text          0x000000000800295c      0x15c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-signal.o)
+                0x0000000008002984                _init_signal_r
+                0x0000000008002990                _signal_r
+                0x00000000080029c8                _raise_r
+                0x0000000008002a20                __sigtramp_r
+                0x0000000008002a74                raise
+                0x0000000008002a84                signal
+                0x0000000008002a94                _init_signal
+                0x0000000008002aa8                __sigtramp
+ .text          0x0000000008002ab8       0x2c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-signalr.o)
+                0x0000000008002ab8                _kill_r
+                0x0000000008002ae0                _getpid_r
+ *fill*         0x0000000008002ae4       0x1c 
  .text          0x0000000008002b00       0xdc /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-strlen.o)
                 0x0000000008002b00                strlen
  *fill*         0x0000000008002bdc        0x4 
@@ -2442,7 +2442,7 @@ LOAD linker stubs
  .debug_ranges  0x00000000000015b8       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-wcrtomb.o)
  .debug_ranges  0x00000000000015c8       0xc8 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
 
-.debug_line     0x0000000000000000    0x13f8e
+.debug_line     0x0000000000000000    0x13f74
  .debug_line    0x0000000000000000      0xb3a i2c_ctx.o
  .debug_line    0x0000000000000b3a      0x149 bitops.o
  .debug_line    0x0000000000000c83      0x585 fibre.o
@@ -2452,87 +2452,87 @@ LOAD linker stubs
  .debug_line    0x00000000000018b5      0x20e regdump.o
  .debug_line    0x0000000000001ac3      0x15f time_libopencm3.o
  .debug_line    0x0000000000001c22      0x204 util.o
- .debug_line    0x0000000000001e26      0x8b7 i2c-stm32f4-usb.o
- .debug_line    0x00000000000026dd      0x2a5 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_all.o)
- .debug_line    0x0000000000002982      0x374 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_f0234.o)
- .debug_line    0x0000000000002cf6      0x723 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
- .debug_line    0x0000000000003419      0x2d2 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc_common_all.o)
- .debug_line    0x00000000000036eb      0x928 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
- .debug_line    0x0000000000004013      0x422 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
- .debug_line    0x0000000000004435      0xb5a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
- .debug_line    0x0000000000004f8f      0x63d /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
- .debug_line    0x00000000000055cc      0x433 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_f107.o)
- .debug_line    0x00000000000059ff      0x321 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(vector.o)
- .debug_line    0x0000000000005d20      0x26e /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
- .debug_line    0x0000000000005f8e      0x245 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_all.o)
- .debug_line    0x00000000000061d3      0x25e /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
- .debug_line    0x0000000000006431      0x18b /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(pwr.o)
- .debug_line    0x00000000000065bc      0x998 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
- .debug_line    0x0000000000006f54      0x15f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-abort.o)
- .debug_line    0x00000000000070b3      0x19a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fprintf.o)
- .debug_line    0x000000000000724d       0xe3 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-impure.o)
- .debug_line    0x0000000000007330      0x89e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mallocr.o)
- .debug_line    0x0000000000007bce       0xbe /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memcpy.o)
- .debug_line    0x0000000000007c8c      0x26b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memset.o)
- .debug_line    0x0000000000007ef7      0x13d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mlock.o)
- .debug_line    0x0000000000008034      0x224 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-puts.o)
- .debug_line    0x0000000000008258      0x182 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-sbrkr.o)
- .debug_line    0x00000000000083da      0x3cc /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-signal.o)
- .debug_line    0x00000000000087a6      0x1a4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-signalr.o)
- .debug_line    0x000000000000894a       0xaf /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-strlen.o)
- .debug_line    0x00000000000089f9     0x1746 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-vfprintf.o)
- .debug_line    0x000000000000a13f      0x2cd /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-wsetup.o)
- .debug_line    0x000000000000a40c     0x13b3 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-dtoa.o)
- .debug_line    0x000000000000b7bf      0x430 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fflush.o)
- .debug_line    0x000000000000bbef      0x526 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-findfp.o)
- .debug_line    0x000000000000c115      0x51c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-freer.o)
- .debug_line    0x000000000000c631      0x5e8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fvwrite.o)
- .debug_line    0x000000000000cc19      0x289 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fwalk.o)
- .debug_line    0x000000000000cea2      0x1ca /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-localeconv.o)
- .debug_line    0x000000000000d06c      0x35d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-makebuf.o)
- .debug_line    0x000000000000d3c9       0xa4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memchr.o)
- .debug_line    0x000000000000d46d      0x287 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memmove.o)
- .debug_line    0x000000000000d6f4     0x146f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mprec.o)
- .debug_line    0x000000000000eb63      0x653 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-reallocr.o)
- .debug_line    0x000000000000f1b6      0x21b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-reent.o)
- .debug_line    0x000000000000f3d1      0x25f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-stdio.o)
- .debug_line    0x000000000000f630     0x118d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-vfiprintf.o)
- .debug_line    0x00000000000107bd      0x188 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-writer.o)
- .debug_line    0x0000000000010945      0x18d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-assert.o)
- .debug_line    0x0000000000010ad2      0x1bb /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-callocr.o)
- .debug_line    0x0000000000010c8d      0x182 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-closer.o)
- .debug_line    0x0000000000010e0f      0x23d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fclose.o)
- .debug_line    0x000000000001104c      0x199 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fiprintf.o)
- .debug_line    0x00000000000111e5      0x2f9 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fputwc.o)
- .debug_line    0x00000000000114de      0x213 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fstatr.o)
- .debug_line    0x00000000000116f1      0x183 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-isattyr.o)
- .debug_line    0x0000000000011874      0x252 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-locale.o)
- .debug_line    0x0000000000011ac6      0x188 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-lseekr.o)
- .debug_line    0x0000000000011c4e      0x228 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mbtowc_r.o)
- .debug_line    0x0000000000011e76      0x187 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-readr.o)
- .debug_line    0x0000000000011ffd      0x137 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-strcmp.o)
- .debug_line    0x0000000000012134      0x29b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-wbuf.o)
- .debug_line    0x00000000000123cf      0x2b5 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-wcrtomb.o)
- .debug_line    0x0000000000012684      0x212 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-wctomb_r.o)
- .debug_line    0x0000000000012896      0x154 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-ctype_.o)
- .debug_line    0x00000000000129ea      0x186 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
- .debug_line    0x0000000000012b70      0x19b /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
- .debug_line    0x0000000000012d0b       0xbd /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
- .debug_line    0x0000000000012dc8       0x6e /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_unorddf2.o)
- .debug_line    0x0000000000012e36       0x79 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_fixdfsi.o)
- .debug_line    0x0000000000012eaf       0x60 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_uldivmod.o)
- .debug_line    0x0000000000012f0f      0x61a /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
- .debug_line    0x0000000000013529       0x60 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_dvmd_tls.o)
- .debug_line    0x0000000000013589      0x10b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(close.o)
- .debug_line    0x0000000000013694      0x1cf /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(fstat.o)
- .debug_line    0x0000000000013863      0x10b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(getpid.o)
- .debug_line    0x000000000001396e      0x10c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(isatty.o)
- .debug_line    0x0000000000013a7a      0x10a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(kill.o)
- .debug_line    0x0000000000013b84      0x10c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(lseek.o)
- .debug_line    0x0000000000013c90      0x10b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(read.o)
- .debug_line    0x0000000000013d9b       0x79 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(sbrk.o)
- .debug_line    0x0000000000013e14      0x10c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(write.o)
- .debug_line    0x0000000000013f20       0x6e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(_exit.o)
+ .debug_line    0x0000000000001e26      0x89d i2c-stm32f4-usb.o
+ .debug_line    0x00000000000026c3      0x2a5 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_all.o)
+ .debug_line    0x0000000000002968      0x374 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(gpio_common_f0234.o)
+ .debug_line    0x0000000000002cdc      0x723 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(i2c_common_v1.o)
+ .debug_line    0x00000000000033ff      0x2d2 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc_common_all.o)
+ .debug_line    0x00000000000036d1      0x928 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+ .debug_line    0x0000000000003ff9      0x422 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
+ .debug_line    0x000000000000441b      0xb5a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
+ .debug_line    0x0000000000004f75      0x63d /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_control.o)
+ .debug_line    0x00000000000055b2      0x433 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_f107.o)
+ .debug_line    0x00000000000059e5      0x321 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(vector.o)
+ .debug_line    0x0000000000005d06      0x26e /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(systick.o)
+ .debug_line    0x0000000000005f74      0x245 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_all.o)
+ .debug_line    0x00000000000061b9      0x25e /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(flash_common_idcache.o)
+ .debug_line    0x0000000000006417      0x18b /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(pwr.o)
+ .debug_line    0x00000000000065a2      0x998 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_dwc_common.o)
+ .debug_line    0x0000000000006f3a      0x15f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-abort.o)
+ .debug_line    0x0000000000007099      0x19a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fprintf.o)
+ .debug_line    0x0000000000007233       0xe3 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-impure.o)
+ .debug_line    0x0000000000007316      0x89e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mallocr.o)
+ .debug_line    0x0000000000007bb4       0xbe /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memcpy.o)
+ .debug_line    0x0000000000007c72      0x26b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memset.o)
+ .debug_line    0x0000000000007edd      0x13d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mlock.o)
+ .debug_line    0x000000000000801a      0x224 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-puts.o)
+ .debug_line    0x000000000000823e      0x182 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-sbrkr.o)
+ .debug_line    0x00000000000083c0      0x3cc /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-signal.o)
+ .debug_line    0x000000000000878c      0x1a4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-signalr.o)
+ .debug_line    0x0000000000008930       0xaf /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-strlen.o)
+ .debug_line    0x00000000000089df     0x1746 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-vfprintf.o)
+ .debug_line    0x000000000000a125      0x2cd /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-wsetup.o)
+ .debug_line    0x000000000000a3f2     0x13b3 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-dtoa.o)
+ .debug_line    0x000000000000b7a5      0x430 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fflush.o)
+ .debug_line    0x000000000000bbd5      0x526 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-findfp.o)
+ .debug_line    0x000000000000c0fb      0x51c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-freer.o)
+ .debug_line    0x000000000000c617      0x5e8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fvwrite.o)
+ .debug_line    0x000000000000cbff      0x289 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fwalk.o)
+ .debug_line    0x000000000000ce88      0x1ca /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-localeconv.o)
+ .debug_line    0x000000000000d052      0x35d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-makebuf.o)
+ .debug_line    0x000000000000d3af       0xa4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memchr.o)
+ .debug_line    0x000000000000d453      0x287 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-memmove.o)
+ .debug_line    0x000000000000d6da     0x146f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mprec.o)
+ .debug_line    0x000000000000eb49      0x653 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-reallocr.o)
+ .debug_line    0x000000000000f19c      0x21b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-reent.o)
+ .debug_line    0x000000000000f3b7      0x25f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-stdio.o)
+ .debug_line    0x000000000000f616     0x118d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-vfiprintf.o)
+ .debug_line    0x00000000000107a3      0x188 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-writer.o)
+ .debug_line    0x000000000001092b      0x18d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-assert.o)
+ .debug_line    0x0000000000010ab8      0x1bb /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-callocr.o)
+ .debug_line    0x0000000000010c73      0x182 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-closer.o)
+ .debug_line    0x0000000000010df5      0x23d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fclose.o)
+ .debug_line    0x0000000000011032      0x199 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fiprintf.o)
+ .debug_line    0x00000000000111cb      0x2f9 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fputwc.o)
+ .debug_line    0x00000000000114c4      0x213 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-fstatr.o)
+ .debug_line    0x00000000000116d7      0x183 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-isattyr.o)
+ .debug_line    0x000000000001185a      0x252 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-locale.o)
+ .debug_line    0x0000000000011aac      0x188 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-lseekr.o)
+ .debug_line    0x0000000000011c34      0x228 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-mbtowc_r.o)
+ .debug_line    0x0000000000011e5c      0x187 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-readr.o)
+ .debug_line    0x0000000000011fe3      0x137 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-strcmp.o)
+ .debug_line    0x000000000001211a      0x29b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-wbuf.o)
+ .debug_line    0x00000000000123b5      0x2b5 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-wcrtomb.o)
+ .debug_line    0x000000000001266a      0x212 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-wctomb_r.o)
+ .debug_line    0x000000000001287c      0x154 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-ctype_.o)
+ .debug_line    0x00000000000129d0      0x186 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
+ .debug_line    0x0000000000012b56      0x19b /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
+ .debug_line    0x0000000000012cf1       0xbd /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
+ .debug_line    0x0000000000012dae       0x6e /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_unorddf2.o)
+ .debug_line    0x0000000000012e1c       0x79 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_fixdfsi.o)
+ .debug_line    0x0000000000012e95       0x60 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_uldivmod.o)
+ .debug_line    0x0000000000012ef5      0x61a /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
+ .debug_line    0x000000000001350f       0x60 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_dvmd_tls.o)
+ .debug_line    0x000000000001356f      0x10b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(close.o)
+ .debug_line    0x000000000001367a      0x1cf /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(fstat.o)
+ .debug_line    0x0000000000013849      0x10b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(getpid.o)
+ .debug_line    0x0000000000013954      0x10c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(isatty.o)
+ .debug_line    0x0000000000013a60      0x10a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(kill.o)
+ .debug_line    0x0000000000013b6a      0x10c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(lseek.o)
+ .debug_line    0x0000000000013c76      0x10b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(read.o)
+ .debug_line    0x0000000000013d81       0x79 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(sbrk.o)
+ .debug_line    0x0000000000013dfa      0x10c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(write.o)
+ .debug_line    0x0000000000013f06       0x6e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(_exit.o)
 
 .debug_str      0x0000000000000000    0x1a57c
  .debug_str     0x0000000000000000      0xb65 i2c_ctx.o

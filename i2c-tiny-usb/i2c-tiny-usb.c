@@ -73,7 +73,7 @@ struct i2c_tiny_usb {
 //	unsigned char open_gpios;
 //	unsigned int bitmode;
 	unsigned char gpio_direction; /* data direction in bitbang */
-	unsigned char gpo_values; /* GPIO output values */
+	unsigned char gpio_values; /* GPIO output values */
 
      struct work_struct work;
      struct work_struct work2;

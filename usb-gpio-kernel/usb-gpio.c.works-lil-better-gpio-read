@@ -118,7 +118,88 @@ _gpioa_set(struct gpio_chip *chip,
         schedule_work(&data->work);
      }
 }
+/*
+static void
+_gpioa_set2(struct gpio_chip *chip,
+           unsigned offset, int value)
+{
+   struct my_usb *data = container_of(chip, struct my_usb,
+                                      chip);
+   printk(KERN_INFO "GPIO SET INFO for pin: %d", offset);
 
+   if (offset == 0)
+     {
+        gpio_val = value;
+        schedule_work(&data->work2);
+     }
+}
+*/
+// this is called when you read 'value'
+// cat value (/sys/class/gpio/gpio{X}/value)
+/*
+static int
+_gpioa_get(struct gpio_chip *chip,
+           unsigned offset)
+{
+struct my_usb *data = container_of(chip, struct my_usb,
+                                      chip);
+	int ret, retval;
+
+	char *rxbuf = kmalloc(1, GFP_KERNEL);
+	if (!rxbuf)
+		return -ENOMEM;
+	ret = usb_read(data, 0, 0, offset, rxbuf, 0);
+	retval = rxbuf[0] ? 1 : 0;
+	kfree(rxbuf);
+	if (ret < 0)
+		return ret;
+
+	return retval;
+}
+*/
+/*
+static int
+_gpioa_get(struct gpio_chip *chip,
+           unsigned offset)
+{
+   struct my_usb *data = container_of(chip, struct my_usb,
+                                      chip);
+   //struct my_usb *data = container_of(chip, struct my_usb,
+   //                                  chip);
+   int ret;
+   printk(KERN_INFO "GPIO GET INFO: %d", offset);
+
+   offs = offset;
+   usbval = 3;
+           
+   return usb_control_msg(data->udev,
+                   usb_sndctrlpipe(data->udev, 0),
+                   0, USB_TYPE_VENDOR | USB_DIR_IN,
+                   usbval, offs,
+                   NULL, 0,
+                   1000);
+}
+*/
+/*
+static int
+_gpioa_get(struct gpio_chip *chip,
+           unsigned offset)
+{
+   //struct my_usb *data = container_of(chip, struct my_usb,
+   //                                  chip);
+   int ret = -1;
+   printk(KERN_INFO "GPIO GET INFO: %d", offset);
+
+   if (offset == 0)
+     ret = gpio_val;
+
+   if (offset == 1)
+     ret = gpio_val;
+     
+   return ret;
+}
+*/
+//We are enabling output only pin
 static int
 _gpioa_get(struct gpio_chip *chip,
            unsigned offset)
@@ -126,17 +207,22 @@ _gpioa_get(struct gpio_chip *chip,
    struct my_usb *data = container_of(chip, struct my_usb,
                                      chip);
 //   int ret = -1;
-//   int poop2;
+   int poop2;
 //   int retval, retval1, retval2, retval3, rval, rval1, rval2, rval3;
    int retval, retval1, retval2, retval3;
+   
+//   char *rxbuf = kmalloc(1, GFP_KERNEL);
+//   if (!rxbuf)
+//		return -ENOMEM;
 
     printk(KERN_INFO "GPIO GET INFO: %d", offset);
 
     usbval = 3;
 	offs = offset;
     gpio_val = 1;
-
-    usleep_range(5000, 5200);
+//	schedule_work(&data->work);
+ //   usbval = 3;
+//    schedule_work(&data->work2);
     schedule_work(&data->work2);
     usleep_range(5000, 5200);
     retval = data->buf[0];
@@ -147,8 +233,8 @@ _gpioa_get(struct gpio_chip *chip,
     printk("buf1 =  %d", retval1);
     printk("buf2 =  %d", retval2);
     printk("buf3 =  %d", retval3);
+    //ret = gpio_val;
 
-/*
     poop2 = retval1 - 2;
      
     printk("ret2 =  %d", poop2);
@@ -160,8 +246,8 @@ _gpioa_get(struct gpio_chip *chip,
     if (poop2 == 1) {
     return 1;
     }
- */      
-    return retval1 - 2; 
+       
+    return poop2; 
  //  return ret2;
 }
 
