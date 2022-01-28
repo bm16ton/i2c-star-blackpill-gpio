@@ -47,6 +47,8 @@ static struct usb_device_id my_usb_table[] = {
 
 MODULE_DEVICE_TABLE(usb, my_usb_table);
 
+unsigned int GPIO_irqNumber;
+
 static uint8_t gpio_val = 0;
 static uint8_t offs = 0;
 static uint8_t usbval = 0;
@@ -105,7 +107,10 @@ _gpioa_set(struct gpio_chip *chip,
 
    usbval = 0;
 
-   if (offset == 0)
+		offs = offset;
+        gpio_val = value;
+        schedule_work(&data->work);
+/*   if (offset == 0)
      {
 		offs = offset;
         gpio_val = value;
@@ -117,6 +122,7 @@ _gpioa_set(struct gpio_chip *chip,
         gpio_val = value;
         schedule_work(&data->work);
      }
+*/
 }
 
 static int
@@ -172,6 +178,12 @@ _direction_output(struct gpio_chip *chip,
 	   struct my_usb *data = container_of(chip, struct my_usb,
                                       chip);
    printk("Setting pin to OUTPUT");
+   
+        usbval = 2;
+		offs = offset;
+//        gpio_val = value;
+        schedule_work(&data->work);
+/*
    if (offset == 0)
      {
         usbval = 2;
@@ -186,6 +198,7 @@ _direction_output(struct gpio_chip *chip,
  //       gpio_val = value;
         schedule_work(&data->work);
      }
+*/
    return 0;
 }
 
@@ -197,6 +210,13 @@ _direction_input(struct gpio_chip *chip,
                                       chip);
                                       
    printk("Setting pin to INPUT");
+
+
+        usbval = 1;
+		offs = offset;
+//        gpio_val = value;
+        schedule_work(&data->work);
+/*
    if (offset == 0)
      {
         usbval = 1;
@@ -211,8 +231,23 @@ _direction_input(struct gpio_chip *chip,
  //       gpio_val = value;
         schedule_work(&data->work);
      }
+*/
    return 0;
 }
+
+static int
+i2c_gpio_to_irq(struct gpio_chip *chip,
+                  unsigned offset)
+{
+//   struct my_usb *data = container_of(chip, struct my_usb,
+//                                      chip);
+   GPIO_irqNumber = gpio_to_irq(offset);
+   pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
+
+   return GPIO_irqNumber;
+}
+
+const char *gpio_names[] = { "LED-PC13", "PC14", "BTN-PA0", "PC15" };
 
 //called when a usb device is connected to PC
 static int
@@ -277,7 +312,7 @@ my_usb_probe(struct usb_interface *interface,
    // or, if negative during registration, requests dynamic ID allocation.
    // i was getting 435 on -1.. nice. Although, it is deprecated to provide static/fixed base value. 
 
-   data->chip.ngpio = 2; // the number of GPIOs handled by this controller; the last GPIO
+   data->chip.ngpio = 4; // the number of GPIOs handled by this controller; the last GPIO
    data->chip.can_sleep = true; // 
    /*
       flag must be set iff get()/set() methods sleep, as they
@@ -291,6 +326,8 @@ my_usb_probe(struct usb_interface *interface,
    //TODO  implement it later in firmware
    data->chip.direction_input = _direction_input;
    data->chip.direction_output = _direction_output;
+   data->chip.to_irq = i2c_gpio_to_irq;
+   data->chip.names = gpio_names;
 
    if (gpiochip_add(&data->chip) < 0)
      {
@@ -301,6 +338,9 @@ my_usb_probe(struct usb_interface *interface,
         printk(KERN_INFO "Able to add gpiochip: %s", data->chip.label);
      }
 
+   gpio_direction_input(3);
+   i2c_gpio_to_irq(&data->chip, 3);
+  
    usb_set_intfdata(interface, data);
 
    printk(KERN_INFO "usb device is connected");
@@ -309,7 +349,7 @@ my_usb_probe(struct usb_interface *interface,
    INIT_WORK(&data->work2, _gpio_work_job2);
 
    //swith off the led
-   usb_control_msg(data->udev,
+/*   usb_control_msg(data->udev,
                    usb_sndctrlpipe(data->udev, 0),
                    0, USB_TYPE_VENDOR | USB_DIR_OUT,
                    0, 0,
@@ -322,7 +362,7 @@ my_usb_probe(struct usb_interface *interface,
                    0, 1,
                    NULL, 0,
                    1000);
-                   
+*/                   
    return 0;
 }
 

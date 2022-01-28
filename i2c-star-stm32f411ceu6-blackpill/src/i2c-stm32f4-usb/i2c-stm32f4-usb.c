@@ -288,13 +288,25 @@ static void usbgpio_output(int gpio)
 	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO13);
 	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO13);
-    } else {
-	if (gpio == 2) {
+	gpio_set(GPIOC, GPIO13);
+    } else if (gpio == 2) {
 	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO14);
 	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO14);
-		}
+	gpio_set(GPIOC, GPIO14);
+	} else if (gpio == 3) {
+	gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO0);
+	gpio_set_output_options(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
+							GPIO0);
+	gpio_set(GPIOA, GPIO0);
+	} else if (gpio == 4) {
+	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO15);
+	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
+							GPIO15);
+	gpio_set(GPIOC, GPIO15);
 	}
+	
+	
     my_delay_1();
 }
 
@@ -303,11 +315,18 @@ static void usbgpio_input(int gpio)
 
 	if (gpio == 1) {
 	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO13);
-	} else {
-	if (gpio == 2) {
-	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO14);
+	gpio_set(GPIOC, GPIO13);
+	} else if (gpio == 2) {
+	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO14);
+	gpio_set(GPIOC, GPIO14);
+	} else if (gpio == 3) {
+	gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO0);
+	gpio_set(GPIOA, GPIO0);
+	} else if (gpio == 4) {
+	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO15);
+	gpio_set(GPIOC, GPIO15);
 	}
-	}
+
 	my_delay_1();
 }
 
@@ -422,6 +441,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			{
 				usbgpio_input(2);
 			}
+	    else if ( req->wIndex == 2 )
+			{
+				usbgpio_input(3);
+			}	
+	    else if ( req->wIndex == 3 )
+			{
+				usbgpio_input(4);
+			}	
       }
    else if (req->wValue == 2)
      {
@@ -433,12 +460,20 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			{
 				usbgpio_output(2);
 			}
+	    else if ( req->wIndex == 2 )
+			{
+				usbgpio_output(3);
+			}
+	    else if ( req->wIndex == 3 )
+			{
+				usbgpio_output(4);
+			}
       }
    else if (req->wValue == 3)
      {
      if ( req->wIndex == 0 )
 			{
-			getv = gpio_get(GPIOA, GPIO0);
+			getv = gpio_get(GPIOC, GPIO13);
 			if (getv == 0) {
 		        (*buf)[0] = 1; 
 		        (*buf)[1] = 2;
@@ -456,6 +491,24 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			}
 	    else if ( req->wIndex == 1 )
 			{
+			getv = gpio_get(GPIOC, GPIO14);
+			if (getv == 0) {
+		        (*buf)[0] = 1; 
+		        (*buf)[1] = 2;
+		        (*buf)[2] = 2;
+		        (*buf)[3] = 2;
+			    *len = 4;
+			} else if (getv == 1) {
+				(*buf)[0] = 1; 
+		        (*buf)[1] = 3;
+		        (*buf)[2] = 3;
+		        (*buf)[3] = 3;
+			    *len = 4;
+			}
+		    return USBD_REQ_HANDLED;
+		   }
+	    else if ( req->wIndex == 2 )
+			{
 			getv = gpio_get(GPIOA, GPIO0);
 			if (getv == 0) {
 		        (*buf)[0] = 1; 
@@ -472,7 +525,25 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			}
 			return USBD_REQ_HANDLED;
 			}
-      }
+		 else if ( req->wIndex == 3 )
+			{
+			getv = gpio_get(GPIOC, GPIO15);
+			if (getv == 0) {
+		        (*buf)[0] = 1; 
+		        (*buf)[1] = 2;
+		        (*buf)[2] = 2;
+		        (*buf)[3] = 2;
+			    *len = 4;
+			} else if (getv == 1) {
+				(*buf)[0] = 1; 
+		        (*buf)[1] = 3;
+		        (*buf)[2] = 3;
+		        (*buf)[3] = 3;
+			    *len = 4;
+			}
+			return USBD_REQ_HANDLED;
+			}
+         }
   else if (req->wValue == 0)
      { 
 	 if (req->bRequest == 1)
@@ -485,6 +556,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			{
 				gpio_set(GPIOC, GPIO14);
 			}
+		else if ( req->wIndex == 2 )
+			{
+				gpio_set(GPIOA, GPIO0);
+			}
+		else if ( req->wIndex == 3 )
+			{
+				gpio_set(GPIOC, GPIO15);
+			}
         }
    else if (req->bRequest == 0)
      {
@@ -495,7 +574,15 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 	    else if ( req->wIndex == 1 )
 			{
 				gpio_clear(GPIOC, GPIO14);
-			}		
+			}	
+		else if ( req->wIndex == 2 )
+			{
+				gpio_clear(GPIOA, GPIO0);
+			}
+		else if ( req->wIndex == 3 )
+			{
+				gpio_clear(GPIOC, GPIO15);
+			}	
 	  }
     }
    else
@@ -647,12 +734,14 @@ static void gpio_init(void)
 	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO13);
 
-	gpio_clear(GPIOC, GPIO13);
+	gpio_set(GPIOC, GPIO13);
 
-	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO14);
-	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
-							GPIO14);
+//	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO14);
+//	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
+//							GPIO14);
 
+	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO14);
+	
 	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO15);
 	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO15);
@@ -660,10 +749,10 @@ static void gpio_init(void)
 	gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO0);
 	
     my_delay_1();
-	gpio_set(GPIOC, GPIO13);
+	gpio_clear(GPIOC, GPIO13);
 	gpio_set(GPIOC, GPIO14);
 	gpio_set(GPIOC, GPIO15);
-//	gpio_set_af(GPIOA, GPIO_AF1, GPIO10);
+	gpio_set(GPIOA, GPIO0);
 }
 
 int main(void)
