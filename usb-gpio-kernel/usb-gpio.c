@@ -10,6 +10,7 @@
 
 #include <linux/workqueue.h> //for work_struct
 #include <linux/gpio.h> //for led
+#include <linux/gpio/driver.h>
 
 MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Amitesh Singh");
@@ -33,6 +34,8 @@ struct my_usb {
      struct work_struct work;
      struct work_struct work2;
      struct gpio_chip chip; //this is our GPIO chip
+    
+     u8 buf[4];
 };
 
 #define MY_USB_VENDOR_ID 0x0403
@@ -74,7 +77,7 @@ _gpio_work_job2(struct work_struct *work2)
                    usb_rcvctrlpipe(sd->udev, 0),
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
                    usbval, offs,
-                   NULL, 0,
+                   (u8 *)sd->buf, 4,
                    1000);
 }
 
@@ -201,18 +204,59 @@ static int
 _gpioa_get(struct gpio_chip *chip,
            unsigned offset)
 {
-   //struct my_usb *data = container_of(chip, struct my_usb,
-   //                                  chip);
+   struct my_usb *data = container_of(chip, struct my_usb,
+                                     chip);
    int ret = -1;
-   printk(KERN_INFO "GPIO GET INFO: %d", offset);
+   int ret2;
+   int retval, retval1, retval2, retval3, rval, rval1, rval2, rval3;
+   char *rxbuf = kmalloc(1, GFP_KERNEL);
+   if (!rxbuf)
+		return -ENOMEM;
 
-   if (offset == 0)
-     ret = gpio_val;
+    printk(KERN_INFO "GPIO GET INFO: %d", offset);
 
-   if (offset == 1)
-     ret = gpio_val;
+	ret = usb_read(data, 0, 0, offset, rxbuf, 0);
+	rval = rxbuf[0];
+    rval1 = rxbuf[1];
+    rval2 = rxbuf[2];
+    rval3 = rxbuf[3];
+    printk("rxbuf0 =  %d", rval);
+    printk("rxbuf1 =  %d", rval1);
+    printk("rxbuf2 =  %d", rval2);
+    printk("rxbuf3 =  %d", rval3);
+	kfree(rxbuf);
+	
+    usbval = 3;
+	offs = offset;
+    gpio_val = 1;
+	schedule_work(&data->work);
+    usbval = 3;
+//    ret = schedule_work(&data->work2);
+    schedule_work(&data->work2);
+    retval = data->buf[0];
+    retval1 = data->buf[1];
+    retval2 = data->buf[2];
+    retval3 = data->buf[3];
+    printk("buf0 =  %d", retval);
+    printk("buf1 =  %d", retval1);
+    printk("buf2 =  %d", retval2);
+    printk("buf3 =  %d", retval3);
+    //ret = gpio_val;
+
+    ret2 =  retval1 - 2;
      
-   return ret;
+    printk("ret2 =  %d", ret2);
+    
+    if (ret2 == 0) {
+    return 0;
+    }
+    
+    if (ret2 == 1) {
+    return 1;
+    }
+       
+    return 3; 
+ //  return ret2;
 }
 
 static int
@@ -356,6 +400,7 @@ my_usb_probe(struct usb_interface *interface,
    printk(KERN_INFO "usb device is connected");
 
    INIT_WORK(&data->work, _gpio_work_job);
+   INIT_WORK(&data->work2, _gpio_work_job2);
 
    //swith off the led
    usb_control_msg(data->udev,

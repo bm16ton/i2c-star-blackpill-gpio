@@ -1,26 +1,15 @@
-list.o: ../../librfn/librfn/list.c \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/assert.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/_ansi.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/newlib.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/_newlib_version.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/sys/config.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/machine/ieeefp.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/sys/features.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/lib/gcc/arm-none-eabi/10.2.1/include/stdint.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/stdint.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/machine/_default_types.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/sys/_intsup.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/sys/_stdint.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/stdlib.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/lib/gcc/arm-none-eabi/10.2.1/include/stddef.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/sys/reent.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/_ansi.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/sys/_types.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/machine/_types.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/sys/lock.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/sys/cdefs.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/machine/stdlib.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/arm-none-eabi/include/alloca.h \
+list.o: ../../librfn/librfn/list.c /usr/include/newlib/assert.h \
+ /usr/include/newlib/_ansi.h /usr/include/newlib/newlib.h \
+ /usr/include/newlib/_newlib_version.h /usr/include/newlib/sys/config.h \
+ /usr/include/newlib/machine/ieeefp.h /usr/include/newlib/sys/features.h \
+ /usr/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h \
+ /usr/include/newlib/stdlib.h \
+ /usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h \
+ /usr/include/newlib/sys/reent.h /usr/include/newlib/_ansi.h \
+ /usr/include/newlib/sys/_types.h /usr/include/newlib/machine/_types.h \
+ /usr/include/newlib/machine/_default_types.h \
+ /usr/include/newlib/sys/lock.h /usr/include/newlib/sys/cdefs.h \
+ /usr/include/newlib/machine/stdlib.h /usr/include/newlib/alloca.h \
  ../../librfn/include/librfn/util.h \
- /home/maddocks/arduino-1.8.16/portable/packages/STMicroelectronics/tools/xpack-arm-none-eabi-gcc/10.2.1-1.1/lib/gcc/arm-none-eabi/10.2.1/include/stdbool.h \
+ /usr/lib/gcc/arm-none-eabi/9.2.1/include/stdbool.h \
  ../../librfn/include/librfn/list.h

@@ -1,1 +1,1 @@
-cmd_/home/maddocks/gpio/usb-gpio-singh/usb-gpio.mod := { echo  /home/maddocks/gpio/usb-gpio-singh/usb-gpio.o;  echo; } > /home/maddocks/gpio/usb-gpio-singh/usb-gpio.mod
+cmd_/home/maddocks/USB-GPIO/usb-gpio-kernel/usb-gpio.mod := { echo  /home/maddocks/USB-GPIO/usb-gpio-kernel/usb-gpio.o;  echo; } > /home/maddocks/USB-GPIO/usb-gpio-kernel/usb-gpio.mod

@@ -29,6 +29,8 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/usb/usbd.h>
 #include <libopencm3/usb/cdc.h>
+#include <libopencm3/usb/dwc/otg_common.h>
+#include <libopencm3/usb/dwc/otg_fs.h>
 #include <libopencm3/cm3/scb.h>
 #include <librfn/console.h>
 #include <librfn/fibre.h>
@@ -263,12 +265,14 @@ static void usb_hwinit(void)
 	rcc_periph_clock_enable(RCC_OTGFS);
 
 	gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE,
-			GPIO9 | GPIO11 | GPIO12);
-	gpio_set_af(GPIOA, GPIO_AF10, GPIO9 | GPIO11 | GPIO12);
+			GPIO11 | GPIO12);
+	gpio_set_af(GPIOA, GPIO_AF10, GPIO11 | GPIO12);
 
 	usbd_dev = usbd_init(&otgfs_usb_driver, &desc, &config,
 			usb_strings, 2,
 			usbd_control_buffer, sizeof(usbd_control_buffer));
+	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS;
+
 }
 #else
 #error Unsupported part

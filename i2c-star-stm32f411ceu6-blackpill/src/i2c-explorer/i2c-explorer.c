@@ -305,8 +305,8 @@ static const console_cmd_t cmd_list[] = {
 };
 
 static const console_gpio_t gpio_list[] = {
-	CONSOLE_GPIO_VAR_INIT("led", GPIOD, GPIO12, 0),
-	CONSOLE_GPIO_VAR_INIT("dac", GPIOD, GPIO4, console_gpio_default_on)
+	CONSOLE_GPIO_VAR_INIT("led", GPIOC, GPIO13, 0),
+//	CONSOLE_GPIO_VAR_INIT("dac", GPIOD, GPIO4, console_gpio_default_on)
 };
 
 static void i2c_init(void)
@@ -347,7 +347,7 @@ static void i2c_init(void)
 
 int main(void)
 {
-        rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
+    rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
 
 	i2c_init();
 	time_init();

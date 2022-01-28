@@ -25,8 +25,8 @@ __section(".gnu.linkonce.this_module") = {
 MODULE_INFO(retpoline, "Y");
 #endif
 
-MODULE_INFO(depends, "usbcore");
+MODULE_INFO(depends, "");
 
 MODULE_ALIAS("usb:v0403pC631d*dc*dsc*dp*ic*isc*ip*in*");
 
-MODULE_INFO(srcversion, "55D1B599FD2853651395534");
+MODULE_INFO(srcversion, "C8D0F9006A55ABD58C8D098");

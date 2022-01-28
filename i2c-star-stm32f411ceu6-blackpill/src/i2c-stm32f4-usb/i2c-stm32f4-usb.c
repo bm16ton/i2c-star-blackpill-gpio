@@ -287,12 +287,12 @@ static void usbgpio_output(int gpio)
 	if (gpio == 1) {
 	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO13);
 	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
-							GPIO14);
+							GPIO13);
     } else {
 	if (gpio == 2) {
 	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO14);
 	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
-							GPIO15);
+							GPIO14);
 		}
 	}
     my_delay_1();
@@ -404,6 +404,7 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 {
     (void)complete;
 	(void)usbd_dev;
+    int getv;
 
    if ((req->bmRequestType & 0x7F) != USB_REQ_TYPE_VENDOR)
      return 0;
@@ -437,14 +438,38 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      {
      if ( req->wIndex == 0 )
 			{
-				(*buf)[0] = gpio_get(GPIOC, GPIO13);
-			    *len = 1;
+			getv = gpio_get(GPIOA, GPIO0);
+			if (getv == 0) {
+		        (*buf)[0] = 0; 
+		        (*buf)[1] = 2;
+		        (*buf)[2] = 2;
+		        (*buf)[3] = 2;
+			    *len = 4;
+			} else if (getv == 1) {
+				(*buf)[0] = 0; 
+		        (*buf)[1] = 3;
+		        (*buf)[2] = 3;
+		        (*buf)[3] = 3;
+			    *len = 4;
+			}
 			return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 1 )
 			{
-				(*buf)[0] = gpio_get(GPIOC, GPIO14);
-			    *len = 1;
+			getv = gpio_get(GPIOA, GPIO0);
+			if (getv == 0) {
+		        (*buf)[0] = 0; 
+		        (*buf)[1] = 2;
+		        (*buf)[2] = 2;
+		        (*buf)[3] = 2;
+			    *len = 4;
+			} else if (getv == 1) {
+				(*buf)[0] = 0; 
+		        (*buf)[1] = 3;
+		        (*buf)[2] = 3;
+		        (*buf)[3] = 3;
+			    *len = 4;
+			}
 			return USBD_REQ_HANDLED;
 			}
       }
@@ -631,6 +656,9 @@ static void gpio_init(void)
 	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO15);
 	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO15);
+							
+	gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO0);
+	
     my_delay_1();
 	gpio_set(GPIOC, GPIO13);
 	gpio_set(GPIOC, GPIO14);
