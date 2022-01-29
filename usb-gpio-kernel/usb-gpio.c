@@ -14,8 +14,8 @@
 #include <linux/irq.h>
 
 MODULE_LICENSE("GPL v2");
-MODULE_AUTHOR("Amitesh Singh");
-MODULE_DESCRIPTION("usb gpio (output only) example"); //sysfs
+MODULE_AUTHOR("Ben Maddocks");
+MODULE_DESCRIPTION("usb gpio stm32f411"); //sysfs
 MODULE_VERSION("0.1"); 
 
 //one structure for each connected device
