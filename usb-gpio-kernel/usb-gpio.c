@@ -126,9 +126,9 @@ _gpioa_get(struct gpio_chip *chip,
 	offs = offset;
     gpio_val = 1;
 
-    usleep_range(5000, 5200);
+    usleep_range(1000, 1200);
     schedule_work(&data->work2);
-    usleep_range(5000, 5200);
+    usleep_range(1000, 1200);
     retval = data->buf[0];
     retval1 = data->buf[1];
     retval2 = data->buf[2];
@@ -280,7 +280,7 @@ my_usb_probe(struct usb_interface *interface,
         printk(KERN_INFO "Able to add gpiochip: %s", data->chip.label);
      }
 
-   gpio_direction_input(3);
+//   gpio_direction_input(3);
    i2c_gpio_to_irq(&data->chip, 3);
   
    usb_set_intfdata(interface, data);

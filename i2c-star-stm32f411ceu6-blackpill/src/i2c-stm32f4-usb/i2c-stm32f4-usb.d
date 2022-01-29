@@ -55,4 +55,4 @@ i2c-stm32f4-usb.o: i2c-stm32f4-usb.c \
  ../../librfn/include/librfn/protothreads.h /usr/include/newlib/assert.h \
  ../../librfn/include/librfn/time.h ../../librfn/include/librfn/util.h \
  ../../librfm3/include/librfm3/i2c_ctx.h \
- ../../librfn/include/librfn/protothreads.h
+ ../../librfn/include/librfn/protothreads.h ../../libpwm/pwm.h

@@ -10,6 +10,8 @@ Archive member included to satisfy reference by file (symbol)
                               console_cdcacm.o (rcc_periph_clock_enable)
 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
                               i2c-explorer.o (rcc_clock_setup_pll)
+/home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+                              pwm.o (timer_set_mode)
 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
                               console_cdcacm.o (usbd_init)
 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb_standard.o)
@@ -152,12 +154,14 @@ Archive member included to satisfy reference by file (symbol)
                               /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-vfprintf.o) (__aeabi_dcmpun)
 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_fixdfsi.o)
                               /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-dtoa.o) (__aeabi_d2iz)
+/usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+                              pwm.o (__aeabi_ldivmod)
 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_uldivmod.o)
-                              i2c-explorer.o (__aeabi_uldivmod)
+                              pwm.o (__aeabi_uldivmod)
 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
-                              /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_uldivmod.o) (__udivmoddi4)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o) (__udivmoddi4)
 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_dvmd_tls.o)
-                              /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_uldivmod.o) (__aeabi_ldiv0)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o) (__aeabi_ldiv0)
 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(close.o)
                               /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc.a(lib_a-closer.o) (_close)
 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libnosys.a(fstat.o)
@@ -199,6 +203,31 @@ Discarded input sections
  .text          0x0000000000000000        0x0 console_cmd_gpio.o
  .data          0x0000000000000000        0x0 console_cmd_gpio.o
  .bss           0x0000000000000000        0x0 console_cmd_gpio.o
+ .text          0x0000000000000000        0x0 pwm.o
+ .data          0x0000000000000000        0x0 pwm.o
+ .bss           0x0000000000000000        0x0 pwm.o
+ .text.pwm_init
+                0x0000000000000000      0x190 pwm.o
+ .text.pwm_set_frequency
+                0x0000000000000000       0x2c pwm.o
+ .text.pwm_set_dc
+                0x0000000000000000       0x48 pwm.o
+ .text.pwm_start
+                0x0000000000000000       0x18 pwm.o
+ .bss.current_timer_cnt_period
+                0x0000000000000000        0x4 pwm.o
+ .debug_info    0x0000000000000000      0xf89 pwm.o
+ .debug_abbrev  0x0000000000000000      0x181 pwm.o
+ .debug_loc     0x0000000000000000       0xab pwm.o
+ .debug_aranges
+                0x0000000000000000       0x38 pwm.o
+ .debug_ranges  0x0000000000000000       0x28 pwm.o
+ .debug_line    0x0000000000000000      0x2b4 pwm.o
+ .debug_str     0x0000000000000000      0xffa pwm.o
+ .comment       0x0000000000000000       0x5a pwm.o
+ .debug_frame   0x0000000000000000       0x7c pwm.o
+ .ARM.attributes
+                0x0000000000000000       0x34 pwm.o
  .text          0x0000000000000000        0x0 i2c_ctx.o
  .data          0x0000000000000000        0x0 i2c_ctx.o
  .bss           0x0000000000000000        0x0 i2c_ctx.o
@@ -481,6 +510,196 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x8e /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
  .debug_macro   0x0000000000000000       0x28 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
  .debug_macro   0x0000000000000000      0xc89 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(rcc.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text          0x0000000000000000        0x0 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .data          0x0000000000000000        0x0 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .bss           0x0000000000000000        0x0 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_irq
+                0x0000000000000000        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_irq
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_interrupt_source
+                0x0000000000000000       0x16 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_get_flag
+                0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_clear_flag
+                0x0000000000000000        0x6 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_mode
+                0x0000000000000000       0x12 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_clock_division
+                0x0000000000000000       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_preload
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_preload
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_alignment
+                0x0000000000000000       0x14 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_direction_up
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_direction_down
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_one_shot_mode
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_continuous_mode
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_update_on_any
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_update_on_overflow
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_update_event
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_update_event
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_counter
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_counter
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_output_idle_state
+                0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_reset_output_idle_state
+                0x0000000000000000        0xe /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_ti1_ch123_xor
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_ti1_ch1
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_master_mode
+                0x0000000000000000       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_dma_on_compare_event
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_dma_on_update_event
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_compare_control_update_on_trigger
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_compare_control_update_on_trigger
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_preload_complementry_enable_bits
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_preload_complementry_enable_bits
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_prescaler
+                0x0000000000000000        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_repetition_counter
+                0x0000000000000000        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_period
+                0x0000000000000000        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_oc_clear
+                0x0000000000000000       0x34 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_oc_clear
+                0x0000000000000000       0x34 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_oc_fast_mode
+                0x0000000000000000       0x34 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_oc_slow_mode
+                0x0000000000000000       0x34 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_oc_mode
+                0x0000000000000000      0x18c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_oc_preload
+                0x0000000000000000       0x34 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_oc_preload
+                0x0000000000000000       0x34 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_oc_polarity_high
+                0x0000000000000000       0x4a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_oc_polarity_low
+                0x0000000000000000       0x4a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_oc_output
+                0x0000000000000000       0x4a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_oc_output
+                0x0000000000000000       0x4a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_oc_idle_state_set
+                0x0000000000000000       0x4a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_oc_idle_state_unset
+                0x0000000000000000       0x4a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_oc_value
+                0x0000000000000000       0x20 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_break_main_output
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_break_main_output
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_break_automatic_output
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_break_automatic_output
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_break_polarity_high
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_break_polarity_low
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_enable_break
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_disable_break
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_enabled_off_state_in_run_mode
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_disabled_off_state_in_run_mode
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_enabled_off_state_in_idle_mode
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_disabled_off_state_in_idle_mode
+                0x0000000000000000        0xa /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_break_lock
+                0x0000000000000000        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_deadtime
+                0x0000000000000000        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_generate_event
+                0x0000000000000000        0x8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_get_counter
+                0x0000000000000000        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_set_counter
+                0x0000000000000000        0x4 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_ic_set_filter
+                0x0000000000000000       0x50 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_ic_set_prescaler
+                0x0000000000000000       0x50 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_ic_set_input
+                0x0000000000000000       0x62 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_ic_enable
+                0x0000000000000000       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_ic_disable
+                0x0000000000000000       0x12 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_slave_set_filter
+                0x0000000000000000       0x12 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_slave_set_prescaler
+                0x0000000000000000       0x12 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_slave_set_polarity
+                0x0000000000000000       0x12 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_slave_set_mode
+                0x0000000000000000       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .text.timer_slave_set_trigger
+                0x0000000000000000       0x10 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_info    0x0000000000000000     0x128b /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_abbrev  0x0000000000000000      0x204 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_loc     0x0000000000000000      0x4b2 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_aranges
+                0x0000000000000000      0x268 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_ranges  0x0000000000000000      0x258 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000       0xb3 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000      0xa9c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000       0x1c /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000      0x34e /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000       0x22 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000       0xe8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000       0x76 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000      0x273 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000      0xf88 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000       0x52 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000       0x8e /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000       0x28 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_macro   0x0000000000000000      0xc89 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_line    0x0000000000000000      0xf74 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_str     0x0000000000000000     0xd82d /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .comment       0x0000000000000000       0x5a /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .debug_frame   0x0000000000000000      0x4c8 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
+ .ARM.attributes
+                0x0000000000000000       0x34 /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(timer_common_all.o)
  .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
  .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
  .group         0x0000000000000000        0xc /home/maddocks/USB-GPIO/i2c-star-stm32f411ceu6-blackpill/libopencm3/lib/libopencm3_stm32f4.a(usb.o)
@@ -1021,6 +1240,18 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_unorddf2.o)
  .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_fixdfsi.o)
  .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_fixdfsi.o)
+ .text          0x0000000000000000       0xa0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+ .debug_line    0x0000000000000000       0x7e /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+ .debug_info    0x0000000000000000       0x26 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+ .debug_abbrev  0x0000000000000000       0x14 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+ .debug_aranges
+                0x0000000000000000       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+ .debug_str     0x0000000000000000       0xa3 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+ .debug_frame   0x0000000000000000       0x44 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
+ .ARM.attributes
+                0x0000000000000000       0x1e /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
  .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_uldivmod.o)
  .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_uldivmod.o)
  .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
@@ -1058,6 +1289,7 @@ Linker script and memory map
 LOAD console.o
 LOAD console_cdcacm.o
 LOAD console_cmd_gpio.o
+LOAD pwm.o
 LOAD i2c_ctx.o
 LOAD bitops.o
 LOAD fibre.o

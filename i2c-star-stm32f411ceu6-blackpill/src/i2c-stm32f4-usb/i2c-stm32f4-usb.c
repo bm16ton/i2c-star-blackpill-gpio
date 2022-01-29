@@ -36,6 +36,8 @@
 #include <librfn/util.h>
 #include <librfm3/i2c_ctx.h>
 
+#include <pwm.h>
+
 static const struct usb_device_descriptor dev = {
 	.bLength = USB_DT_DEVICE_SIZE,
 	.bDescriptorType = USB_DT_DEVICE,
@@ -213,6 +215,8 @@ static uint8_t status = STATUS_IDLE;
 
 uint32_t i2c = I2C1;
 
+static uint16_t pwm_dc_value = 0;
+
 /*!
  * \brief Handle I2C I/O request.
  *
@@ -281,6 +285,14 @@ static void my_delay_1( void )
      }
 }
 
+static void my_delay_2( void )
+{
+	for (unsigned i = 0; i < 20000; i++)
+	  {
+		__asm__("nop");
+	  }
+}
+
 static void usbgpio_output(int gpio)
 {
 //	rcc_periph_clock_enable(RCC_GPIOC);
@@ -317,7 +329,7 @@ static void usbgpio_input(int gpio)
 	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO13);
 	gpio_set(GPIOC, GPIO13);
 	} else if (gpio == 2) {
-	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO14);
+	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO14);
 	gpio_set(GPIOC, GPIO14);
 	} else if (gpio == 3) {
 	gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO0);
@@ -480,12 +492,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
 			    *len = 4;
+			    return USBD_REQ_HANDLED;
 			} else if (getv == 1) {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
 			    *len = 4;
+			    return USBD_REQ_HANDLED;
 			}
 			return USBD_REQ_HANDLED;
 			}
@@ -498,12 +512,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
 			    *len = 4;
+			    return USBD_REQ_HANDLED;
 			} else if (getv == 1) {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
 			    *len = 4;
+			    return USBD_REQ_HANDLED;
 			}
 		    return USBD_REQ_HANDLED;
 		   }
@@ -516,12 +532,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
 			    *len = 4;
+			    return USBD_REQ_HANDLED;
 			} else if (getv == 1) {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
 			    *len = 4;
+			    return USBD_REQ_HANDLED;
 			}
 			return USBD_REQ_HANDLED;
 			}
@@ -534,12 +552,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
 			    *len = 4;
+			    return USBD_REQ_HANDLED;
 			} else if (getv == 1) {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
 			    *len = 4;
+			    return USBD_REQ_HANDLED;
 			}
 			return USBD_REQ_HANDLED;
 			}
@@ -684,13 +704,15 @@ static int usb_fibre(fibre_t *fibre)
 	rcc_periph_clock_enable(RCC_OTGFS);
 
 	gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE,
-			GPIO9 | GPIO11 | GPIO12);
-	gpio_set_af(GPIOA, GPIO_AF10, GPIO9 | GPIO11 | GPIO12);
+			GPIO11 | GPIO12);
+	gpio_set_af(GPIOA, GPIO_AF10, GPIO11 | GPIO12);
 
 	usbd_dev = usbd_init(&otgfs_usb_driver, &dev, &config,
 			usb_strings, 2,
 			usbd_control_buffer, sizeof(usbd_control_buffer));
-	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS;
+//	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS;
+	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS | OTG_GCCFG_PWRDWN;
+	OTG_FS_GCCFG &= ~(OTG_GCCFG_VBUSBSEN | OTG_GCCFG_VBUSASEN);
 	usbd_register_set_config_callback(usbd_dev, usb_set_config);
 
 	while (true) {
@@ -725,8 +747,21 @@ static void i2c_init(void)
 //	gpio_set(GPIOD, GPIO4);
 }
 
-
-
+static void pwm_probe(void)
+{
+    pwm_init();
+    pwm_set_frequency(100000);
+	pwm_set_dc(PWM_CH1, 0);
+	pwm_set_dc(PWM_CH2, 0);
+	pwm_set_dc(PWM_CH3, 0);
+	pwm_start();
+	my_delay_2();
+	pwm_set_dc(PWM_CH1, 800);
+	pwm_set_dc(PWM_CH2, 100);
+	pwm_set_dc(PWM_CH3, 500);
+	my_delay_2();
+}	
+	
 static void gpio_init(void)
 {
 	rcc_periph_clock_enable(RCC_GPIOC);
@@ -740,7 +775,7 @@ static void gpio_init(void)
 //	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 //							GPIO14);
 
-	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO14);
+	gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO14);
 	
 	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO15);
 	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
@@ -768,6 +803,8 @@ int main(void)
 	gpio_init();
 	i2c_init();
 	time_init();
+	pwm_probe();
+	
 //	gpio_clear(GPIOC, GPIO13);
 
 	for (i = 0; i < 0x800000; i++)

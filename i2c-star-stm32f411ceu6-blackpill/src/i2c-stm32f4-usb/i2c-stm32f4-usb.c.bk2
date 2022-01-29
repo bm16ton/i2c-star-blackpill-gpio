@@ -498,7 +498,10 @@ static int usb_fibre(fibre_t *fibre)
 	usbd_dev = usbd_init(&otgfs_usb_driver, &dev, &config,
 			usb_strings, 2,
 			usbd_control_buffer, sizeof(usbd_control_buffer));
-	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS;
+//	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS;
+	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS | OTG_GCCFG_PWRDWN;
+	OTG_FS_GCCFG &= ~(OTG_GCCFG_VBUSBSEN | OTG_GCCFG_VBUSASEN);
+
 	usbd_register_set_config_callback(usbd_dev, usb_set_config);
 
 	while (true) {

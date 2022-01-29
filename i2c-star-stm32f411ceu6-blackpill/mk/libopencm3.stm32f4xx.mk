@@ -41,7 +41,7 @@ BMP_PORT	?=
 # texane/stlink specific variables
 #STLINK_PORT	?= :4242
 
-
+include ../../mk/pwm.rules.mk
 include ../../mk/librfm3.rules.mk
 include ../../mk/librfn.rules.mk
 include ../../mk/libopencm3.rules.mk
