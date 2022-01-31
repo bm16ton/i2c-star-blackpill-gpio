@@ -1,1 +1,0 @@
-cmd_/home/maddocks/USB-GPIO/usb-gpio-kernel/modules.order := {   echo /home/maddocks/USB-GPIO/usb-gpio-kernel/usb-gpio.ko; :; } | awk '!x[$$0]++' - > /home/maddocks/USB-GPIO/usb-gpio-kernel/modules.order

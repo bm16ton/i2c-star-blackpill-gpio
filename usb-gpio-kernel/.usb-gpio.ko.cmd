@@ -1,1 +1,0 @@
-cmd_/home/maddocks/USB-GPIO/usb-gpio-kernel/usb-gpio.ko := ld -r  -EL  -maarch64elf  --build-id=sha1  -T scripts/module.lds -o /home/maddocks/USB-GPIO/usb-gpio-kernel/usb-gpio.ko /home/maddocks/USB-GPIO/usb-gpio-kernel/usb-gpio.o /home/maddocks/USB-GPIO/usb-gpio-kernel/usb-gpio.mod.o;  true

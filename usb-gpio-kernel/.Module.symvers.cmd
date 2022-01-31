@@ -1,1 +1,0 @@
-cmd_/home/maddocks/USB-GPIO/usb-gpio-kernel/Module.symvers := sed 's/\.ko$$/\.o/' /home/maddocks/USB-GPIO/usb-gpio-kernel/modules.order | scripts/mod/modpost    -o /home/maddocks/USB-GPIO/usb-gpio-kernel/Module.symvers -e -i Module.symvers   -T -
