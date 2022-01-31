@@ -47,13 +47,12 @@
 *.tar
 *.xz
 *.zst
-i2c-star-stm32f411ceu6-blackpill/src/i2c-stm32f4-usb/regdump.o
-src/i2c-stm32f1-usb/*.o
 
 #
 # Top-level generic files
 #
-
+Module.symvers
+modules.order
 #
 # Debian directory (make deb-pkg)
 #
