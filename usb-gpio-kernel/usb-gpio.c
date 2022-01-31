@@ -12,6 +12,7 @@
 #include <linux/gpio.h> //for led
 #include <linux/gpio/driver.h>
 #include <linux/irq.h>
+#include <linux/pwm.h>
 
 MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Ben Maddocks");
@@ -38,14 +39,20 @@ struct my_usb {
      bool    hwirq;
      int                      gpio_irq_map[4]; // GPIO to IRQ map (gpio_num elements)
      
-         struct irq_chip   irq;                                // chip descriptor for IRQs
-    uint8_t           irq_num;                            // number of pins with IRQs
-    int               irq_base;                           // base IRQ allocated
-    struct irq_desc*  irq_descs    [4]; // IRQ descriptors used (irq_num elements)
-    int               irq_types    [4]; // IRQ types (irq_num elements)
-    bool              irq_enabled  [4]; // IRQ enabled flag (irq_num elements)
-    int               irq_gpio_map [4]; // IRQ to GPIO pin map (irq_num elements)
-    int               irq_hw;                             // IRQ for GPIO with hardware IRQ (default -1)
+     struct irq_chip   irq;                                // chip descriptor for IRQs
+     uint8_t           irq_num;                            // number of pins with IRQs
+     int               irq_base;                           // base IRQ allocated
+     struct irq_desc*  irq_descs    [4]; // IRQ descriptors used (irq_num elements)
+     int               irq_types    [4]; // IRQ types (irq_num elements)
+     bool              irq_enabled  [4]; // IRQ enabled flag (irq_num elements)
+     int               irq_gpio_map [4]; // IRQ to GPIO pin map (irq_num elements)
+     int               irq_hw;                             // IRQ for GPIO with hardware IRQ (default -1)
+    
+     struct pwm_chip pwmchip;
+     int               duty_cycle;
+     int               period;
+     int               polarity;
+     int duty_ns, period_ns;
     
      u8 buf[4];
 };
@@ -78,7 +85,7 @@ _gpio_work_job(struct work_struct *work)
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_OUT,
                    usbval, offs,
                    NULL, 0,
-                   1000);
+                   3000);
 }
 
 static void
@@ -92,8 +99,62 @@ _gpio_work_job2(struct work_struct *work2)
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
                    usbval, offs,
                    (u8 *)sd->buf, 4,
-                   1000);
+                   3000);
 }
+
+static int gpio_pwm_config(struct pwm_chip *pwmchip, struct pwm_device *pwm,
+                             int duty_ns, int period_ns)
+{
+   struct my_usb *data = container_of(pwmchip, struct my_usb,
+                                      pwmchip);
+   printk(KERN_INFO "i2c_tiny_pwm_config");
+   usbval = 5;
+   gpio_val = period_ns;
+   offs = 1;
+   schedule_work(&data->work);
+   return 0;
+}
+
+static int gpio_pwm_enable(struct pwm_chip *pwmchip, struct pwm_device *pwm)
+{
+   struct my_usb *data = container_of(pwmchip, struct my_usb,
+                                      pwmchip);
+   usbval = 4;
+   offs = 1;
+   gpio_val = 1;
+   schedule_work(&data->work);
+   printk(KERN_INFO "pwm: %p", pwm);
+   printk(KERN_INFO "usb gpio_pwm_enable");
+   if (pwm->label)
+     printk(KERN_INFO "label: %s", pwm->label);
+   return 0;
+}
+
+static void gpio_pwm_disable(struct pwm_chip *pwmchip, struct pwm_device *pwm)
+{
+   struct my_usb *data = container_of(pwmchip, struct my_usb,
+                                      pwmchip);
+   usbval = 4;
+   offs = 2;
+   gpio_val = 2;
+   schedule_work(&data->work);
+   printk(KERN_INFO "gpio_pwm_disable");
+}
+
+static const struct pwm_ops gpio_pwm_ops = {
+     //int (*request)(struct pwm_chip *pwmchip, struct pwm_device *pwm);
+     // optional hook for requesting a PWM
+
+     //@free: optional hook for freeing a PWM
+     // void (*free)(struct pwm_chip *pwmchip, struct pwm_device *pwm);
+     //pwm_config, configure duty cycles and period length for this PWM
+     .config = gpio_pwm_config,
+     //pwm_enable - enable pwm output toggling
+     .enable = gpio_pwm_enable,
+     //pwm_disable - disable pwm output toggling
+     .disable = gpio_pwm_disable,
+     .owner = THIS_MODULE,
+};
 
 //this is called when you do echo 1 > value
 static void
@@ -189,6 +250,7 @@ i2c_gpio_to_irq(struct gpio_chip *chip,
    return GPIO_irqNumber;
 }
 
+
 const char *gpio_names[] = { "LED-PC13", "PC14", "BTN-PA0", "PC15" };
 
 //called when a usb device is connected to PC
@@ -200,8 +262,10 @@ my_usb_probe(struct usb_interface *interface,
    struct usb_host_interface *iface_desc;
    struct usb_endpoint_descriptor *endpoint;
    struct my_usb *data;
+   struct my_usb *pwmd;
    int i;
    int inf;
+   int err;
    
    printk(KERN_INFO "manufacturer: %s", udev->manufacturer);
    printk(KERN_INFO "product: %s", udev->product);
@@ -283,6 +347,27 @@ my_usb_probe(struct usb_interface *interface,
 //   gpio_direction_input(3);
    i2c_gpio_to_irq(&data->chip, 3);
   
+  
+//   data->pwmchip = kzalloc(sizeof(struct pwm_chip), GFP_KERNEL);
+//   if (pwmd == NULL)
+//     {
+        //handle error
+//     }
+
+   memset(&data->pwmchip, 0x00, sizeof(data->pwmchip));
+   //increase ref count, make sure u call usb_put_dev() in disconnect()
+   data->udev = usb_get_dev(udev);
+
+   data->pwmchip.dev = &udev->dev;
+   data->pwmchip.ops = &gpio_pwm_ops;
+   data->pwmchip.base = -1;
+   data->pwmchip.npwm = 3;
+
+
+   err = pwmchip_add(&data->pwmchip);
+
+   if (err < 0) return -EINVAL;
+  
    usb_set_intfdata(interface, data);
 
    printk(KERN_INFO "usb device is connected");
@@ -313,17 +398,23 @@ static void
 my_usb_disconnect(struct usb_interface *interface)
 {
    struct my_usb *data;
+//   struct my_usb *pwmd;
 
    data = usb_get_intfdata(interface);
-
+//   pwmd = usb_get_intfdata(interface);
+   
+//   cancel_work_sync(&pwmd->work);
+//   pwmchip_remove(&pwmd->pwmchip);
+   cancel_work_sync(&data->work);
+   pwmchip_remove(&data->pwmchip);
    cancel_work_sync(&data->work);
    gpiochip_remove(&data->chip);
 
-   usb_set_intfdata(interface, NULL);
 
+   usb_set_intfdata(interface, NULL);
    //deref the count
    usb_put_dev(data->udev);
-
+//   usb_put_dev(pwmd->udev);
    kfree(data); //deallocate, allocated by kzmalloc()
 
    printk(KERN_INFO "usb device is disconnected");
