@@ -407,7 +407,7 @@ int main(void)
 {
 	unsigned int i;
 
-	rcc_clock_setup_in_hse_8mhz_out_72mhz();
+	rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
 
 	rcc_periph_clock_enable(RCC_GPIOA);
 	rcc_periph_clock_enable(RCC_GPIOB);

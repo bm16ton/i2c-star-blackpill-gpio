@@ -93,7 +93,7 @@ void i2c_ctx_reset(i2c_ctx_t *c)
 	/* freq's numeric value ends up in MHz (i.e. in this case, 30) */
 // 42mhz?
 #ifdef STM32F4
-	uint16_t freq = I2C_CR2_FREQ_30MHZ;
+	uint16_t freq = 30;
 #else
 	uint16_t freq = 36;
 #endif
