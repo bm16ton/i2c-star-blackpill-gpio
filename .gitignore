@@ -36,6 +36,8 @@
 *.mod.c
 *.o
 *.o.*
+*.d
+*.map
 *.so
 *.so.dbg
 *.su
