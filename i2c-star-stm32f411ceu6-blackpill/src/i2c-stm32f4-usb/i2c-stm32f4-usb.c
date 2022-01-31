@@ -36,6 +36,7 @@
 #include <librfn/util.h>
 #include <librfm3/i2c_ctx.h>
 
+#include <libopencm3/stm32/timer.h>
 #include <pwm.h>
 
 static const struct usb_device_descriptor dev = {
@@ -217,11 +218,61 @@ uint32_t i2c = I2C1;
 
 static uint16_t pwm_dc_value = 0;
 
+
 /*!
  * \brief Handle I2C I/O request.
  *
  * \todo There is no bus error checking at all...
  */
+ 
+static void my_delay_2( void )
+{
+	for (unsigned i = 0; i < 20000; i++)
+	  {
+		__asm__("nop");
+	  }
+}
+
+static void pwm_probe(void)
+{
+    pwm_setup_timer(RCC_TIM1, TIM1, 2, 1000);
+    pwm_setup_output_channel(TIM1, 0, RCC_APB2ENR, GPIOA, GPIO8);
+    pwm_set_pulse_width(TIM1, 0, 800);
+    pwm_setup_output_channel(TIM1, 1, RCC_APB2ENR, GPIOA, GPIO9);
+    pwm_set_pulse_width(TIM1, 1, 400);
+    pwm_setup_output_channel(TIM1, 2, RCC_APB2ENR, GPIOA, GPIO10);
+    pwm_set_pulse_width(TIM1, 2, 200);
+    pwm_start_timer(TIM1);
+ //   pwm_init();
+//    pwm_set_frequency(100000);
+//	pwm_set_dc(PWM_CH1, 0);
+//	pwm_set_dc(PWM_CH2, 0);
+//	pwm_set_dc(PWM_CH3, 0);
+//	pwm_start();
+//	my_delay_2();
+//	pwm_set_dc(PWM_CH1, 800);
+//	pwm_set_dc(PWM_CH2, 100);
+//	pwm_set_dc(PWM_CH3, 500);
+//	my_delay_2();
+
+}	
+	
+static void pwm_disable(void)
+{
+/*	timer_set_oc_value(TIM1, TIM_OC1, 0);
+	timer_set_oc_value(TIM1, TIM_OC2, 0);
+	timer_set_oc_value(TIM1, TIM_OC3, 0);
+	pwm_set_dc(PWM_CH1, 0);
+	pwm_set_dc(PWM_CH2, 0);
+	pwm_set_dc(PWM_CH3, 0);
+	timer_disable_oc_output(TIM1, TIM_OC1);
+	timer_disable_oc_output(TIM1, TIM_OC2);
+	timer_disable_oc_output(TIM1, TIM_OC3);
+//	my_delay_2();
+*/
+}	
+
+
 static int usb_i2c_io(struct usb_setup_data *req, uint8_t *buf, uint16_t *len)
 {
 	uint32_t reg32 __attribute__((unused));
@@ -285,13 +336,6 @@ static void my_delay_1( void )
      }
 }
 
-static void my_delay_2( void )
-{
-	for (unsigned i = 0; i < 20000; i++)
-	  {
-		__asm__("nop");
-	  }
-}
 
 static void usbgpio_output(int gpio)
 {
@@ -448,18 +492,22 @@ static enum usbd_request_return_codes usb_control_gpio_request(
         if ( req->wIndex == 0 )
 			{
 				usbgpio_input(1);
+				return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 1 )
 			{
 				usbgpio_input(2);
+				return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 2 )
 			{
 				usbgpio_input(3);
+				return USBD_REQ_HANDLED;
 			}	
 	    else if ( req->wIndex == 3 )
 			{
 				usbgpio_input(4);
+				return USBD_REQ_HANDLED;
 			}	
       }
    else if (req->wValue == 2)
@@ -467,18 +515,22 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      if ( req->wIndex == 0 )
 			{
 				usbgpio_output(1);
+				return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 1 )
 			{
 				usbgpio_output(2);
+				return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 2 )
 			{
 				usbgpio_output(3);
+				return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 3 )
 			{
 				usbgpio_output(4);
+				return USBD_REQ_HANDLED;
 			}
       }
    else if (req->wValue == 3)
@@ -491,14 +543,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		        (*buf)[1] = 2;
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
-			    *len = 4;
+                *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
 			} else if (getv == 1) {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
-			    *len = 4;
+			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
 			}
 			return USBD_REQ_HANDLED;
@@ -511,14 +563,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		        (*buf)[1] = 2;
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
-			    *len = 4;
+			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
 			} else if (getv == 1) {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
-			    *len = 4;
+			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
 			}
 		    return USBD_REQ_HANDLED;
@@ -531,14 +583,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		        (*buf)[1] = 2;
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
-			    *len = 4;
+			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
 			} else if (getv == 1) {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
-			    *len = 4;
+			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
 			}
 			return USBD_REQ_HANDLED;
@@ -551,14 +603,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		        (*buf)[1] = 2;
 		        (*buf)[2] = 2;
 		        (*buf)[3] = 2;
-			    *len = 4;
+			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
 			} else if (getv == 1) {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
-			    *len = 4;
+			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
 			}
 			return USBD_REQ_HANDLED;
@@ -571,18 +623,22 @@ static enum usbd_request_return_codes usb_control_gpio_request(
         if ( req->wIndex == 0 )
 			{
 				gpio_clear(GPIOC, GPIO13);
+				return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 1 )
 			{
 				gpio_set(GPIOC, GPIO14);
+				return USBD_REQ_HANDLED;
 			}
 		else if ( req->wIndex == 2 )
 			{
 				gpio_set(GPIOA, GPIO0);
+				return USBD_REQ_HANDLED;
 			}
 		else if ( req->wIndex == 3 )
 			{
 				gpio_set(GPIOC, GPIO15);
+				return USBD_REQ_HANDLED;
 			}
         }
    else if (req->bRequest == 0)
@@ -590,21 +646,40 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      if (req->wIndex == 0)
 			{
 				gpio_set(GPIOC, GPIO13);
+				return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 1 )
 			{
 				gpio_clear(GPIOC, GPIO14);
+				return USBD_REQ_HANDLED;
 			}	
 		else if ( req->wIndex == 2 )
 			{
 				gpio_clear(GPIOA, GPIO0);
+				return USBD_REQ_HANDLED;
 			}
 		else if ( req->wIndex == 3 )
 			{
 				gpio_clear(GPIOC, GPIO15);
+				return USBD_REQ_HANDLED;
 			}	
 	  }
     }
+       else if (req->wValue == 4)
+     { 
+     if (req->wIndex == 1) {
+          pwm_setup_timer(RCC_TIM1, TIM1, 10000, 1000);
+          return USBD_REQ_HANDLED;
+     } else if (req->wIndex == 2) {
+          pwm_disable();
+          return USBD_REQ_HANDLED;
+       }
+     }
+    else if (req->wValue == 5)
+     { 
+//    pwm_period(1, req->wIndex);
+//    pwm_duty(req->bRequest);
+     }
    else
      {
         (*buf)[0] = -1; // FAILURE
@@ -747,21 +822,6 @@ static void i2c_init(void)
 //	gpio_set(GPIOD, GPIO4);
 }
 
-static void pwm_probe(void)
-{
-    pwm_init();
-    pwm_set_frequency(100000);
-	pwm_set_dc(PWM_CH1, 0);
-	pwm_set_dc(PWM_CH2, 0);
-	pwm_set_dc(PWM_CH3, 0);
-	pwm_start();
-	my_delay_2();
-	pwm_set_dc(PWM_CH1, 800);
-	pwm_set_dc(PWM_CH2, 100);
-	pwm_set_dc(PWM_CH3, 500);
-	my_delay_2();
-}	
-	
 static void gpio_init(void)
 {
 	rcc_periph_clock_enable(RCC_GPIOC);
@@ -794,8 +854,9 @@ int main(void)
 {
 	int i;
 
+ //   rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
     rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
-
+    
 	rcc_periph_clock_enable(RCC_GPIOA);
 	rcc_periph_clock_enable(RCC_GPIOB);
 	rcc_periph_clock_enable(RCC_GPIOC);
@@ -804,7 +865,6 @@ int main(void)
 	i2c_init();
 	time_init();
 	pwm_probe();
-	
 //	gpio_clear(GPIOC, GPIO13);
 
 	for (i = 0; i < 0x800000; i++)

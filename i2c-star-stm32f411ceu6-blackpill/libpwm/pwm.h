@@ -1,53 +1,50 @@
-/*
-* The MIT License (MIT)
-*
-* Copyright (c) 2015 Marco Russi
-*
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-*
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-*
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*/
+#ifndef __PWM_H_
+#define __PWM_H_
 
+#include <libopencm3/stm32/timer.h>
 
+#include <stdint.h>
 
+/**
+ * Initialize the timer used to generate the PWM.
+ *
+ * @param[in]	*reg 			The bus on which the timer is located. E.g. RCC_APB1ENR.
+ * @param[in]	en				The clock to enable fot the timer. E.g. RCC_APB1ENR_TIM2EN.
+ * @param[in]	prescaler			The prescaler value to use. A prescaler devides the system clock speed.
+ *							E.g. a deiver of 2 scales a 72Mhz clock down to 36Mhz.
+ * @param[in]	period			The period of the PWM. The preiod ends when the timers counter has reached the value given here.
+ *							The timers counter is counted up with the prescaled clock freq. With a freq. of 20kHz, the
+ *							timer e.g. is increased every 1us.
+ */
+void pwm_setup_timer(enum rcc_periph_clken 	clken, uint32_t timer_peripheral, uint32_t prescaler, uint32_t period);
 
-/* ----------- Exported defines ------------- */
+/**
+ * Initialize a single ouput chanel for a timer. This function also intializes the GPIOs tight to the timers output channel.
+ *
+ * @param[in]	timer_peripheral	The timer for which the output channel is to be set. E.g. TIM2.
+ * @param[in]	oc_id			The ID of the timmers output channel. E.g. TIM_OC1.
+ * @param[in]	*gpio_reg 		The bus on which the GPIO for the tight to the output channel is located. E.g. RCC_APB2ENR.
+ * @param[in]	gpio_en			The GPIO block to enable for the timer. E.g. RCC_APB2ENR_IOPAEN.
+ * @param[in]	gpio_port			The GPIO port to enable for the timer. E.g. GPIOA.
+ * @param[in]	gpio_pin			The GPIO pin to enable for the timer. E.g. GPIO_TIM2_CH2.
+ */
+void pwm_setup_output_channel(uint32_t timer_peripheral, enum tim_oc_id oc_id,enum rcc_periph_clken clken, uint32_t gpio_port, uint16_t gpio_pin);
 
-/* Maximum PWM frequency */
-#define PWM_MAX_FREQ_HZ					100000	/* 100kHz */
+/**
+ * Start the timer (and therefroe the PWM). Call this after {@link pwm_init_timer}.
+ *
+ * @param[in]	timer_peripheral	The timer for which the output channel is to be set. E.g. TIM2.
+ */
+void pwm_start_timer(uint32_t timer_peripheral);
 
-/* Channels indexes defines */
-#define PWM_CH1							0
-#define PWM_CH2							1
-#define PWM_CH3							2
-#define PWM_CH4							3
+/**
+ * Set the puls width (duty cycle) of the PWMi for a channel. Could by called any time to adjust the period dynamically for a channel.
+ *
+ * @param[in]	timer_peripheral	The timer for which the output channel is to be set. E.g. TIM2.
+ * @param[in]	oc_id			The ID of the timmers output channel. E.g. TIM_OC1.
+ * @param[in]	pulse_widht		The pulse with for the channel. Must be between 0 (off) and the value given for period
+ * 							with {@link pwm_init_timer}.
+ */
+void pwm_set_pulse_width(uint32_t timer_peripheral, enum tim_oc_id oc_id, uint32_t pulse_width);
 
-
-
-
-/* ----------- Exported functions prototypes ------------- */
-
-extern void pwm_init(void);
-extern void pwm_set_frequency(uint32_t);
-extern void pwm_set_dc(uint8_t, uint16_t);
-extern void pwm_start(void);
-
-
-
-
-/* End of file */
-
+#endif
