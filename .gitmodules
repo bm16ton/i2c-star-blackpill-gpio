@@ -1,3 +1,6 @@
 [submodule "stm32f4_pwm"]
 	path = stm32f4_pwm
 	url = ./stm32f4_pwm
+[submodule "Libopencm3_STM32F4_Guide"]
+	path = Libopencm3_STM32F4_Guide
+	url = ./i2c-star-stm32f411ceu6-blackpill/Libopencm3_STM32F4_Guide

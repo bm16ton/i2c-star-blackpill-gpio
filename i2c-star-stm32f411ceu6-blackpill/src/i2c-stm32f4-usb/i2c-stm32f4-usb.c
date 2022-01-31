@@ -235,41 +235,41 @@ static void my_delay_2( void )
 
 static void pwm_probe(void)
 {
-    pwm_setup_timer(RCC_TIM1, TIM1, 2, 1000);
-    pwm_setup_output_channel(TIM1, 0, RCC_APB2ENR, GPIOA, GPIO8);
-    pwm_set_pulse_width(TIM1, 0, 800);
-    pwm_setup_output_channel(TIM1, 1, RCC_APB2ENR, GPIOA, GPIO9);
-    pwm_set_pulse_width(TIM1, 1, 400);
-    pwm_setup_output_channel(TIM1, 2, RCC_APB2ENR, GPIOA, GPIO10);
-    pwm_set_pulse_width(TIM1, 2, 200);
-    pwm_start_timer(TIM1);
- //   pwm_init();
-//    pwm_set_frequency(100000);
-//	pwm_set_dc(PWM_CH1, 0);
-//	pwm_set_dc(PWM_CH2, 0);
-//	pwm_set_dc(PWM_CH3, 0);
-//	pwm_start();
-//	my_delay_2();
-//	pwm_set_dc(PWM_CH1, 800);
-//	pwm_set_dc(PWM_CH2, 100);
-//	pwm_set_dc(PWM_CH3, 500);
-//	my_delay_2();
+//    pwm_setup_timer(RCC_TIM3, TIM3, 2, 1000);
+//    pwm_setup_output_channel(TIM3, TIM_OC1, RCC_APB2ENR, GPIOA, GPIO8);
+//    pwm_set_pulse_width(TIM3, 0, 800);
+//    pwm_setup_output_channel(TIM3, TIM_OC2, RCC_APB2ENR, GPIOA, GPIO9);
+//    pwm_set_pulse_width(TIM3, 1, 400);
+//    pwm_setup_output_channel(TIM3, TIM_OC3, RCC_APB2ENR, GPIOA, GPIO10);
+//    pwm_set_pulse_width(TIM3, 2, 200);
+//    pwm_start_timer(TIM3);
+    pwm_init();
+    pwm_set_frequency(60000);
+	pwm_set_dc(PWM_CH1, 0);
+	pwm_set_dc(PWM_CH2, 0);
+	pwm_set_dc(PWM_CH3, 0);
+	pwm_start();
+	my_delay_2();
+    pwm_set_frequency(60000);
+	pwm_set_dc(PWM_CH1, 500);
+	pwm_set_dc(PWM_CH2, 1090);
+	pwm_set_dc(PWM_CH3, 1000);
+	my_delay_2();
 
 }	
 	
 static void pwm_disable(void)
 {
-/*	timer_set_oc_value(TIM1, TIM_OC1, 0);
-	timer_set_oc_value(TIM1, TIM_OC2, 0);
-	timer_set_oc_value(TIM1, TIM_OC3, 0);
+	timer_set_oc_value(TIM3, TIM_OC1, 0);
+	timer_set_oc_value(TIM3, TIM_OC2, 0);
+	timer_set_oc_value(TIM3, TIM_OC3, 0);
 	pwm_set_dc(PWM_CH1, 0);
 	pwm_set_dc(PWM_CH2, 0);
 	pwm_set_dc(PWM_CH3, 0);
-	timer_disable_oc_output(TIM1, TIM_OC1);
-	timer_disable_oc_output(TIM1, TIM_OC2);
-	timer_disable_oc_output(TIM1, TIM_OC3);
-//	my_delay_2();
-*/
+	timer_disable_oc_output(TIM3, TIM_OC1);
+	timer_disable_oc_output(TIM3, TIM_OC2);
+	timer_disable_oc_output(TIM3, TIM_OC3);
+	my_delay_2();
 }	
 
 
@@ -668,7 +668,7 @@ static enum usbd_request_return_codes usb_control_gpio_request(
        else if (req->wValue == 4)
      { 
      if (req->wIndex == 1) {
-          pwm_setup_timer(RCC_TIM1, TIM1, 10000, 1000);
+          pwm_probe();
           return USBD_REQ_HANDLED;
      } else if (req->wIndex == 2) {
           pwm_disable();
@@ -785,9 +785,10 @@ static int usb_fibre(fibre_t *fibre)
 	usbd_dev = usbd_init(&otgfs_usb_driver, &dev, &config,
 			usb_strings, 2,
 			usbd_control_buffer, sizeof(usbd_control_buffer));
-//	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS;
-	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS | OTG_GCCFG_PWRDWN;
-	OTG_FS_GCCFG &= ~(OTG_GCCFG_VBUSBSEN | OTG_GCCFG_VBUSASEN);
+	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS;
+//    OTG_FS_GUSBCFG |= OTG_GUSBCFG_FDMOD | OTG_GUSBCFG_TRDT_MASK;
+//	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS | OTG_GCCFG_PWRDWN;
+//	OTG_FS_GCCFG &= ~(OTG_GCCFG_VBUSBSEN | OTG_GCCFG_VBUSASEN);
 	usbd_register_set_config_callback(usbd_dev, usb_set_config);
 
 	while (true) {

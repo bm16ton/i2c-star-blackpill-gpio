@@ -39,52 +39,52 @@ void console_hwinit(console_t *c)
 	console = c;
 
 	/* Enable clocks for GPIO port A (for GPIO_USART1_TX) and USART1. */
-	rcc_periph_clock_enable(RCC_GPIOA);
-	rcc_periph_clock_enable(RCC_USART1);
+	rcc_periph_clock_enable(RCC_GPIOD);
+	rcc_periph_clock_enable(RCC_USART3);
 
 	/* Enable the USART1 interrupt. */
-	nvic_enable_irq(NVIC_USART1_IRQ);
+	nvic_enable_irq(NVIC_USART3_IRQ);
 
 #ifdef STM32F4
 	/* The F4 series have a completely new GPIO peripheral */
 	/* PA9 and PA10 for Tx and Rx respectively */
-	gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO9 | GPIO10);
+	gpio_mode_setup(GPIOD, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO8 | GPIO9);
 
 	/* Actual Alternate function number (in this case 7) */
-	gpio_set_af(GPIOA, GPIO_AF7, GPIO9 | GPIO10);
+	gpio_set_af(GPIOD, GPIO_AF7, GPIO8 | GPIO9);
 #else
 	rcc_periph_clock_enable(RCC_AFIO);
 
 	/* Setup GPIO pin GPIO_USART1_RE_TX on PA9 */
 	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
-		      GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX);
+		      GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_TX);
 
 	/* Setup GPIO pin GPIO_USART1_RE_RX on PA10 */
 	gpio_set_mode(GPIOA, GPIO_MODE_INPUT,
-		      GPIO_CNF_INPUT_FLOAT, GPIO_USART1_RX);
+		      GPIO_CNF_INPUT_FLOAT, GPIO_USART3_RX);
 #endif
 
 	/* Setup UART parameters. */
-	usart_set_baudrate(USART1, 115200);
-	usart_set_databits(USART1, 8);
-	usart_set_stopbits(USART1, USART_STOPBITS_1);
-	usart_set_parity(USART1, USART_PARITY_NONE);
-	usart_set_flow_control(USART1, USART_FLOWCONTROL_NONE);
-	usart_set_mode(USART1, USART_MODE_TX_RX);
+	usart_set_baudrate(USART3, 115200);
+	usart_set_databits(USART3, 8);
+	usart_set_stopbits(USART3, USART_STOPBITS_1);
+	usart_set_parity(USART3, USART_PARITY_NONE);
+	usart_set_flow_control(USART3, USART_FLOWCONTROL_NONE);
+	usart_set_mode(USART3, USART_MODE_TX_RX);
 
 	/* Enable USART1 Receive interrupt. */
-	USART_CR1(USART1) |= USART_CR1_RXNEIE;
+	USART_CR1(USART3) |= USART_CR1_RXNEIE;
 
 	/* Finally enable the USART. */
-	usart_enable(USART1);
+	usart_enable(USART3);
 }
 
-void usart1_isr(void)
+void usart3_isr(void)
 {
 	/* Check if we were called because of RXNE. */
-	if (((USART_CR1(USART1) & USART_CR1_RXNEIE) != 0) &&
-	    ((USART_SR(USART1) & USART_SR_RXNE) != 0)) {
-		uint16_t c = usart_recv(USART1);
+	if (((USART_CR1(USART3) & USART_CR1_RXNEIE) != 0) &&
+	    ((USART_SR(USART3) & USART_SR_RXNE) != 0)) {
+		uint16_t c = usart_recv(USART3);
 		if (c == '\r') {
 			(void) ringbuf_put(&outring, '\r');
 			c = '\n';
@@ -92,7 +92,7 @@ void usart1_isr(void)
 		(void) ringbuf_put(&outring, c);
 
 		/* Enable transmit interrupt so it repeats the character back */
-		USART_CR1(USART1) |= USART_CR1_TXEIE;
+		USART_CR1(USART3) |= USART_CR1_TXEIE;
 
 #ifdef CONFIG_CONSOLE_FROM_ISR
 		console_process(console, c);
@@ -102,16 +102,16 @@ void usart1_isr(void)
 	}
 
 	/* Check if we were called because of TXE. */
-	if (((USART_CR1(USART1) & USART_CR1_TXEIE) != 0) &&
-	    ((USART_SR(USART1) & USART_SR_TXE) != 0)) {
+	if (((USART_CR1(USART3) & USART_CR1_TXEIE) != 0) &&
+	    ((USART_SR(USART3) & USART_SR_TXE) != 0)) {
 		int data = ringbuf_get(&outring);
 
 		if (data == -1) {
 			/* Disable the TXE interrupt, it's no longer needed. */
-			USART_CR1(USART1) &= ~USART_CR1_TXEIE;
+			USART_CR1(USART3) &= ~USART_CR1_TXEIE;
 		} else {
 			/* Put data into the transmit register. */
-			usart_send(USART1, data);
+			usart_send(USART3, data);
 		}
 	}
 }
@@ -123,7 +123,7 @@ int _write(int file, char *ptr, int len)
 			if (ptr[i] == '\n')
 				(void) ringbuf_put(&outring, '\r');
 			(void) ringbuf_put(&outring, ptr[i]);
-			USART_CR1(USART1) |= USART_CR1_TXEIE;
+			USART_CR1(USART3) |= USART_CR1_TXEIE;
 		}
 
 		return 0;

@@ -796,7 +796,6 @@ extern uint32_t rcc_apb2_frequency;
 
 enum rcc_clock_3v3 {
 	RCC_CLOCK_3V3_84MHZ,
-	RCC_CLOCK_3V3_96MHZ,
 	RCC_CLOCK_3V3_168MHZ,
 	RCC_CLOCK_3V3_180MHZ,
 	RCC_CLOCK_3V3_END
@@ -1093,9 +1092,6 @@ enum rcc_periph_rst {
 	RST_SAI1RST	= _REG_BIT(0x24, 22),/* F42x, F43x */
 	RST_LTDC	= _REG_BIT(0x24, 26),/* F42x, F43x */
 	RST_DSI		= _REG_BIT(0x24, 27),/* F42x, F43x */
-
-	/* Backup domain control */
-	RST_BDCR	= _REG_BIT(0x70, 16),/* BDCR[16] */
 };
 
 #undef _REG_BIT

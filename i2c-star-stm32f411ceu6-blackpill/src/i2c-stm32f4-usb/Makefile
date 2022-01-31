@@ -22,5 +22,7 @@ BINARY = i2c-stm32f4-usb
 DEFS += -DF_CPU=120000000
 DEFS += -DF_APB1=30000000
 
+OBJS += console.o console_stm32.o
+
 LDSCRIPT = ../stm32f4-discovery.ld
 include ../../mk/libopencm3.stm32f4xx.mk

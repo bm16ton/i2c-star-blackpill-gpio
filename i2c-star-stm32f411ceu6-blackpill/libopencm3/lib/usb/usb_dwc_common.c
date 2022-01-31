@@ -61,7 +61,7 @@ void dwc_ep_setup(usbd_device *usbd_dev, uint8_t addr, uint8_t type,
 		REBASE(OTG_DIEPTSIZ0) =
 			(max_size & OTG_DIEPSIZ0_XFRSIZ_MASK);
 		REBASE(OTG_DIEPCTL0) |=
-			OTG_DIEPCTL0_EPENA | OTG_DIEPCTL0_SNAK;
+			OTG_DIEPCTL0_SNAK;
 
 		/* Configure OUT part. */
 		usbd_dev->doeptsiz[0] = OTG_DIEPSIZ0_STUPCNT_1 |
@@ -87,7 +87,7 @@ void dwc_ep_setup(usbd_device *usbd_dev, uint8_t addr, uint8_t type,
 		REBASE(OTG_DIEPTSIZ(addr)) =
 		    (max_size & OTG_DIEPSIZ0_XFRSIZ_MASK);
 		REBASE(OTG_DIEPCTL(addr)) |=
-		    OTG_DIEPCTL0_EPENA | OTG_DIEPCTL0_SNAK | (type << 18)
+		    OTG_DIEPCTL0_SNAK | (type << 18)
 		    | OTG_DIEPCTL0_USBAEP | OTG_DIEPCTLX_SD0PID
 		    | (addr << 22) | max_size;
 
@@ -342,13 +342,13 @@ void dwc_poll(usbd_device *usbd_dev)
 	for (i = 0; i < 4; i++) { /* Iterate over endpoints. */
 		if (REBASE(OTG_DIEPINT(i)) & OTG_DIEPINTX_XFRC) {
 			/* Transfer complete. */
+			REBASE(OTG_DIEPINT(i)) = OTG_DIEPINTX_XFRC;
+
 			if (usbd_dev->user_callback_ctr[i]
 						       [USB_TRANSACTION_IN]) {
 				usbd_dev->user_callback_ctr[i]
 					[USB_TRANSACTION_IN](usbd_dev, i);
 			}
-
-			REBASE(OTG_DIEPINT(i)) = OTG_DIEPINTX_XFRC;
 		}
 	}
 
@@ -358,11 +358,6 @@ void dwc_poll(usbd_device *usbd_dev)
 		uint32_t rxstsp = REBASE(OTG_GRXSTSP);
 		uint32_t pktsts = rxstsp & OTG_GRXSTSP_PKTSTS_MASK;
 		uint8_t ep = rxstsp & OTG_GRXSTSP_EPNUM_MASK;
-
-		if (pktsts == OTG_GRXSTSP_PKTSTS_SETUP_COMP) {
-			usbd_dev->user_callback_ctr[ep][USB_TRANSACTION_SETUP] (usbd_dev, ep);
-		}
-
 		if (pktsts == OTG_GRXSTSP_PKTSTS_OUT_COMP
 			|| pktsts == OTG_GRXSTSP_PKTSTS_SETUP_COMP)  {
 			REBASE(OTG_DOEPTSIZ(ep)) = usbd_dev->doeptsiz[ep];
@@ -395,10 +390,18 @@ void dwc_poll(usbd_device *usbd_dev)
 		/* Save packet size for dwc_ep_read_packet(). */
 		usbd_dev->rxbcnt = (rxstsp & OTG_GRXSTSP_BCNT_MASK) >> 4;
 
-		if (type == USB_TRANSACTION_SETUP) {
-			dwc_ep_read_packet(usbd_dev, ep, &usbd_dev->control_state.req, 8);
-		} else if (usbd_dev->user_callback_ctr[ep][type]) {
+		if (usbd_dev->user_callback_ctr[ep][type]) {
 			usbd_dev->user_callback_ctr[ep][type] (usbd_dev, ep);
+		}
+		/* Cores with ID 0x2000 require to have NAK cleared early.
+		 * Otherwise they never reach the "OUT transfer completed"
+		 * / "SETUP transaction completed" state.
+		 * If NAK is cleared early on cores with ID 0x1200, they drop
+		 * data.
+		 */
+		if (REBASE(OTG_CID) >= OTG_CID_CNAK_EARLY) {
+			REBASE(OTG_DOEPCTL(ep)) |= usbd_dev->force_nak[ep] ?
+					OTG_DOEPCTL0_SNAK : OTG_DOEPCTL0_CNAK;
 		}
 
 		/* Discard unread packet data. */

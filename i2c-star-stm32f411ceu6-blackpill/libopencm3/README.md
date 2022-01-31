@@ -19,7 +19,6 @@ Currently (at least partly) supported microcontrollers:
  - Freescale Vybrid VF6xx
  - Qorvo (formerly ActiveSemi) PAC55XX
  - Synwit SWM050
- - Nordic NRF51x and NRF52x
 
 The library is written completely from scratch based on the vendor datasheets,
 programming manuals, and application notes. The code is meant to be used
@@ -104,14 +103,6 @@ For a more verbose build you can use
 
     $ make V=1
 
-You can reduce the build time by specifying a particular MCU series
-
-    $ make TARGETS='stm32/f1 stm32/f4'
-
-Supported targets can be listed using:
-
-    $ make list-targets
-
 Fine-tuning the build
 ---------------------
 
@@ -125,13 +116,13 @@ them as environment variables, for example:
    If the Cortex-M core supports a hard float ABI, it will be compiled with
    the best floating-point support by default. In cases where this is not desired, the
    behavior can be specified by setting `FP_FLAGS`.
-
+   
    Currently, M4F cores default to `-mfloat-abi=hard -mfpu=fpv4-sp-d16`, and
    M7 cores defaults to double precision `-mfloat-abi=hard -mfpu=fpv5-d16` if available,
    and single precision `-mfloat-abi=hard -mfpu=fpv5-sp-d16` otherwise.
    Other architectures use no FP flags, in otherwords, traditional softfp.
-
-   You may find which FP_FLAGS you can use in a particular architecture in the readme.txt
+   
+   You may find which FP_FLAGS you can use in a particular architecture in the readme.txt 
    file shipped with the gcc-arm-embedded package.
 
    Examples:
@@ -200,7 +191,7 @@ Community
 ---------
 
  * Our [![Gitter channel](https://badges.gitter.im/libopencm3/discuss.svg)](https://gitter.im/libopencm3/discuss)
- * Our IRC channel on the libera.chat IRC network is called #libopencm3
+ * Our IRC channel on the freenode IRC network is called #libopencm3
 
 Mailing lists
 -------------

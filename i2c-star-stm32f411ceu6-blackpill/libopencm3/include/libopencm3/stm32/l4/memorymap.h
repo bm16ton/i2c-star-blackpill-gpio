@@ -23,7 +23,6 @@
 /* --- STM32 specific peripheral definitions ------------------------------- */
 
 /* Memory map for all busses */
-#define FLASH_BASE			(0x08000000U)
 #define PERIPH_BASE			(0x40000000U)
 #define FMC1_BANK_BASE			(0x60000000U)
 #define FMC3_BANK_BASE			(0x80000000U)
@@ -59,7 +58,6 @@
 #define I2C3_BASE			(PERIPH_BASE_APB1 + 0x5c00)
 #define CRS_BASE			(PERIPH_BASE_APB1 + 0x6000)
 #define BX_CAN1_BASE			(PERIPH_BASE_APB1 + 0x6400)
-#define BX_CAN2_BASE			(PERIPH_BASE_APB1 + 0x6800)
 #define USB_DEV_FS_BASE			(PERIPH_BASE_APB1 + 0x6800)
 #define USB_PMA_BASE			(PERIPH_BASE_APB1 + 0x6c00)
 #define POWER_CONTROL_BASE		(PERIPH_BASE_APB1 + 0x7000)

@@ -63,14 +63,15 @@ libopencm3:
 		printf "######## ERROR ########\n"; \
 		exit 1; \
 		fi
-	$(Q)$(MAKE) -C libopencm3 TARGETS="$(TARGETS)"
+##	$(Q)$(MAKE) -C libopencm3 TARGETS="$(TARGETS)"
 
 #EXAMPLE_DIRS:=$(sort $(dir $(wildcard $(addsuffix /*/*/Makefile,$(addprefix examples/,$(TARGETS))))))
 EXAMPLE_DIRS := \
 	src/bootloader \
 	src/i2c-explorer \
 	src/i2c-stm32f1-usb \
-	src/i2c-stm32f4-usb
+	src/i2c-stm32f4-usb \
+	src/i2c-stm32f413zh-usb
 $(EXAMPLE_DIRS): libopencm3
 	@printf "  BUILD   $@\n";
 	$(Q)$(MAKE) --directory=$@ OPENCM3_DIR=$(OPENCM3_DIR) $(EXAMPLE_RULES)
@@ -79,7 +80,7 @@ examples: $(EXAMPLE_DIRS)
 	$(Q)true
 
 clean: $(EXAMPLE_DIRS:=.clean)
-	$(Q)$(MAKE) -C libopencm3 clean
+##	$(Q)$(MAKE) -C libopencm3 clean
 
 stylecheck: $(EXAMPLE_DIRS:=.stylecheck)
 styleclean: $(EXAMPLE_DIRS:=.styleclean)

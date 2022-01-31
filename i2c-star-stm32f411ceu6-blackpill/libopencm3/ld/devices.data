@@ -243,8 +243,6 @@ stm32w108cc stm32w ROM=256K RAM=16K
 stm32g0[43]1?4* stm32g0 ROM=16K RAM=8K
 stm32g0[43][01]?6* stm32g0 ROM=32K RAM=8K
 stm32g0[43][01]?8* stm32g0 ROM=64K RAM=8K
-stm32g0[56][01]?6* stm32g0 ROM=32K RAM=18K
-stm32g0[56][01]?8* stm32g0 ROM=64K RAM=18K
 stm32g0[78]1?8* stm32g0 ROM=64K RAM=36K
 stm32g0[78][01]?b* stm32g0 ROM=128K RAM=36K
 stm32g0[BC]1?c* stm32g0 ROM=256K RAM=128K
@@ -286,17 +284,8 @@ sam3x4e* sam3xnfc ROM=256K RAM=32K RAM1=32K
 sam3x8c* sam3x ROM=512K RAM=64K RAM1=32K
 sam3x8e* sam3xnfc ROM=512K RAM=64K RAM1=32K
 
-samd09?13* samd ROM=8K RAM=4K
-samd09?14* samd ROM=16K RAM=4K
-
 samd10?13* samd ROM=8K RAM=4K
-samd1[01]?14* samd ROM=16K RAM=4K
-
-samd2[01]?14* samd ROM=16K RAM=2K
-samd2[01]?15* samd ROM=32K RAM=4K
-samd2[01]?16* samd ROM=64K RAM=8K
-samd2[01]?17* samd ROM=128K RAM=16K
-samd2[01]?18* samd ROM=256K RAM=32K
+samd10?14* samd ROM=16K RAM=4K
 
 ################################################################################
 # the SAM4 chips
@@ -497,20 +486,6 @@ pac5532 pac55xx ROM=128K RAM=32K
 pac5556 pac55xx ROM=128K RAM=32K
 
 ################################################################################
-# nRF52xx Cortex-M4 based chips
-nrf52805* nrf52sf ROM=192k RAM=24K
-nrf52810* nrf52sf ROM=192k RAM=24K
-nrf52811* nrf52sf ROM=192k RAM=24K
-nrf52820* nrf52sf ROM=256k RAM=32K
-
-nrf52832qfaa nrf52fp ROM=512K RAM=64K
-nrf52832qfab nrf52fp ROM=256K RAM=32K
-nrf52832ciaa nrf52fp ROM=512K RAM=64K
-
-nrf52833* nrf52fp ROM=512K RAM=128K
-nrf52840* nrf52fp ROM=1024K RAM=256K
-
-################################################################################
 ################################################################################
 ################################################################################
 # the STM32 family groups
@@ -614,13 +589,3 @@ vf6xx END CPU=cortex-m4 FPU=hard-fpv4-sp-d16
 # PAC55xx families
 
 pac55xx END ROM_OFF=0x00000000 RAM_OFF=0x20000000 CPU=cortex-m4 FPU=hard-fpv4-sp-d16
-
-################################################################################
-# nRF52xx families
-#
-nrf52sf nrf52 FPU=soft
-nrf52fp nrf52 FPU=hard-fpv4-sp-d16
-
-nrf52 END ROM_OFF=0x00000000 RAM_OFF=0x20000000 CPU=cortex-m4
-
-

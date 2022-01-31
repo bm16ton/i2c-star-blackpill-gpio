@@ -31,7 +31,6 @@ TARGETS ?=	stm32/f0 stm32/f1 stm32/f2 stm32/f3 stm32/f4 stm32/f7 \
 		lm3s lm4f msp432/e4 \
 		efm32/tg efm32/g efm32/lg efm32/gg efm32/hg efm32/wg \
 		efm32/ezr32wg \
-		nrf/51 nrf/52 \
 		sam/3a sam/3n sam/3s sam/3u sam/3x sam/4l \
 		sam/d \
 		vf6xx \
@@ -125,7 +124,5 @@ genlinktests.clean:
 		printf "  TEST FAIL : $*\n";		\
 	fi;
 
-list-targets:
-	@echo $(TARGETS)
 
-.PHONY: build lib $(LIB_DIRS) doc clean generatedheaders cleanheaders stylecheck genlinktests genlinktests.clean list-targets
+.PHONY: build lib $(LIB_DIRS) doc clean generatedheaders cleanheaders stylecheck genlinktests genlinktests.clean
