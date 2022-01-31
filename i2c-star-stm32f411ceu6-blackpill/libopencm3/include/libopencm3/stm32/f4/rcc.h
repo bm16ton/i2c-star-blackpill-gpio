@@ -19,7 +19,7 @@
  * @date 18 August 2012
  *
  * LGPL License Terms @ref lgpl_license
- *  */
+ */
 /*
  * This file is part of the libopencm3 project.
  *
@@ -49,7 +49,6 @@
 #include <libopencm3/stm32/pwr.h>
 
 /** @defgroup rcc_registers RCC Registers
- * @ingroup rcc_defines
  * @brief Reset / Clock Control Registers
 @{*/
 /** Clock control register */
@@ -117,7 +116,7 @@
 #define RCC_CKGATENR				MMIO32(RCC_BASE + 0x90)
 /** RCC Dedicated Clocks Configuration Register 2 */
 #define RCC_DCKCFGR2				MMIO32(RCC_BASE + 0x94)
-/*@}*/
+/**@}*/
 
 /** @defgroup rcc_cr_values RCC_CR values
  * @ingroup rcc_registers
@@ -139,7 +138,7 @@
 #define RCC_CR_HSITRIM_MASK			0x1f
 #define RCC_CR_HSIRDY				(1 << 1)
 #define RCC_CR_HSION				(1 << 0)
-/*@}*/
+/**@}*/
 
 /** @defgroup rcc_pllcfgr_values RCC_PLLCFGR values
  * @ingroup rcc_registers
@@ -161,7 +160,7 @@
 /* PLLM: [5:0] */
 #define RCC_PLLCFGR_PLLM_SHIFT			0
 #define RCC_PLLCFGR_PLLM_MASK			0x3f
-/*@}*/
+/**@}*/
 
 /** @defgroup rcc_cfgr_values RCC_CFGR values
  * @ingroup rcc_registers
@@ -207,29 +206,35 @@
 #define RCC_CFGR_RTCPRE_SHIFT			16
 #define RCC_CFGR_RTCPRE_MASK			0x1f
 
-/* PPRE1/2: APB high-speed prescalers */
 #define RCC_CFGR_PPRE2_SHIFT			13
 #define RCC_CFGR_PPRE2_MASK			0x7
 #define RCC_CFGR_PPRE1_SHIFT			10
 #define RCC_CFGR_PPRE1_MASK			0x7
-#define RCC_CFGR_PPRE_DIV_NONE			0x0
-#define RCC_CFGR_PPRE_DIV_2			0x4
-#define RCC_CFGR_PPRE_DIV_4			0x5
-#define RCC_CFGR_PPRE_DIV_8			0x6
-#define RCC_CFGR_PPRE_DIV_16			0x7
+/** @defgroup rcc_cfgr_apbxpre RCC_CFGR APBx prescale factors
+ * These can be used for both APB1 and APB2 prescaling
+ * @{
+ */
+#define RCC_CFGR_PPRE_NODIV			0x0
+#define RCC_CFGR_PPRE_DIV2			0x4
+#define RCC_CFGR_PPRE_DIV4			0x5
+#define RCC_CFGR_PPRE_DIV8			0x6
+#define RCC_CFGR_PPRE_DIV16			0x7
+/**@}*/
 
-/* HPRE: AHB high-speed prescaler */
 #define RCC_CFGR_HPRE_SHIFT			4
 #define RCC_CFGR_HPRE_MASK			0xf
-#define RCC_CFGR_HPRE_DIV_NONE			0x0
-#define RCC_CFGR_HPRE_DIV_2			(0x8 + 0)
-#define RCC_CFGR_HPRE_DIV_4			(0x8 + 1)
-#define RCC_CFGR_HPRE_DIV_8			(0x8 + 2)
-#define RCC_CFGR_HPRE_DIV_16			(0x8 + 3)
-#define RCC_CFGR_HPRE_DIV_64			(0x8 + 4)
-#define RCC_CFGR_HPRE_DIV_128			(0x8 + 5)
-#define RCC_CFGR_HPRE_DIV_256			(0x8 + 6)
-#define RCC_CFGR_HPRE_DIV_512			(0x8 + 7)
+/** @defgroup rcc_cfgr_ahbpre RCC_CFGR AHB prescale factors
+@{*/
+#define RCC_CFGR_HPRE_NODIV			0x0
+#define RCC_CFGR_HPRE_DIV2			(0x8 + 0)
+#define RCC_CFGR_HPRE_DIV4			(0x8 + 1)
+#define RCC_CFGR_HPRE_DIV8			(0x8 + 2)
+#define RCC_CFGR_HPRE_DIV16			(0x8 + 3)
+#define RCC_CFGR_HPRE_DIV64			(0x8 + 4)
+#define RCC_CFGR_HPRE_DIV128			(0x8 + 5)
+#define RCC_CFGR_HPRE_DIV256			(0x8 + 6)
+#define RCC_CFGR_HPRE_DIV512			(0x8 + 7)
+/**@}*/
 
 /* SWS: System clock switch status */
 #define RCC_CFGR_SWS_SHIFT			2
@@ -243,7 +248,29 @@
 #define RCC_CFGR_SW_HSI				0x0
 #define RCC_CFGR_SW_HSE				0x1
 #define RCC_CFGR_SW_PLL				0x2
-/*@}*/
+/**@}*/
+
+/** Older compatible definitions to ease migration
+ * @defgroup rcc_cfgr_deprecated RCC_CFGR Deprecated dividers
+ * @deprecated Use _CFGR_xPRE_DIVn form instead, across all families
+ * @{
+ */
+#define RCC_CFGR_PPRE_DIV_NONE			0x0
+#define RCC_CFGR_PPRE_DIV_2			0x4
+#define RCC_CFGR_PPRE_DIV_4			0x5
+#define RCC_CFGR_PPRE_DIV_8			0x6
+#define RCC_CFGR_PPRE_DIV_16			0x7
+
+#define RCC_CFGR_HPRE_DIV_NONE			0x0
+#define RCC_CFGR_HPRE_DIV_2			(0x8 + 0)
+#define RCC_CFGR_HPRE_DIV_4			(0x8 + 1)
+#define RCC_CFGR_HPRE_DIV_8			(0x8 + 2)
+#define RCC_CFGR_HPRE_DIV_16			(0x8 + 3)
+#define RCC_CFGR_HPRE_DIV_64			(0x8 + 4)
+#define RCC_CFGR_HPRE_DIV_128			(0x8 + 5)
+#define RCC_CFGR_HPRE_DIV_256			(0x8 + 6)
+#define RCC_CFGR_HPRE_DIV_512			(0x8 + 7)
+/**@}*/
 
 /** @defgroup rcc_cir_values RCC_CIR values
  * @ingroup rcc_registers
@@ -281,7 +308,7 @@
 #define RCC_CIR_HSIRDYF				(1 << 2)
 #define RCC_CIR_LSERDYF				(1 << 1)
 #define RCC_CIR_LSIRDYF				(1 << 0)
-/*@}*/
+/**@}*/
 
 /** @defgroup rcc_ahbrstr_rst RCC_AHBxRSTR reset values (full set)
 @{*/
@@ -416,6 +443,7 @@
 #define RCC_AHB1ENR_GPIOCEN			(1 << 2)
 #define RCC_AHB1ENR_GPIOBEN			(1 << 1)
 #define RCC_AHB1ENR_GPIOAEN			(1 << 0)
+/**@}*/
 
 /** @addtogroup deprecated_201802_rcc Deprecated 2018
  * @deprecated replace zzz_IOPxEN with zzz_GPIOxEN
@@ -566,6 +594,8 @@
 
 /* --- RCC_APB1LPENR values ------------------------------------------------- */
 
+/** @defgroup rcc_apblpenr_en RCC_APBxLPENR enable values (full set)
+@{*/
 #define RCC_APB1LPENR_UART8EN			(1 << 31)
 #define RCC_APB1LPENR_UART7EN			(1 << 30)
 #define RCC_APB1LPENR_DACLPEN			(1 << 29)
@@ -612,7 +642,7 @@
 #define RCC_APB2LPENR_USART1LPEN		(1 << 4)
 #define RCC_APB2LPENR_TIM8LPEN			(1 << 1)
 #define RCC_APB2LPENR_TIM1LPEN			(1 << 0)
-/*@}*/
+/**@}*/
 
 /** @defgroup rcc_bdcr_values RCC_BDCR values
  * @ingroup rcc_registers
@@ -631,7 +661,7 @@
 #define RCC_BDCR_LSEBYP				(1 << 2)
 #define RCC_BDCR_LSERDY				(1 << 1)
 #define RCC_BDCR_LSEON				(1 << 0)
-/*@}*/
+/**@}*/
 
 /** @defgroup rcc_csr_values RCC_CSR values
  * @ingroup rcc_registers
@@ -650,7 +680,7 @@
 		RCC_CSR_PINRSTF | RCC_CSR_BORRSTF)
 #define RCC_CSR_LSIRDY				(1 << 1)
 #define RCC_CSR_LSION				(1 << 0)
-/*@}*/
+/**@}*/
 
 /** @defgroup rcc_sscgr_values RCC_SSCGR values
  * @ingroup rcc_registers
@@ -666,7 +696,7 @@
 /* RCC_SSCGR[15:0]: MODPER */
 #define RCC_SSCGR_MODPER_SHIFT			0
 #define RCC_SSCGR_MODPER_MASK			0x1fff
-/*@}*/
+/**@}*/
 
 /** @defgroup rcc_pllded_values RCC_PLLxxx/DCKy values
  * @ingroup rcc_registers
@@ -741,7 +771,7 @@
 
 #define RCC_DCKCFGR_PLLI2SDIVQ_SHIFT		0
 #define RCC_DCKCFGR_PLLI2SDIVQ_MASK		0x1f
-/*@}*/
+/**@}*/
 
 /** @defgroup rcc_ckgatenr_values RCC_CKGATENR bits
  * @ingroup rcc_registers
@@ -755,7 +785,7 @@
 #define RCC_CKGATENR_CM4DBG_CKEN		(1<<2)
 #define RCC_CKGATENR_AHB2APB2_CKEN		(1<<1)
 #define RCC_CKGATENR_AHB2APB1_CKEN		(1<<0)
-/*@}*/
+/**@}*/
 
 /* --- Variable definitions ------------------------------------------------ */
 extern uint32_t rcc_ahb_frequency;
@@ -766,6 +796,7 @@ extern uint32_t rcc_apb2_frequency;
 
 enum rcc_clock_3v3 {
 	RCC_CLOCK_3V3_84MHZ,
+	RCC_CLOCK_3V3_96MHZ,
 	RCC_CLOCK_3V3_168MHZ,
 	RCC_CLOCK_3V3_180MHZ,
 	RCC_CLOCK_3V3_END
@@ -1062,6 +1093,9 @@ enum rcc_periph_rst {
 	RST_SAI1RST	= _REG_BIT(0x24, 22),/* F42x, F43x */
 	RST_LTDC	= _REG_BIT(0x24, 26),/* F42x, F43x */
 	RST_DSI		= _REG_BIT(0x24, 27),/* F42x, F43x */
+
+	/* Backup domain control */
+	RST_BDCR	= _REG_BIT(0x70, 16),/* BDCR[16] */
 };
 
 #undef _REG_BIT
@@ -1097,7 +1131,12 @@ void rcc_set_main_pll_hse(uint32_t pllm, uint32_t plln, uint32_t pllp,
 uint32_t rcc_system_clock_source(void);
 void rcc_clock_setup_pll(const struct rcc_clock_scale *clock);
 void __attribute__((deprecated("Use rcc_clock_setup_pll as direct replacement"))) rcc_clock_setup_hse_3v3(const struct rcc_clock_scale *clock);
+uint32_t rcc_get_usart_clk_freq(uint32_t usart);
+uint32_t rcc_get_timer_clk_freq(uint32_t timer);
+uint32_t rcc_get_i2c_clk_freq(uint32_t i2c);
+uint32_t rcc_get_spi_clk_freq(uint32_t spi);
 
 END_DECLS
 
 #endif
+/**@}*/

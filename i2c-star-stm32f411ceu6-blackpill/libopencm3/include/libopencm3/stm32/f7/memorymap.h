@@ -23,6 +23,7 @@
 /* --- STM32F7 specific peripheral definitions ----------------------------- */
 
 /* Memory map for all busses */
+#define FLASH_BASE			(0x08000000U)
 #define PERIPH_BASE			(0x40000000U)
 #define PERIPH_BASE_APB1		(PERIPH_BASE + 0x00000)
 #define PERIPH_BASE_APB2		(PERIPH_BASE + 0x10000)
@@ -146,7 +147,8 @@
 #define FMC3_BASE			(PERIPH_BASE_AHB3 + 0x20000000U)
 #define QSPI_BASE			(PERIPH_BASE_AHB3 + 0x30000000U)
 #define FMCC_BASE			(PERIPH_BASE_AHB3 + 0x40000000U)
-#define QSPIC_BASE			(PERIPH_BASE_AHB3 + 0x40001000U)
+#define QUADSPI_BASE			(PERIPH_BASE_AHB3 + 0x40001000U)
+#define QSPIC_BASE			QUADSPI_BASE /* Deprecated compat */
 #define FMC5_BASE			(PERIPH_BASE_AHB3 + 0x60000000U)
 #define FMC6_BASE			(PERIPH_BASE_AHB3 + 0x70000000U)
 
@@ -154,11 +156,14 @@
 #define DBGMCU_BASE			(PPBI_BASE + 0x00042000)
 
 /* Device Electronic Signature */
-#define DESIG_FLASH_SIZE_BASE		(0x1FF0F422U)
-#define DESIG_UNIQUE_ID_BASE		(0x1FF0F420U)
-#define DESIG_UNIQUE_ID0		MMIO32(DESIG_UNIQUE_ID_BASE)
-#define DESIG_UNIQUE_ID1		MMIO32(DESIG_UNIQUE_ID_BASE + 4)
-#define DESIG_UNIQUE_ID2		MMIO32(DESIG_UNIQUE_ID_BASE + 8)
+/* On F7 the base address are different depending on the device ID in DBBGMCU. */
+#define DESIG_FLASH_SIZE_BASE_449		(0x1FF0F422U)
+#define DESIG_FLASH_SIZE_BASE_451    (0x1FF0F422U)
+#define DESIG_FLASH_SIZE_BASE_452    (0x1FF07A22U)
+
+#define DESIG_UNIQUE_ID_BASE_449		(0x1FF0F420U)
+#define DESIG_UNIQUE_ID_BASE_451   (0x1FF0F420U)
+#define DESIG_UNIQUE_ID_BASE_452   (0x1FF07A10U)
 
 /* ST provided factory calibration values @ 3.3V */
 #define ST_VREFINT_CAL			MMIO16(0x1FF07A4A)

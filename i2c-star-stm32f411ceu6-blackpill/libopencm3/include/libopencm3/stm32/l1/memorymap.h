@@ -26,6 +26,7 @@
 /* --- STM32 specific peripheral definitions ------------------------------- */
 
 /* Memory map for all busses */
+#define FLASH_BASE			(0x08000000U)
 #define PERIPH_BASE			(0x40000000U)
 #define INFO_BASE			(0x1ff00000U)
 #define PERIPH_BASE_APB1		(PERIPH_BASE + 0x00000)
@@ -107,11 +108,10 @@
 #define AES_BASE			(PERIPH_BASE +  0x10000000)
 
 /* Device Electronic Signature */
-#define DESIG_FLASH_SIZE_BASE		(INFO_BASE + 0x8004C)
-#define DESIG_UNIQUE_ID_BASE		(INFO_BASE + 0x80050)
-#define DESIG_UNIQUE_ID0		MMIO32(DESIG_UNIQUE_ID_BASE)
-#define DESIG_UNIQUE_ID1		MMIO32(DESIG_UNIQUE_ID_BASE + 4)
-#define DESIG_UNIQUE_ID2		MMIO32(DESIG_UNIQUE_ID_BASE + 0x14)
+#define DESIG_FLASH_SIZE_BASE_CAT12		(INFO_BASE + 0x8004C)
+#define DESIG_FLASH_SIZE_BASE_CAT3456		(INFO_BASE + 0x800CC)
+#define DESIG_UNIQUE_ID_BASE_CAT12		(INFO_BASE + 0x80050)
+#define DESIG_UNIQUE_ID_BASE_CAT3456		(INFO_BASE + 0x800D0)
 
 /* ST provided factory calibration values @ 3.0V */
 #define ST_VREFINT_CAL			MMIO16(0x1FF80078)

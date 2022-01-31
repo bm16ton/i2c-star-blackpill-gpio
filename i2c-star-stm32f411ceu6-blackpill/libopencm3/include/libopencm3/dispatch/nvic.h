@@ -22,6 +22,8 @@
 #	include <libopencm3/stm32/l4/nvic.h>
 #elif defined(STM32G0)
 #	include <libopencm3/stm32/g0/nvic.h>
+#elif defined(STM32G4)
+#	include <libopencm3/stm32/g4/nvic.h>
 #elif defined(STM32H7)
 #	include <libopencm3/stm32/h7/nvic.h>
 
@@ -73,6 +75,12 @@
 
 #elif defined(MSP432E4)
 #   include <libopencm3/msp432/e4/nvic.h>
+
+#elif defined(NRF51)
+#	include <libopencm3/nrf/51/nvic.h>
+
+#elif defined(NRF52)
+#	include <libopencm3/nrf/52/nvic.h>
 
 #elif defined(VF6XX)
 #	include <libopencm3/vf6xx/nvic.h>

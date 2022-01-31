@@ -20,6 +20,7 @@
 
 #include <libopencm3/cm3/memorymap.h>
 
+#define FLASH_BASE			(0x08000000U)
 #define PERIPH_BASE			(0x40000000U)
 #define IOPORT_BASE			(0x50000000U)
 #define INFO_BASE			(0x1fff7500U)
@@ -79,6 +80,13 @@
 #define GPIO_PORT_D_BASE		(IOPORT_BASE + 0x00c00)
 #define GPIO_PORT_E_BASE		(IOPORT_BASE + 0x01000)
 #define GPIO_PORT_F_BASE		(IOPORT_BASE + 0x01400)
+
+/* Device Electronic Signature */
+#define DESIG_FLASH_SIZE_BASE		(0x1FFF75E0)
+#define DESIG_UNIQUE_ID_BASE		(0x1FFF7590)
+#define DESIG_UNIQUE_ID0		MMIO32(DESIG_UNIQUE_ID_BASE)
+#define DESIG_UNIQUE_ID1		MMIO32(DESIG_UNIQUE_ID_BASE + 4)
+#define DESIG_UNIQUE_ID2		MMIO32(DESIG_UNIQUE_ID_BASE + 8)
 
 /* ST provided factory calibration values @ 3.0V */
 #define ST_VREFINT_CAL			MMIO16((INFO_BASE + 0xAA))

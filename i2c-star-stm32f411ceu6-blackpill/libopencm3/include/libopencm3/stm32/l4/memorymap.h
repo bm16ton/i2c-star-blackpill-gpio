@@ -23,6 +23,7 @@
 /* --- STM32 specific peripheral definitions ------------------------------- */
 
 /* Memory map for all busses */
+#define FLASH_BASE			(0x08000000U)
 #define PERIPH_BASE			(0x40000000U)
 #define FMC1_BANK_BASE			(0x60000000U)
 #define FMC3_BANK_BASE			(0x80000000U)
@@ -58,6 +59,7 @@
 #define I2C3_BASE			(PERIPH_BASE_APB1 + 0x5c00)
 #define CRS_BASE			(PERIPH_BASE_APB1 + 0x6000)
 #define BX_CAN1_BASE			(PERIPH_BASE_APB1 + 0x6400)
+#define BX_CAN2_BASE			(PERIPH_BASE_APB1 + 0x6800)
 #define USB_DEV_FS_BASE			(PERIPH_BASE_APB1 + 0x6800)
 #define USB_PMA_BASE			(PERIPH_BASE_APB1 + 0x6c00)
 #define POWER_CONTROL_BASE		(PERIPH_BASE_APB1 + 0x7000)
@@ -105,10 +107,13 @@
 #define GPIO_PORT_G_BASE		(PERIPH_BASE_AHB2 + 0x1800)
 #define GPIO_PORT_H_BASE		(PERIPH_BASE_AHB2 + 0x1c00)
 /* Still AHB2, good job ST */
-#define OTG_FS_BASE			(0x50000000U + 0x00000)
+#define USB_OTG_FS_BASE		(0x50000000U + 0x00000)
 #define ADC1_BASE			(0x50000000U + 0x40000)
 #define AES_BASE			(0x50000000U + 0x60000)
 #define RNG_BASE			(0x50000000U + 0x60800)
+
+#define FMC_BASE		(0xa0000000U)
+#define QUADSPI_BASE		(0xa0001000U)
 
 /* Private peripherals */
 #define DBGMCU_BASE			(PPBI_BASE + 0x00042000)

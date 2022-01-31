@@ -209,6 +209,16 @@
 #define ADC_CR_ADVREGEN_DISABLE		(0x2 << 28)
 #define ADC_CR_ADVREGEN_MASK		(0x3 << 28)
 
+/* ADC_CFGR1 Values ---------------------------------------------------------*/
+
+/** ALIGN: Data alignment */
+#define ADC_CFGR1_ALIGN			(1 << 5)
+
+/* EXTSEL[2:0]: External trigger selection for regular group */
+#define ADC_CFGR1_EXTSEL_SHIFT		6
+#define ADC_CFGR1_EXTSEL_MASK		(0xf << ADC_CFGR1_EXTSEL_SHIFT)
+#define ADC_CFGR1_EXTSEL_VAL(x)		((x) << ADC_CFGR1_EXTSEL_SHIFT)
+
 /****************************************************************************/
 /* ADC_SMPRx ADC Sample Time Selection for Channels */
 /** @defgroup adc_sample ADC Sample Time Selection values
@@ -486,6 +496,43 @@
 #define ADC_CCR_DELAY_SHIFT		8
 
 /* DUAL[4:0]: Dual ADC mode selection */
+/****************************************************************************/
+/** @defgroup adc_multi_mode ADC Multi mode selection
+@ingroup adc_defines
+
+@{*/
+
+/** All ADCs independent */
+#define ADC_CCR_DUAL_INDEPENDENT			0x0
+
+/* Dual modes: (ADC1 master + ADC2 slave or ADC3 master + ADC4 slave) */
+/**
+ * Dual modes combined regular simultaneous +
+ * injected simultaneous mode.
+ */
+#define ADC_CCR_DUAL_REG_SIMUL_AND_INJECTED_SIMUL	0x1
+/**
+ * Dual mode Combined regular simultaneous +
+ * alternate trigger mode.
+ */
+#define ADC_CCR_DUAL_REG_SIMUL_AND_ALTERNATE_TRIG	0x2
+/**
+ * Dual mode Combined interleaved mode +
+ * injected simultaneous mode.
+ */
+#define ADC_CCR_DUAL_REG_INTERLEAVED_AND_INJECTED_SIMUL	0x3
+
+/** Dual mode Injected simultaneous mode only. */
+#define ADC_CCR_DUAL_INJECTED_SIMUL			0x5
+/** Dual mode Regular simultaneous mode only. */
+#define ADC_CCR_DUAL_REGULAR_SIMUL			0x6
+/** Dual mode Interleaved mode only. */
+#define ADC_CCR_DUAL_INTERLEAVED			0x7
+/** Dual mode Alternate trigger mode only. */
+#define ADC_CCR_DUAL_ALTERNATE_TRIG			0x9
+/**@}*/
+
+#define ADC_CCR_DUAL_MASK		(0x1f)
 #define ADC_CCR_DUAL_SHIFT		0
 
 

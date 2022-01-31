@@ -251,7 +251,7 @@
 #define RCC_PLLCFGR_PLLM_SHIFT		0x4
 #define RCC_PLLCFGR_PLLM_MASK		0x7
 /** @defgroup rcc_pllcfgr_pllm PLLM
- * @brief Division factor M [1..8] for PLL input clock. Input frequency must be between 4mhz and 16mhz. 
+ * @brief Division factor M [1..8] for PLL input clock. Input frequency must be between 4mhz and 16mhz.
 @{*/
 #define RCC_PLLCFGR_PLLM_DIV(x)		((x)-1)
 /**@}*/
@@ -438,7 +438,6 @@
 #define RCC_APBSMENR2_ADCSMEN			(1 << 20)
 #define RCC_APBSMENR2_TIM17SMEN			(1 << 18)
 #define RCC_APBSMENR2_TIM16SMEN			(1 << 17)
-#define RCC_APBSMENR2_TIM16SMEN			(1 << 17)
 #define RCC_APBSMENR2_TIM15SMEN			(1 << 16)
 #define RCC_APBSMENR2_TIM14SMEN			(1 << 15)
 #define RCC_APBSMENR2_USART1SMEN		(1 << 14)
@@ -611,7 +610,7 @@
 #define RCC_CSR_WWDGRSTF			(1 << 30)
 #define RCC_CSR_IWDGRSTF			(1 << 29)
 #define RCC_CSR_SFTRSTF				(1 << 28)
-#define RCC_CSR_PWRSTF				(1 << 27)
+#define RCC_CSR_PWRRSTF				(1 << 27)
 #define RCC_CSR_PINRSTF				(1 << 26)
 #define RCC_CSR_OBLRSTF				(1 << 25)
 #define RCC_CSR_RMVF				(1 << 23)
@@ -630,7 +629,7 @@ extern uint32_t rcc_apb1_frequency;
 #define rcc_apb2_frequency rcc_apb1_frequency
 
 /* --- Function prototypes ------------------------------------------------- */
- 
+
 #define _REG_BIT(offset, bit)            (((offset) << 5) + (bit))
 
 enum rcc_osc {
@@ -661,8 +660,8 @@ enum rcc_periph_clken {
 	RCC_DAC1 = _REG_BIT(RCC_APBENR1_OFFSET, 29),
 	RCC_PWR = _REG_BIT(RCC_APBENR1_OFFSET, 28),
 	RCC_DBG = _REG_BIT(RCC_APBENR1_OFFSET, 27),
-	RCC_UCPD1 = _REG_BIT(RCC_APBENR1_OFFSET, 26),
-	RCC_UCPD2 = _REG_BIT(RCC_APBENR1_OFFSET, 25),
+	RCC_UCPD2 = _REG_BIT(RCC_APBENR1_OFFSET, 26),
+	RCC_UCPD1 = _REG_BIT(RCC_APBENR1_OFFSET, 25),
 	RCC_CEC = _REG_BIT(RCC_APBENR1_OFFSET, 24),
 	RCC_I2C2 = _REG_BIT(RCC_APBENR1_OFFSET, 22),
 	RCC_I2C1 = _REG_BIT(RCC_APBENR1_OFFSET, 21),
@@ -705,8 +704,8 @@ enum rcc_periph_clken {
 	SCC_DAC1 = _REG_BIT(RCC_APBSMENR1_OFFSET, 29),
 	SCC_PWR = _REG_BIT(RCC_APBSMENR1_OFFSET, 28),
 	SCC_DBG = _REG_BIT(RCC_APBSMENR1_OFFSET, 27),
-	SCC_UCPD1 = _REG_BIT(RCC_APBSMENR1_OFFSET, 26),
-	SCC_UCPD2 = _REG_BIT(RCC_APBSMENR1_OFFSET, 25),
+	SCC_UCPD2 = _REG_BIT(RCC_APBSMENR1_OFFSET, 26),
+	SCC_UCPD1 = _REG_BIT(RCC_APBSMENR1_OFFSET, 25),
 	SCC_CEC = _REG_BIT(RCC_APBSMENR1_OFFSET, 24),
 	SCC_I2C2 = _REG_BIT(RCC_APBSMENR1_OFFSET, 22),
 	SCC_I2C1 = _REG_BIT(RCC_APBSMENR1_OFFSET, 21),
@@ -751,8 +750,8 @@ enum rcc_periph_rst {
 	RST_DAC1 = _REG_BIT(RCC_APBRSTR1_OFFSET, 29),
 	RST_PWR = _REG_BIT(RCC_APBRSTR1_OFFSET, 28),
 	RST_DBG = _REG_BIT(RCC_APBRSTR1_OFFSET, 27),
-	RST_UCPD1 = _REG_BIT(RCC_APBRSTR1_OFFSET, 26),
-	RST_UCPD2 = _REG_BIT(RCC_APBRSTR1_OFFSET, 25),
+	RST_UCPD2 = _REG_BIT(RCC_APBRSTR1_OFFSET, 26),
+	RST_UCPD1 = _REG_BIT(RCC_APBRSTR1_OFFSET, 25),
 	RST_CEC = _REG_BIT(RCC_APBRSTR1_OFFSET, 24),
 	RST_I2C2 = _REG_BIT(RCC_APBRSTR1_OFFSET, 22),
 	RST_I2C1 = _REG_BIT(RCC_APBRSTR1_OFFSET, 21),
@@ -779,7 +778,7 @@ enum rcc_periph_rst {
 
 struct rcc_clock_scale {
 	enum rcc_osc sysclock_source;
-		
+
 	/* PLL as sysclock source cfg */
 	uint8_t pll_source;
 	uint8_t pll_div;
@@ -842,6 +841,10 @@ void rcc_clock_setup(const struct rcc_clock_scale *clock);
 
 void rcc_set_rng_clk_div(uint32_t rng_div);
 void rcc_set_peripheral_clk_sel(uint32_t periph, uint32_t sel);
+uint32_t rcc_get_usart_clk_freq(uint32_t usart);
+uint32_t rcc_get_timer_clk_freq(uint32_t timer);
+uint32_t rcc_get_i2c_clk_freq(uint32_t i2c);
+uint32_t rcc_get_spi_clk_freq(uint32_t spi);
 
 END_DECLS
 
