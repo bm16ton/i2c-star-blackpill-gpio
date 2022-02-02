@@ -342,7 +342,6 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 {
     (void)complete;
 	(void)usbd_dev;
-    int getv;
 
    if ((req->bmRequestType & 0x7F) != USB_REQ_TYPE_VENDOR)
      return 0;
@@ -400,15 +399,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      {
      if ( req->wIndex == 0 )
 			{
-			getv = gpio_get(GPIOB, GPIO0);
-			if (getv == 0) {
-		        (*buf)[0] = 1; 
-		        (*buf)[1] = 2;
-		        (*buf)[2] = 2;
-		        (*buf)[3] = 2;
-                *len = sizeof(buf);
+            if (gpio_get(GPIOB, GPIO0)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
+			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
-			} else if (getv == 1) {
+			} else {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
@@ -420,15 +418,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			}
 	    else if ( req->wIndex == 1 )
 			{
-			getv = gpio_get(GPIOC, GPIO14);
-			if (getv == 0) {
-		        (*buf)[0] = 1; 
-		        (*buf)[1] = 2;
-		        (*buf)[2] = 2;
-		        (*buf)[3] = 2;
+            if (gpio_get(GPIOC, GPIO14)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
 			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
-			} else if (getv == 1) {
+			} else {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
@@ -440,15 +437,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		   }
 	    else if ( req->wIndex == 2 )
 			{
-			getv = gpio_get(GPIOA, GPIO3);
-			if (getv == 0) {
-		        (*buf)[0] = 1; 
+            if (gpio_get(GPIOA, GPIO3)) {
+            	(*buf)[0] = 1; 
 		        (*buf)[1] = 4;
 		        (*buf)[2] = 4;
 		        (*buf)[3] = 4;
 			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
-			} else if (getv == 1) {
+			} else {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
@@ -457,18 +453,17 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			    return USBD_REQ_HANDLED;
 			}
 			return USBD_REQ_HANDLED;
-			}
-		 else if ( req->wIndex == 3 )
+		    } 
+		    else if ( req->wIndex == 3 )
 			{
-			getv = gpio_get(GPIOC, GPIO15);
-			if (getv == 0) {
-		        (*buf)[0] = 1; 
-		        (*buf)[1] = 2;
-		        (*buf)[2] = 2;
-		        (*buf)[3] = 2;
+            if (gpio_get(GPIOC, GPIO15)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
 			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
-			} else if (getv == 1) {
+			} else {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;

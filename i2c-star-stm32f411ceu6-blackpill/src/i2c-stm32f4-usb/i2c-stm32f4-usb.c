@@ -216,9 +216,6 @@ static uint8_t status = STATUS_IDLE;
 
 uint32_t i2c = I2C1;
 
-static uint16_t pwm_dc_value = 0;
-
-
 /*!
  * \brief Handle I2C I/O request.
  *
@@ -339,7 +336,6 @@ static void my_delay_1( void )
 
 static void usbgpio_output(int gpio)
 {
-//	rcc_periph_clock_enable(RCC_GPIOC);
 	if (gpio == 1) {
 	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO13);
 	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
@@ -386,92 +382,6 @@ static void usbgpio_input(int gpio)
 	my_delay_1();
 }
 
-/*
-uint8_t data[4 * 1024];
-uint8_t dataGPIO[1];
-uint8_t inData[64];
-volatile int total = 0;
-static enum usbd_request_return_codes usb_control_gpio_request(
-    usbd_device *usbd_dev, struct usb_setup_data *req, uint8_t **buf,
-    uint16_t *len,
-    void (**complete)(usbd_device *, struct usb_setup_data *req))
-{
-   (void)complete;
-	(void)usbd_dev;
-
-	int gpio = req->wIndex;
-	int val = req->wValue;
-
-	switch (req->bRequest) {
-	case USB_CMD_WRITE:
-		memcpy(inData, &req->wValue, sizeof(req->wValue));
-		*buf = inData;
-		*len = sizeof(req->wValue);
-		return USBD_REQ_HANDLED;
-	case USB_CMD_READ:
-		*buf = data;
-		*len = sizeof(data);
-		return USBD_REQ_HANDLED;
-	case USB_CMD_GPIO_OUTPUT:
-		if (gpio == 1) {
-			gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO14);
-			gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
-							GPIO14);
-    	} else {
-		if (gpio == 2) {
-			gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO15);
-			gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
-							GPIO15);
-			}
-		}
-		return 0;
-	case USB_CMD_GPIO_INPUT:
-		if (gpio == 1) {
-			gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO14);
-		} // else {
-		if (gpio == 2) {
-			gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO15);
-		  }
-		// }
-		return 0;
-	case USB_CMD_GPIO_SET:
-//		switch (gpio)
-		if (gpio == 1) {
-			if (val == 1) {
-				gpio_set(GPIOC, GPIO14);
-			} else {		 
-			if (val == 0) {
-			gpio_clear(GPIOC, GPIO14);
-		}
-	   }
-	  } 
-	if (gpio == 2) {
-			if (val == 1) {
-			gpio_set(GPIOC, GPIO15);
-		} else {
-		if (val == 0) {
-			gpio_clear(GPIOC, GPIO15);
-		}
-	  }
-    }
-		return 0;
-	case USB_CMD_GPIO_GET:
-		switch (gpio)
-		{
-//		case 0: val = IO_IS_HIGH(LED); break;
-		case 1: val = gpio_get(GPIOC, GPIO14); break;
-		case 2: val = gpio_get(GPIOC, GPIO15); break;
-		}
-		memcpy(inData, &val, sizeof(val));
-		*buf = inData;
-		*len = sizeof(val);
-		return USBD_REQ_HANDLED;
-	
-  }
-   return 1;
-}
-*/
-
 static enum usbd_request_return_codes usb_control_gpio_request(
     usbd_device *usbd_dev, struct usb_setup_data *req, uint8_t **buf,
     uint16_t *len,
@@ -479,7 +389,6 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 {
     (void)complete;
 	(void)usbd_dev;
-    int getv;
 
    if ((req->bmRequestType & 0x7F) != USB_REQ_TYPE_VENDOR)
      return 0;
@@ -537,15 +446,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      {
      if ( req->wIndex == 0 )
 			{
-			getv = gpio_get(GPIOC, GPIO13);
-			if (getv == 0) {
-		        (*buf)[0] = 1; 
-		        (*buf)[1] = 2;
-		        (*buf)[2] = 2;
-		        (*buf)[3] = 2;
-                *len = sizeof(buf);
+            if (gpio_get(GPIOC, GPIO13)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
+			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
-			} else if (getv == 1) {
+			} else {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
@@ -557,15 +465,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			}
 	    else if ( req->wIndex == 1 )
 			{
-			getv = gpio_get(GPIOC, GPIO14);
-			if (getv == 0) {
-		        (*buf)[0] = 1; 
-		        (*buf)[1] = 2;
-		        (*buf)[2] = 2;
-		        (*buf)[3] = 2;
+            if (gpio_get(GPIOC, GPIO14)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
 			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
-			} else if (getv == 1) {
+			} else {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
@@ -577,15 +484,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		   }
 	    else if ( req->wIndex == 2 )
 			{
-			getv = gpio_get(GPIOA, GPIO0);
-			if (getv == 0) {
-		        (*buf)[0] = 1; 
-		        (*buf)[1] = 2;
-		        (*buf)[2] = 2;
-		        (*buf)[3] = 2;
+            if (gpio_get(GPIOA, GPIO0)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
 			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
-			} else if (getv == 1) {
+			} else {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
@@ -597,15 +503,14 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 			}
 		 else if ( req->wIndex == 3 )
 			{
-			getv = gpio_get(GPIOC, GPIO15);
-			if (getv == 0) {
-		        (*buf)[0] = 1; 
-		        (*buf)[1] = 2;
-		        (*buf)[2] = 2;
-		        (*buf)[3] = 2;
+            if (gpio_get(GPIOC, GPIO15)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
 			    *len = sizeof(buf);
 			    return USBD_REQ_HANDLED;
-			} else if (getv == 1) {
+			} else {
 				(*buf)[0] = 1; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;

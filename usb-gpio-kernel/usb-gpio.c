@@ -200,7 +200,7 @@ _gpioa_get(struct gpio_chip *chip,
     printk("buf3 =  %d", retval3);
 
  
-    return retval1 - 2; 
+    return retval1 - 3; 
 
 }
 

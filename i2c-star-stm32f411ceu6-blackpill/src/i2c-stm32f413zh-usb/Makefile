@@ -22,7 +22,7 @@ BINARY = i2c-stm32f413zh-usb
 DEFS += -DF_CPU=86000000
 DEFS += -DF_APB1=30000000
 
-OBJS += console.o console_stm32.o
-
+OBJS += console.o console_stm32.o console_cmd_gpio.o
+## console_cdcacm.o
 LDSCRIPT = ../stm32f4-discovery.ld
 include ../../mk/libopencm3.stm32f4xx.mk
