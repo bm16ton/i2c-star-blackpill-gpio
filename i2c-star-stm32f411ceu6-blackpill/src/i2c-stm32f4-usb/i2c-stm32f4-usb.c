@@ -262,16 +262,16 @@ static void pwm_probe(void)
 //    pwm_set_pulse_width(TIM3, 2, 200);
 //    pwm_start_timer(TIM3);
     pwm_init();
-    pwm_set_frequency(60000);
+    pwm_set_frequency(1000);
 	pwm_set_dc(PWM_CH1, 0);
 	pwm_set_dc(PWM_CH2, 0);
 	pwm_set_dc(PWM_CH3, 0);
 	pwm_start();
 	my_delay_2();
-    pwm_set_frequency(60000);
+    pwm_set_frequency(1000);
 	pwm_set_dc(PWM_CH1, 500);
-	pwm_set_dc(PWM_CH2, 1090);
-	pwm_set_dc(PWM_CH3, 1000);
+	pwm_set_dc(PWM_CH2, 590);
+	pwm_set_dc(PWM_CH3, 1500);
 	my_delay_2();
 
 }	

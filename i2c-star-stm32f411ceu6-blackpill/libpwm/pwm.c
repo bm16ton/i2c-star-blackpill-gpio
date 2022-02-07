@@ -57,17 +57,6 @@ static uint32_t current_timer_cnt_period;
 
 /* ----------- Exported functions ------------- */
 
-void pwm_period(uint8_t ch_index, uint16_t period_ns)
-{
-(void)ch_index;
-pwm_set_frequency(period_ns);
-}
-
-void pwm_duty(uint8_t ch_index, uint16_t duty_ns)
-{
-pwm_set_dc(ch_index, duty_ns);
-}
-
 /* init PWM */
 void pwm_init(void)
 {
@@ -79,7 +68,6 @@ void pwm_init(void)
 	/* Reset TIM3 peripheral */
 	//timer_reset(TIM3);
     rcc_periph_reset_pulse(RST_TIM3);
-    
 	/* Set the timers global mode to:
 	 * - use no divider
 	 * - alignment edge
@@ -99,22 +87,14 @@ void pwm_init(void)
 	/* set repetition counter */
 	timer_set_repetition_counter(TIM3, 0);
 	/* set period */
-//	current_timer_cnt_period = (rcc_apb2_frequency*2 / 32000);
 	current_timer_cnt_period = ((TIM_CLOCK_FREQ_HZ / TIM_DEFAULT_PWM_FREQ_HZ) - 1);
 	timer_set_period(TIM3, current_timer_cnt_period);
-//    timer_set_period(TIM3, rcc_apb2_frequency*2 / 32000);
+
 	/* Init output channels */
 
-    timer_set_deadtime(TIM3, 10);
-	timer_set_enabled_off_state_in_idle_mode(TIM3);
-	timer_set_enabled_off_state_in_run_mode(TIM3);
-	timer_disable_break(TIM3);
-	timer_set_break_polarity_high(TIM3);
-	timer_disable_break_automatic_output(TIM3);
-	timer_set_break_lock(TIM3, TIM_BDTR_LOCK_OFF);
-	
 	/* Enable GPIOD clock */
 	rcc_periph_clock_enable(RCC_GPIOA);
+	rcc_periph_clock_enable(RCC_GPIOB);
 
 	/* Set GPIO12, GPIO13, GPIO14, GPIO15 (in GPIO port D) to Alternate Function */
 	gpio_mode_setup(GPIOA,
@@ -155,20 +135,12 @@ void pwm_init(void)
 	timer_disable_oc_output(TIM3, TIM_OC3);
 //	timer_disable_oc_output(TIM3, TIM_OC4);
 
-//    timer_disable_oc_clear(TIM3, TIM_OC3);
-//	timer_enable_oc_preload(TIM3, TIM_OC3);
-//	timer_set_oc_slow_mode(TIM3, TIM_OC3);
-//	timer_set_oc_mode(TIM3, TIM_OC3, TIM_OCM_PWM1);
-	
 	/* set OC mode for each channel */
 	timer_set_oc_mode(TIM3, TIM_OC1, TIM_OCM_PWM1);
 	timer_set_oc_mode(TIM3, TIM_OC2, TIM_OCM_PWM1);
 	timer_set_oc_mode(TIM3, TIM_OC3, TIM_OCM_PWM1);
 //	timer_set_oc_mode(TIM3, TIM_OC4, TIM_OCM_PWM1);
 
-//	timer_set_oc_polarity_high(TIM3, TIM_OC3);
-//	timer_set_oc_idle_state_set(TIM3, TIM_OC3);
-	
 	timer_enable_oc_preload(TIM3, TIM_OC1);
 	timer_enable_oc_preload(TIM3, TIM_OC2);
 	timer_enable_oc_preload(TIM3, TIM_OC3);
@@ -178,8 +150,6 @@ void pwm_init(void)
 	timer_set_oc_value(TIM3, TIM_OC1, 0);
 	timer_set_oc_value(TIM3, TIM_OC2, 0);
 	timer_set_oc_value(TIM3, TIM_OC3, 0);
-
-//	timer_set_oc_value(TIM3, TIM_OC3, 0);
 //	timer_set_oc_value(TIM3, TIM_OC4, 0);
 
 	/* enable OC output for each channel */
@@ -187,14 +157,6 @@ void pwm_init(void)
 	timer_enable_oc_output(TIM3, TIM_OC2);
 	timer_enable_oc_output(TIM3, TIM_OC3);
 //	timer_enable_oc_output(TIM3, TIM_OC4);
-
-	timer_enable_preload(TIM3);
-
-	/* Enable outputs in the break subsystem. */
-	timer_enable_break_main_output(TIM3);
-
-	/* Counter enable. */
-	timer_enable_counter(TIM3);
 }
 
 
@@ -204,9 +166,8 @@ void pwm_set_frequency(uint32_t pwm_freq_hz)
 	 * timer clock frequency */
 	if (pwm_freq_hz <= PWM_MAX_FREQ_HZ) {
 		/* set period and store it */
-		current_timer_cnt_period = (rcc_apb1_frequency*2 / pwm_freq_hz);
+		current_timer_cnt_period = ((TIM_CLOCK_FREQ_HZ / pwm_freq_hz) - 1);
 		timer_set_period(TIM3, current_timer_cnt_period);
-//        timer_set_period(TIM3, rcc_apb2_frequency*2 / 32000);
 	}
 }
 
@@ -237,11 +198,11 @@ void pwm_set_dc(uint8_t ch_index, uint16_t dc_value_permillage)
 			timer_set_oc_value(TIM3, TIM_OC3, dc_tmr_reg_value);
 			break;
 		}
-//		case 3:
-//		{
-//			timer_set_oc_value(TIM3, TIM_OC4, dc_tmr_reg_value);
-//			break;
-//		}
+		case 3:
+		{
+			timer_set_oc_value(TIM3, TIM_OC4, dc_tmr_reg_value);
+			break;
+		}
 		default:
 		{
 			/* wrong channel index: do nothing */

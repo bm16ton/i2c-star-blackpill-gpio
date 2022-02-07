@@ -45,8 +45,6 @@ extern void pwm_init(void);
 extern void pwm_set_frequency(uint32_t);
 extern void pwm_set_dc(uint8_t, uint16_t);
 extern void pwm_start(void);
-extern void pwm_period(uint8_t, uint16_t);
-extern void pwm_duty(uint8_t, uint16_t);
 
 
 
