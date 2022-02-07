@@ -208,8 +208,8 @@ uint8_t usbd_control_buffer[128];
 #define GPIO1_PIN    GPIO0
 #define GPIO2_PORT   GPIOB
 #define GPIO2_PIN    GPIO1
-#define GPIO3_PORT   GPIOA      //BTN
-#define GPIO3_PIN    GPIO3
+#define GPIO3_PORT   GPIOC      //BTN
+#define GPIO3_PIN    GPIO13
 #define GPIO4_PORT   GPIOC
 #define GPIO4_PIN    GPIO2
 #define GPIO5_PORT
@@ -701,7 +701,7 @@ static void i2c_init(void)
 
 static void gpio_init(void)
 {
-//	rcc_periph_clock_enable(RCC_GPIOC);
+	rcc_periph_clock_enable(RCC_GPIOC);
 	my_delay_1();
 	gpio_mode_setup(GPIO1_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO1_PIN);
 	gpio_set_output_options(GPIO1_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
@@ -738,9 +738,9 @@ static pt_state_t do_id(console_t *c)
 	return PT_EXITED;
 }
 
-static pt_state_t do_gpio2(console_t *c)
+static pt_state_t do_gpio3(console_t *c)
 {
-if (gpio_get(GPIO2_PORT, GPIO2_PIN)) {
+if (gpio_get(GPIO3_PORT, GPIO3_PIN)) {
             fprintf(c->out, "1");
 		} else {
 		    fprintf(c->out, "0");	 
@@ -759,7 +759,7 @@ static pt_state_t do_reboot(console_t *c)
 
 static const console_cmd_t cmds[] = {
 	CONSOLE_CMD_VAR_INIT("id", do_id),
-	CONSOLE_CMD_VAR_INIT("gpio2", do_gpio2),
+	CONSOLE_CMD_VAR_INIT("gpio3", do_gpio3),
 	CONSOLE_CMD_VAR_INIT("reboot", do_reboot),
 };
 

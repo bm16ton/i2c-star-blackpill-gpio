@@ -251,7 +251,7 @@ i2c_gpio_to_irq(struct gpio_chip *chip,
 }
 
 
-const char *gpio_names[] = { "LED", "PC14", "BTN", "PC15" };
+const char *gpio_names[] = { "LED", "usbGPIO2", "BTN", "usbGPIO4" };
 
 //called when a usb device is connected to PC
 static int
