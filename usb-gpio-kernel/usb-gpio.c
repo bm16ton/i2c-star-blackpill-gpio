@@ -68,9 +68,9 @@ MODULE_DEVICE_TABLE(usb, my_usb_table);
 
 unsigned int GPIO_irqNumber;
 
-static uint8_t gpio_val = 0;
+static uint8_t gpio_val = 0;      // brequest
 static uint8_t offs = 0;
-static uint8_t usbval = 0;
+static uint8_t usbval = 0;        // windex
 
 static void
 _gpio_work_job(struct work_struct *work)
@@ -109,7 +109,7 @@ static int gpio_pwm_config(struct pwm_chip *pwmchip, struct pwm_device *pwm,
                                       pwmchip);
    printk(KERN_INFO "i2c_tiny_pwm_config");
    usbval = 5;
-   gpio_val = period_ns;
+   gpio_val = duty_ns;
    offs = 1;
    schedule_work(&data->work);
    return 0;

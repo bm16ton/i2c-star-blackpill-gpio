@@ -605,6 +605,20 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      { 
 //    pwm_period(1, req->wIndex);
 //    pwm_duty(req->bRequest);
+      if ( req->wIndex == 0 ) {
+        pwm_set_dc(PWM_CH1, req->bRequest*4);
+        return USBD_REQ_HANDLED;
+      }	    
+      else if ( req->wIndex == 1 ) {
+        pwm_set_dc(PWM_CH2, req->bRequest*4);
+        return USBD_REQ_HANDLED;
+      }
+      else if ( req->wIndex == 2 ) {
+        pwm_set_dc(PWM_CH2, req->bRequest*4);
+        return USBD_REQ_HANDLED;
+      }
+//        pwm_set_dc(PWM_CH2, req->bRequest);
+        return USBD_REQ_HANDLED;
      }
    else
      {
@@ -791,7 +805,7 @@ int main(void)
 	gpio_init();
 	i2c_init();
 	time_init();
-	pwm_probe();
+//	pwm_probe();
 //	gpio_clear(GPIOC, GPIO13);
 
 	for (i = 0; i < 0x800000; i++)
