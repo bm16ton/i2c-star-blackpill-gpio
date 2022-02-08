@@ -110,7 +110,7 @@ static int gpio_pwm_config(struct pwm_chip *pwmchip, struct pwm_device *pwm,
    printk(KERN_INFO "i2c_tiny_pwm_config");
    usbval = 5;
    gpio_val = duty_ns;
-   offs = 1;
+   offs = pwm;
    schedule_work(&data->work);
    return 0;
 }

@@ -609,12 +609,12 @@ static enum usbd_request_return_codes usb_control_gpio_request(
         pwm_set_dc(PWM_CH1, req->bRequest*4);
         return USBD_REQ_HANDLED;
       }	    
-      else if ( req->wIndex == 1 ) {
+      else if ( req->wIndex == 104 ) {
         pwm_set_dc(PWM_CH2, req->bRequest*4);
         return USBD_REQ_HANDLED;
       }
-      else if ( req->wIndex == 2 ) {
-        pwm_set_dc(PWM_CH2, req->bRequest*4);
+      else if ( req->wIndex == 208 ) {
+        pwm_set_dc(PWM_CH3, req->bRequest*4);
         return USBD_REQ_HANDLED;
       }
 //        pwm_set_dc(PWM_CH2, req->bRequest);
