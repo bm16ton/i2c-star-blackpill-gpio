@@ -36,6 +36,7 @@
 #include <librfn/util.h>
 #include <librfm3/i2c_ctx.h>
 
+#include <libopencm3/stm32/exti.h>
 #include <libopencm3/stm32/timer.h>
 #include <pwm.h>
 
@@ -205,12 +206,12 @@ uint8_t usbd_control_buffer[128];
                             I2C_FUNC_SMBUS_I2C_BLOCK
 
 
-#define GPIO1_PORT   GPIOC
-#define GPIO1_PIN    GPIO13
+#define GPIO1_PORT   GPIOC      //LED
+#define GPIO1_PIN    GPIO13     //LED
 #define GPIO2_PORT   GPIOC
 #define GPIO2_PIN    GPIO14
-#define GPIO3_PORT   GPIOA
-#define GPIO3_PIN    GPIO0
+#define GPIO3_PORT   GPIOA       //BTN
+#define GPIO3_PIN    GPIO0       //BTN
 #define GPIO4_PORT   GPIOC
 #define GPIO4_PIN    GPIO15
 #define GPIO5_PORT
@@ -237,6 +238,13 @@ static uint8_t status = STATUS_IDLE;
 
 uint32_t i2c = I2C1;
 
+static struct state_t state;
+
+struct state_t {
+		bool falling;
+		int tickcount;
+};
+
 /*!
  * \brief Handle I2C I/O request.
  *
@@ -249,6 +257,24 @@ static void my_delay_2( void )
 	  {
 		__asm__("nop");
 	  }
+}
+
+void exti0_isr(void)
+{
+	exti_reset_request(EXTI0);
+	if (state.falling) {
+		gpio_clear(GPIO1_PORT, GPIO1_PIN);
+		state.falling = false;
+		exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
+//		unsigned int x = TIM_CNT(TIM7);
+//		printf("held: %u ms\n", x);
+	} else {
+		gpio_set(GPIO1_PORT, GPIO1_PIN);
+//		printf("Pushed down!\n");
+//		TIM_CNT(TIM7) = 0;
+		state.falling = true;
+		exti_set_trigger(EXTI0, EXTI_TRIGGER_FALLING);
+	}
 }
 
 static void pwm_probe(void)
@@ -766,6 +792,7 @@ static void i2c_init(void)
 static void gpio_init(void)
 {
 	rcc_periph_clock_enable(RCC_GPIOC);
+	nvic_enable_irq(NVIC_EXTI0_IRQ);
 	gpio_mode_setup(GPIO1_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO1_PIN);
 	gpio_set_output_options(GPIO1_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO1_PIN);
@@ -781,7 +808,8 @@ static void gpio_init(void)
 	gpio_mode_setup(GPIO4_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO4_PIN);
 	gpio_set_output_options(GPIO4_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO4_PIN);
-							
+		
+	nvic_enable_irq(NVIC_EXTI0_IRQ);					
 	gpio_mode_setup(GPIO3_PORT, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO3_PIN);
 	
     my_delay_1();
@@ -789,6 +817,14 @@ static void gpio_init(void)
 	gpio_set(GPIO2_PORT, GPIO2_PIN);
 	gpio_set(GPIO4_PORT, GPIO4_PIN);
 	gpio_set(GPIO3_PORT, GPIO3_PIN);
+	
+	
+
+	/* Configure the EXTI subsystem. */
+	exti_select_source(EXTI0, GPIO3_PORT);
+	state.falling = false;
+	exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
+	exti_enable_request(EXTI0);
 }
 
 int main(void)
