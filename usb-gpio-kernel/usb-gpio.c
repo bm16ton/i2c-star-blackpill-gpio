@@ -102,6 +102,16 @@ _gpio_work_job2(struct work_struct *work2)
                    3000);
 }
 
+static void
+int_cb(struct urb *urb)
+{
+   struct my_usb *sd = urb->context;
+   printk(KERN_ALERT "urb interrupt is called");
+   generic_handle_domain_irq(sd->chip.irq.domain, 2);
+   //TODO: use endpoint3 also
+   printk(KERN_ALERT "received data: %s", sd->int_in_buf);
+}
+
 static int gpio_pwm_config(struct pwm_chip *pwmchip, struct pwm_device *pwm,
                              int duty_ns, int period_ns)
 {
@@ -360,6 +370,33 @@ my_usb_probe(struct usb_interface *interface,
 
    //increase ref count, make sure u call usb_put_dev() in disconnect()
    data->udev = usb_get_dev(udev);
+   data->int_in_endpoint = endpoint;
+   // allocate our urb for interrupt in 
+   data->int_in_urb = usb_alloc_urb(0, GFP_KERNEL);
+   //allocate the interrupt buffer to be used
+   data->int_in_buf = kmalloc(le16_to_cpu(data->int_in_endpoint->wMaxPacketSize), GFP_KERNEL);
+
+   //initialize our interrupt urb
+   //notice the rcvintpippe -- it is for recieving data from device at interrupt endpoint
+   usb_fill_int_urb(data->int_in_urb, udev,
+                    usb_rcvintpipe(udev, data->int_in_endpoint->bEndpointAddress),
+                    data->int_in_buf,
+                    le16_to_cpu(data->int_in_endpoint->wMaxPacketSize),
+                    int_cb, // this callback is called when we are done sending/recieving urb
+                    data,
+                    (data->int_in_endpoint->bInterval));
+
+   usb_set_intfdata(interface, data);
+
+   printk(KERN_INFO "usb gpio irq is connected");
+
+   i = usb_submit_urb(data->int_in_urb, GFP_KERNEL);
+   if (i)
+     {
+        printk(KERN_ALERT "Failed to submit urb");
+     }
+     
+
 
    /// gpio_chip struct info is inside KERNEL/include/linux/gpio/driver.h
    data->chip.label = "vusb-gpio"; //name for diagnostics
