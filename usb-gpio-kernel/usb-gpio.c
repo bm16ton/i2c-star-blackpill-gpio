@@ -12,6 +12,8 @@
 #include <linux/gpio.h> //for led
 #include <linux/gpio/driver.h>
 #include <linux/irq.h>
+#include <linux/irqdomain.h>
+#include <linux/irqchip/chained_irq.h>
 #include <linux/pwm.h>
 
 MODULE_LICENSE("GPL v2");
@@ -66,6 +68,8 @@ static struct usb_device_id my_usb_table[] = {
 
 MODULE_DEVICE_TABLE(usb, my_usb_table);
 
+static int i2c_gpio_to_irq(struct gpio_chip *chip, unsigned offset);
+
 unsigned int GPIO_irqNumber;
 
 static uint8_t gpio_val = 0;      // brequest
@@ -99,16 +103,24 @@ _gpio_work_job2(struct work_struct *work2)
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
                    usbval, offs,
                    (u8 *)sd->buf, 4,
-                   3000);
+                   1000);
 }
 
 static void
 int_cb(struct urb *urb)
 {
    struct my_usb *sd = urb->context;
+   unsigned long flags;
    printk(KERN_ALERT "urb interrupt is called");
-   generic_handle_domain_irq(sd->chip.irq.domain, 2);
+//   i2c_gpio_to_irq(&sd->chip, 3);
+//   GPIO_irqNumber = gpio_to_irq(2);
+//   pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
+//   generic_handle_domain_irq(sd->chip.irq.domain, 2);
+//    handle_simple_irq (sd->irq_descs[3]);
+   local_irq_save(flags);
+  generic_handle_irq(GPIO_irqNumber);
    //TODO: use endpoint3 also
+   local_irq_restore(flags);
    printk(KERN_ALERT "received data: %s", sd->int_in_buf);
 }
 
@@ -259,12 +271,24 @@ static int
 i2c_gpio_to_irq(struct gpio_chip *chip,
                   unsigned offset)
 {
-//   struct my_usb *data = container_of(chip, struct my_usb,
-//                                      chip);
-   GPIO_irqNumber = gpio_to_irq(offset);
+   struct my_usb *data = container_of(chip, struct my_usb,
+                                      chip);
+   GPIO_irqNumber = irq_create_mapping(data->chip.irq.domain, offset) + 1;
    pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
 
    return GPIO_irqNumber;
+}
+
+static void usb_gpio_irq_enable(struct irq_data *irqd)
+{
+	struct my_usb *dev = irq_data_get_irq_chip_data(irqd);
+
+	/* Is that needed? */
+	if (dev->irq.irq_enable)
+		return;
+
+	dev->irq.irq_enable = true;
+	usb_submit_urb(dev->int_in_urb, GFP_ATOMIC);
 }
 
 static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
@@ -274,6 +298,8 @@ static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
                                       chip);
     int pin = irqd_to_hwirq(irqd);
     pr_info("irq pin = %d\n", pin);
+//    GPIO_irqNumber = gpio_to_irq(pin);
+    pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
     	switch (type) {
 	case IRQ_TYPE_LEVEL_HIGH:
 		   usbval = 9;
@@ -323,11 +349,12 @@ my_usb_probe(struct usb_interface *interface,
    struct usb_host_interface *iface_desc;
    struct usb_endpoint_descriptor *endpoint;
    struct my_usb *data;
-   struct my_usb *pwmd;
+//   struct my_usb *pwmd;
    struct gpio_irq_chip *girq;
    int i;
    int inf;
    int err;
+   int rc;
    
    printk(KERN_INFO "manufacturer: %s", udev->manufacturer);
    printk(KERN_INFO "product: %s", udev->product);
@@ -425,6 +452,7 @@ my_usb_probe(struct usb_interface *interface,
    data->chip.names = gpio_names;
    data->irq.name = "usbgpio-irq",
    data->irq.irq_set_type = usbirq_irq_set_type,
+   data->irq.irq_enable = usb_gpio_irq_enable,
 
 	girq = &data->chip.irq;
 	girq->chip = &data->irq;
@@ -433,6 +461,12 @@ my_usb_probe(struct usb_interface *interface,
 	girq->parents = NULL;
 	girq->default_type = IRQ_TYPE_NONE;
 	girq->handler = handle_simple_irq;
+	
+	rc = irq_alloc_desc(0);
+	if (rc < 0) {
+		dev_err(&interface->dev, "Cannot allocate an IRQ desc");
+		return rc;
+	}
 	
    if (gpiochip_add(&data->chip) < 0)
      {
@@ -506,10 +540,15 @@ my_usb_disconnect(struct usb_interface *interface)
 //   pwmchip_remove(&pwmd->pwmchip);
    cancel_work_sync(&data->work);
    pwmchip_remove(&data->pwmchip);
-   cancel_work_sync(&data->work);
+   cancel_work_sync(&data->work2);
    gpiochip_remove(&data->chip);
 
+   usb_kill_urb(data->int_in_urb);
+   usb_free_urb(data->int_in_urb);
+   kfree(data->int_in_buf);
 
+   kfree(data->buf);
+   irq_free_descs(data->irq_base, data->irq_num);
    usb_set_intfdata(interface, NULL);
    //deref the count
    usb_put_dev(data->udev);

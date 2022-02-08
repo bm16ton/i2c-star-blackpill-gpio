@@ -266,23 +266,20 @@ static void my_delay_2( void )
 	  }
 }
 
-void exti0_isr(void)
+static void irq_pin_init(void)
 {
-	exti_reset_request(EXTI0);
-	if (state.falling) {
-		gpio_clear(GPIO1_PORT, GPIO1_PIN);
-		state.falling = false;
-		exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
-//		unsigned int x = TIM_CNT(TIM7);
-//		printf("held: %u ms\n", x);
-	} else {
-		gpio_set(GPIO1_PORT, GPIO1_PIN);
-//		printf("Pushed down!\n");
-//		TIM_CNT(TIM7) = 0;
-		state.falling = true;
-		exti_set_trigger(EXTI0, EXTI_TRIGGER_FALLING);
-	}
+//    nvic_disable_irq(NVIC_EXTI0_IRQ);
+	my_delay_2();
+    nvic_enable_irq(NVIC_EXTI0_IRQ);					
+	gpio_mode_setup(GPIO3_PORT, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO3_PIN);
+	my_delay_2();
+	exti_select_source(EXTI0, GPIO3_PORT);
+	state.falling = false;
+//	exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
+    exti_set_trigger(EXTI0, irqtype);
+	exti_enable_request(EXTI0);
 }
+
 
 static void pwm_probe(void)
 {
@@ -664,15 +661,21 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      return USBD_REQ_HANDLED;
      }
      else if ( req->wIndex == 4 ) {
-        irqtype = IRQ_TYPE_EDGE_BOTH;
+//        irqtype = IRQ_TYPE_EDGE_BOTH;
+        irqtype = EXTI_TRIGGER_BOTH;   
+        irq_pin_init();
      return USBD_REQ_HANDLED;
      }
      else if ( req->wIndex == 5 ) {
-        irqtype = IRQ_TYPE_EDGE_RISING;
+//        irqtype = IRQ_TYPE_EDGE_RISING;
+        irqtype = EXTI_TRIGGER_RISING;
+        irq_pin_init();
      return USBD_REQ_HANDLED;
      }
      else if ( req->wIndex == 6 ) {
-        irqtype = IRQ_TYPE_EDGE_FALLING;
+//        irqtype = IRQ_TYPE_EDGE_FALLING;
+        irqtype = EXTI_TRIGGER_FALLING;
+        irq_pin_init();
      return USBD_REQ_HANDLED;
      }
      }
@@ -796,6 +799,31 @@ static int usb_fibre(fibre_t *fibre)
 }
 static fibre_t usb_task = FIBRE_VAR_INIT(usb_fibre);
 
+void exti0_isr(void)
+{
+    // char buf2[64] __attribute__ ((aligned(4)));
+    uint8_t buft[4] = {0, 0, 0, 0};
+	exti_reset_request(EXTI0);
+//	usbd_ep_write_packet(usbd_device usbd_dev, 0x83, buf2, 64);
+    usbd_ep_write_packet(usbd_dev, 0x83, buft, 4);
+    exti_set_trigger(EXTI0, irqtype);
+/*	if (state.falling) {
+		gpio_clear(GPIO1_PORT, GPIO1_PIN);
+		state.falling = false;
+		exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
+//		unsigned int x = TIM_CNT(TIM7);
+//		printf("held: %u ms\n", x);
+	} else {
+		gpio_set(GPIO1_PORT, GPIO1_PIN);
+//		printf("Pushed down!\n");
+//		TIM_CNT(TIM7) = 0;
+		state.falling = true;
+		exti_set_trigger(EXTI0, EXTI_TRIGGER_FALLING);
+	}
+	*/
+}
+
+
 static void i2c_init(void)
 {
 	/* clocks */
@@ -822,7 +850,7 @@ static void i2c_init(void)
 static void gpio_init(void)
 {
 	rcc_periph_clock_enable(RCC_GPIOC);
-	nvic_enable_irq(NVIC_EXTI0_IRQ);
+//	nvic_enable_irq(NVIC_EXTI0_IRQ);
 	gpio_mode_setup(GPIO1_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO1_PIN);
 	gpio_set_output_options(GPIO1_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO1_PIN);
@@ -839,7 +867,7 @@ static void gpio_init(void)
 	gpio_set_output_options(GPIO4_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO4_PIN);
 		
-	nvic_enable_irq(NVIC_EXTI0_IRQ);					
+//	nvic_enable_irq(NVIC_EXTI0_IRQ);					
 	gpio_mode_setup(GPIO3_PORT, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO3_PIN);
 	
     my_delay_1();
@@ -850,11 +878,12 @@ static void gpio_init(void)
 	
 	
 
-	/* Configure the EXTI subsystem. */
+	/* Configure the EXTI subsystem. 
 	exti_select_source(EXTI0, GPIO3_PORT);
 	state.falling = false;
 	exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
 	exti_enable_request(EXTI0);
+	*/
 }
 
 int main(void)
