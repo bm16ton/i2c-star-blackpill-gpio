@@ -257,7 +257,51 @@ i2c_gpio_to_irq(struct gpio_chip *chip,
    return GPIO_irqNumber;
 }
 
+static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
+{
+    struct gpio_chip *chip = irq_data_get_irq_chip_data(irqd);
+    struct my_usb *data = container_of(chip, struct my_usb,
+                                      chip);
+    int pin = irqd_to_hwirq(irqd);
+    pr_info("irq pin = %d\n", pin);
+    	switch (type) {
+	case IRQ_TYPE_LEVEL_HIGH:
+		   usbval = 9;
+           offs = 2;
+           gpio_val = 9;
+           schedule_work(&data->work);
+		break;
+	case IRQ_TYPE_LEVEL_LOW:
+		   usbval = 9;
+           offs = 3;
+           gpio_val = 9;
+           schedule_work(&data->work);
+		break;
+	case IRQ_TYPE_EDGE_BOTH:
+		   usbval = 9;
+           offs = 4;
+           gpio_val = 9;
+           schedule_work(&data->work);
+		break;
+	case IRQ_TYPE_EDGE_RISING:
+		   usbval = 9;
+           offs = 5;
+           gpio_val = 9;
+           schedule_work(&data->work);
+		break;
+	case IRQ_TYPE_EDGE_FALLING:
+		   usbval = 9;
+           offs = 6;
+           gpio_val = 9;
+           schedule_work(&data->work);
+		break;
+	default:
+		return -EINVAL;
+	}
 
+	return 0;
+}    
+    
 const char *gpio_names[] = { "LED", "usbGPIO2", "BTN", "usbGPIO4" };
 
 //called when a usb device is connected to PC
@@ -343,6 +387,7 @@ my_usb_probe(struct usb_interface *interface,
    data->chip.to_irq = i2c_gpio_to_irq;
    data->chip.names = gpio_names;
    data->irq.name = "usbgpio-irq",
+   data->irq.irq_set_type = usbirq_irq_set_type,
 
 	girq = &data->chip.irq;
 	girq->chip = &data->irq;
