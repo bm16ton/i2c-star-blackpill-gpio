@@ -226,6 +226,12 @@ uint8_t usbd_control_buffer[128];
 #define LED1_PORT
 #define LED1_PIN
 
+#define IRQ_TYPE_EDGE_RISING	0x00000001
+#define IRQ_TYPE_EDGE_FALLING	0x00000002
+#define IRQ_TYPE_EDGE_BOTH	IRQ_TYPE_EDGE_FALLING | IRQ_TYPE_EDGE_RISING
+#define IRQ_TYPE_LEVEL_HIGH	0x00000004
+#define IRQ_TYPE_LEVEL_LOW	0x00000008
+	
 /* the currently support capability is quite limited */
 const unsigned long func = I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
 
@@ -245,6 +251,7 @@ struct state_t {
 		int tickcount;
 };
 
+int irqtype = 0;
 /*!
  * \brief Handle I2C I/O request.
  *
@@ -296,8 +303,8 @@ static void pwm_probe(void)
 	my_delay_2();
     pwm_set_frequency(1000);
 	pwm_set_dc(PWM_CH1, 500);
-	pwm_set_dc(PWM_CH2, 590);
-	pwm_set_dc(PWM_CH3, 1500);
+	pwm_set_dc(PWM_CH2, 500);
+	pwm_set_dc(PWM_CH3, 500);
 	my_delay_2();
 
 }	
@@ -645,6 +652,29 @@ static enum usbd_request_return_codes usb_control_gpio_request(
       }
 //        pwm_set_dc(PWM_CH2, req->bRequest);
         return USBD_REQ_HANDLED;
+     }
+    else if (req->wValue == 9)
+     {
+     if ( req->wIndex == 2 ) {
+        irqtype = IRQ_TYPE_LEVEL_HIGH;
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 3 ) {
+        irqtype = IRQ_TYPE_LEVEL_LOW;
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 4 ) {
+        irqtype = IRQ_TYPE_EDGE_BOTH;
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 5 ) {
+        irqtype = IRQ_TYPE_EDGE_RISING;
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 6 ) {
+        irqtype = IRQ_TYPE_EDGE_FALLING;
+     return USBD_REQ_HANDLED;
+     }
      }
    else
      {
