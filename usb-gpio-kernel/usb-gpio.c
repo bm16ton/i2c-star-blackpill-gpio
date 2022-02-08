@@ -118,10 +118,11 @@ int_cb(struct urb *urb)
 //   generic_handle_domain_irq(sd->chip.irq.domain, 2);
 //    handle_simple_irq (sd->irq_descs[3]);
    local_irq_save(flags);
-  generic_handle_irq(GPIO_irqNumber);
+   generic_handle_irq(GPIO_irqNumber);
    //TODO: use endpoint3 also
    local_irq_restore(flags);
    printk(KERN_ALERT "received data: %s", sd->int_in_buf);
+   usb_submit_urb(sd->int_in_urb, GFP_KERNEL);
 }
 
 static int gpio_pwm_config(struct pwm_chip *pwmchip, struct pwm_device *pwm,
