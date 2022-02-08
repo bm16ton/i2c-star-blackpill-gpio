@@ -190,6 +190,13 @@ _gpioa_get(struct gpio_chip *chip,
     usleep_range(1000, 1200);
     schedule_work(&data->work2);
     usleep_range(1000, 1200);
+/*    usb_control_msg(data->udev,
+                   usb_rcvctrlpipe(data->udev, 0),
+                   gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
+                   usbval, offs,
+                   (u8 *)data->buf, 4,
+                   3000);
+*/                   
     retval = data->buf[0];
     retval1 = data->buf[1];
     retval2 = data->buf[2];
@@ -263,6 +270,7 @@ my_usb_probe(struct usb_interface *interface,
    struct usb_endpoint_descriptor *endpoint;
    struct my_usb *data;
    struct my_usb *pwmd;
+   struct gpio_irq_chip *girq;
    int i;
    int inf;
    int err;
@@ -334,7 +342,16 @@ my_usb_probe(struct usb_interface *interface,
    data->chip.direction_output = _direction_output;
    data->chip.to_irq = i2c_gpio_to_irq;
    data->chip.names = gpio_names;
+   data->irq.name = "usbgpio-irq",
 
+	girq = &data->chip.irq;
+	girq->chip = &data->irq;
+	girq->parent_handler = NULL;
+	girq->num_parents = 0;
+	girq->parents = NULL;
+	girq->default_type = IRQ_TYPE_NONE;
+	girq->handler = handle_simple_irq;
+	
    if (gpiochip_add(&data->chip) < 0)
      {
         printk(KERN_ALERT "Failed to add gpio chip");
