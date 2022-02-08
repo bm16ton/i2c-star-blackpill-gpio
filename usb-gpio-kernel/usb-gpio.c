@@ -42,12 +42,13 @@ struct my_usb {
      int                      gpio_irq_map[4]; // GPIO to IRQ map (gpio_num elements)
      
      struct irq_chip   irq;                                // chip descriptor for IRQs
+     int               num;
      uint8_t           irq_num;                            // number of pins with IRQs
      int               irq_base;                           // base IRQ allocated
-     struct irq_desc*  irq_descs    [4]; // IRQ descriptors used (irq_num elements)
-     int               irq_types    [4]; // IRQ types (irq_num elements)
-     bool              irq_enabled  [4]; // IRQ enabled flag (irq_num elements)
-     int               irq_gpio_map [4]; // IRQ to GPIO pin map (irq_num elements)
+     struct irq_desc*  irq_descs    [5]; // IRQ descriptors used (irq_num elements)
+     int               irq_types    [5]; // IRQ types (irq_num elements)
+     bool              irq_enabled  [5]; // IRQ enabled flag (irq_num elements)
+     int               irq_gpio_map [5]; // IRQ to GPIO pin map (irq_num elements)
      int               irq_hw;                             // IRQ for GPIO with hardware IRQ (default -1)
     
      struct pwm_chip pwmchip;
@@ -274,7 +275,7 @@ i2c_gpio_to_irq(struct gpio_chip *chip,
 {
    struct my_usb *data = container_of(chip, struct my_usb,
                                       chip);
-   GPIO_irqNumber = irq_create_mapping(data->chip.irq.domain, offset) + 1;
+   GPIO_irqNumber = irq_create_mapping(data->chip.irq.domain, offset);
    pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
 
    return GPIO_irqNumber;
@@ -290,6 +291,18 @@ static void usb_gpio_irq_enable(struct irq_data *irqd)
 
 	dev->irq.irq_enable = true;
 	usb_submit_urb(dev->int_in_urb, GFP_ATOMIC);
+}
+
+static void usb_gpio_irq_disable(struct irq_data *irqd)
+{
+	struct my_usb *dev = irq_data_get_irq_chip_data(irqd);
+
+	/* Is that needed? */
+	if (!dev->irq.irq_enable)
+		return;
+		
+	dev->irq.irq_enable = false;
+	usb_kill_urb(dev->int_in_urb);
 }
 
 static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
@@ -339,7 +352,7 @@ static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
 	return 0;
 }    
     
-const char *gpio_names[] = { "LED", "usbGPIO2", "BTN", "usbGPIO4" };
+const char *gpio_names[] = { "LED", "usbGPIO2", "BTN", "usbGPIO4", "IRQpin" };
 
 //called when a usb device is connected to PC
 static int
@@ -435,7 +448,7 @@ my_usb_probe(struct usb_interface *interface,
    // or, if negative during registration, requests dynamic ID allocation.
    // i was getting 435 on -1.. nice. Although, it is deprecated to provide static/fixed base value. 
 
-   data->chip.ngpio = 4; // the number of GPIOs handled by this controller; the last GPIO
+   data->chip.ngpio = 5; // the number of GPIOs handled by this controller; the last GPIO
    data->chip.can_sleep = true; // 
    /*
       flag must be set iff get()/set() methods sleep, as they
@@ -451,9 +464,11 @@ my_usb_probe(struct usb_interface *interface,
    data->chip.direction_output = _direction_output;
    data->chip.to_irq = i2c_gpio_to_irq;
    data->chip.names = gpio_names;
-   data->irq.name = "usbgpio-irq",
-   data->irq.irq_set_type = usbirq_irq_set_type,
-   data->irq.irq_enable = usb_gpio_irq_enable,
+   data->irq.name = "usbgpio-irq";
+   data->irq.irq_set_type = usbirq_irq_set_type;
+   data->irq.irq_enable = usb_gpio_irq_enable;
+   data->irq.irq_disable = usb_gpio_irq_disable;
+//   data->irq.irq_enabled = false;
 
 	girq = &data->chip.irq;
 	girq->chip = &data->irq;
@@ -469,6 +484,8 @@ my_usb_probe(struct usb_interface *interface,
 		return rc;
 	}
 	
+//   girq->irq_num = rc;
+	
    if (gpiochip_add(&data->chip) < 0)
      {
         printk(KERN_ALERT "Failed to add gpio chip");
@@ -478,8 +495,9 @@ my_usb_probe(struct usb_interface *interface,
         printk(KERN_INFO "Able to add gpiochip: %s", data->chip.label);
      }
 
-//   gpio_direction_input(3);
-   i2c_gpio_to_irq(&data->chip, 3);
+//   gpio_direction_input(5);
+//   gpio_export_link(data->chip, 3, BTN);
+   i2c_gpio_to_irq(&data->chip, 4);
   
   
 //   data->pwmchip = kzalloc(sizeof(struct pwm_chip), GFP_KERNEL);
