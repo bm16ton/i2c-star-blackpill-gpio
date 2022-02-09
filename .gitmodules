@@ -4,3 +4,6 @@
 [submodule "Libopencm3_STM32F4_Guide"]
 	path = Libopencm3_STM32F4_Guide
 	url = ./i2c-star-stm32f411ceu6-blackpill/Libopencm3_STM32F4_Guide
+[submodule "various-libopencm3-libs/Libopencm3_STM32F4_Guide"]
+	path = various-libopencm3-libs/Libopencm3_STM32F4_Guide
+	url = https://github.com/robotronik/Libopencm3_STM32F4_Guide.git

@@ -1,1 +1,0 @@
-cmd_/home/maddocks/USB-GPIO/i2c-tiny-usb/i2c-tiny-usb.ko := ld -r  -EL  -maarch64elf  --build-id=sha1  -T scripts/module.lds -o /home/maddocks/USB-GPIO/i2c-tiny-usb/i2c-tiny-usb.ko /home/maddocks/USB-GPIO/i2c-tiny-usb/i2c-tiny-usb.o /home/maddocks/USB-GPIO/i2c-tiny-usb/i2c-tiny-usb.mod.o;  true

@@ -224,11 +224,6 @@ void _usbd_control_setup(usbd_device *usbd_dev, uint8_t ea)
 
 	usbd_dev->control_state.complete = NULL;
 
-	if (usbd_ep_read_packet(usbd_dev, 0, req, 8) != 8) {
-		stall_transaction(usbd_dev);
-		return;
-	}
-
 	if (req->wLength == 0) {
 		usb_control_setup_read(usbd_dev, req);
 	} else if (req->bmRequestType & 0x80) {

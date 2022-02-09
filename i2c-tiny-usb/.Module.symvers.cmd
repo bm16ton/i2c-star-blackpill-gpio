@@ -1,1 +1,0 @@
-cmd_/home/maddocks/USB-GPIO/i2c-tiny-usb/Module.symvers := sed 's/\.ko$$/\.o/' /home/maddocks/USB-GPIO/i2c-tiny-usb/modules.order | scripts/mod/modpost    -o /home/maddocks/USB-GPIO/i2c-tiny-usb/Module.symvers -e -i Module.symvers   -T -

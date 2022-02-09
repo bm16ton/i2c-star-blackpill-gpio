@@ -8,7 +8,11 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-
+#
+#	console_cmd_gpio.o
+# 	console.o \
+#	console_stm32.o 
+#
 LIBRFN_DIR = ../../librfn
 
 OBJS += \
@@ -20,7 +24,8 @@ OBJS += \
 	regdump.o \
 	ringbuf.o \
 	time_libopencm3.o \
-	util.o
+	util.o 
+
 
 vpath %.c $(LIBRFN_DIR)/librfn
 vpath %.c $(LIBRFN_DIR)/librfn/libopencm3

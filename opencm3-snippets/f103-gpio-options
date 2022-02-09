@@ -1,0 +1,66 @@
+xamples/stm32/f1/obldc/usart_irq/usart_irq.c:	gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/obldc/usart_irq/usart_irq.c-		      GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_RE_TX);
+examples/stm32/f1/obldc/usart_irq/usart_irq.c-
+--
+examples/stm32/f1/obldc/usart_irq/usart_irq.c:	gpio_set_mode(GPIOB, GPIO_MODE_INPUT,
+examples/stm32/f1/obldc/usart_irq/usart_irq.c-		      GPIO_CNF_INPUT_FLOAT, GPIO_USART1_RE_RX);
+examples/stm32/f1/obldc/usart_irq/usart_irq.c-
+--
+examples/stm32/f1/obldc/usart_irq/usart_irq.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/obldc/usart_irq/usart_irq.c-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO6 | GPIO7);
+examples/stm32/f1/obldc/usart_irq/usart_irq.c-}
+--
+examples/stm32/f1/obldc/can/can.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/obldc/can/can.c-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO6);
+examples/stm32/f1/obldc/can/can.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/obldc/can/can.c-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO7);
+examples/stm32/f1/obldc/can/can.c-
+--
+examples/stm32/f1/obldc/can/can.c:	gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/obldc/can/can.c-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO0);
+examples/stm32/f1/obldc/can/can.c:	gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/obldc/can/can.c-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO1);
+examples/stm32/f1/obldc/can/can.c-}
+--
+examples/stm32/f1/obldc/can/can.c:	gpio_set_mode(GPIOA, GPIO_MODE_INPUT,
+examples/stm32/f1/obldc/can/can.c-		      GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_CAN_RX);
+examples/stm32/f1/obldc/can/can.c-	gpio_set(GPIOA, GPIO_CAN_RX);
+--
+examples/stm32/f1/obldc/can/can.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/obldc/can/can.c-		      GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_CAN_TX);
+examples/stm32/f1/obldc/can/can.c-
+--
+examples/stm32/f1/stm32-maple/usb_cdcacm/cdcacm.c:	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ,
+examples/stm32/f1/stm32-maple/usb_cdcacm/cdcacm.c-		      GPIO_CNF_OUTPUT_OPENDRAIN, GPIO12);
+examples/stm32/f1/stm32-maple/usb_cdcacm/cdcacm.c-	gpio_clear(GPIOC, GPIO12);
+--
+examples/stm32/f1/stm32-maple/usb_cdcacm/cdcacm.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_2_MHZ,
+examples/stm32/f1/stm32-maple/usb_cdcacm/cdcacm.c-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO5);
+examples/stm32/f1/stm32-maple/usb_cdcacm/cdcacm.c-
+--
+examples/stm32/f1/stm32-maple/miniblink/miniblink.c:	// GPIOA_CRH |= (GPIO_MODE_OUTPUT_2_MHZ << ((5 - 8) * 4));
+examples/stm32/f1/stm32-maple/miniblink/miniblink.c-	/* Using API functions: */
+examples/stm32/f1/stm32-maple/miniblink/miniblink.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_2_MHZ,
+examples/stm32/f1/stm32-maple/miniblink/miniblink.c-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO5);
+examples/stm32/f1/stm32-maple/miniblink/miniblink.c-}
+--
+examples/stm32/f1/stm32-maple/usart/usart.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/stm32-maple/usart/usart.c-		      GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART2_TX);
+examples/stm32/f1/stm32-maple/usart/usart.c-
+--
+examples/stm32/f1/stm32-maple/usart/usart.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_2_MHZ,
+examples/stm32/f1/stm32-maple/usart/usart.c-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO5);
+examples/stm32/f1/stm32-maple/usart/usart.c-}
+--
+examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c-		      GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART2_TX);
+examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c-
+--
+examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c:	gpio_set_mode(GPIOA, GPIO_MODE_INPUT,
+examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c-		      GPIO_CNF_INPUT_FLOAT, GPIO_USART2_RX);
+examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c-
+--
+examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c:	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
+examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO5);
+examples/stm32/f1/stm32-maple/usart_irq/usart_irq.c-}
+

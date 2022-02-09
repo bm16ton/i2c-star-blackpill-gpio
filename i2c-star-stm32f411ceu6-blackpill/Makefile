@@ -36,7 +36,7 @@ endif
 OPENCM3_DIR := $(realpath libopencm3)
 EXAMPLE_RULES = elf
 
-all: build
+all: bin
 
 bin: EXAMPLE_RULES += bin
 hex: EXAMPLE_RULES += hex
