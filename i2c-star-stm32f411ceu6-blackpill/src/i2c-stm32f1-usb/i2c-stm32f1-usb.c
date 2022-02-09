@@ -36,6 +36,10 @@
 #include <librfn/util.h>
 #include <librfm3/i2c_ctx.h>
 
+#include <libopencm3/stm32/exti.h>
+#include <libopencm3/stm32/timer.h>
+#include <pwmf1.h>
+
 static const struct usb_device_descriptor dev = {
 	.bLength = USB_DT_DEVICE_SIZE,
 	.bDescriptorType = USB_DT_DEVICE,
@@ -76,9 +80,35 @@ const struct usb_interface_descriptor i2c_iface = {
 	.endpoint = &i2c_endpoint,
 };
 
+const struct usb_endpoint_descriptor gpio_endpoint = {
+	.bLength = USB_DT_ENDPOINT_SIZE,
+	.bDescriptorType = USB_DT_ENDPOINT,
+	.bEndpointAddress = 0x83,
+	.bmAttributes = USB_ENDPOINT_ATTR_INTERRUPT,
+	.wMaxPacketSize = 4,
+	.bInterval = 0x20,
+};
+
+const struct usb_interface_descriptor gpio_iface = {
+	.bLength = USB_DT_INTERFACE_SIZE,
+	.bDescriptorType = USB_DT_INTERFACE,
+	.bInterfaceNumber = 1,
+	.bAlternateSetting = 0,
+	.bNumEndpoints = 1,
+	.bInterfaceClass = 0,
+	.bInterfaceSubClass = 0,
+	.bInterfaceProtocol = 0,
+	.iInterface = 1,
+
+	.endpoint = &gpio_endpoint,
+};
+
 const struct usb_interface ifaces[] = {{
 	.num_altsetting = 1,
 	.altsetting = &i2c_iface,
+	}, {
+	.num_altsetting = 1,
+	.altsetting = &gpio_iface,
 }};
 
 static const struct usb_config_descriptor config = {
@@ -168,6 +198,32 @@ uint8_t usbd_control_buffer[128];
                             I2C_FUNC_SMBUS_WRITE_BLOCK_DATA_PEC | \
                             I2C_FUNC_SMBUS_I2C_BLOCK
 
+#define GPIO1_PORT   GPIOC      //LED
+#define GPIO1_PIN    GPIO1     //LED
+#define GPIO2_PORT   GPIOC
+#define GPIO2_PIN    GPIO0
+#define GPIO3_PORT   GPIOA       //BTN
+#define GPIO3_PIN    GPIO0       //BTN
+#define GPIO4_PORT   GPIOB
+#define GPIO4_PIN    GPIO4
+#define GPIO5_PORT   GPIOA
+#define GPIO5_PIN    GPIO1
+#define GPIO6_PORT
+#define GPIO6_PIN
+#define GPIO7_PORT
+#define GPIO7_PIN
+#define GPIO8_PORT
+#define GPIO8_PIN
+
+#define LED1_PORT
+#define LED1_PIN
+
+#define IRQ_TYPE_EDGE_RISING	0x00000001
+#define IRQ_TYPE_EDGE_FALLING	0x00000002
+#define IRQ_TYPE_EDGE_BOTH	IRQ_TYPE_EDGE_FALLING | IRQ_TYPE_EDGE_RISING
+#define IRQ_TYPE_LEVEL_HIGH	0x00000004
+#define IRQ_TYPE_LEVEL_LOW	0x00000008
+
 /* the currently support capability is quite limited */
 const unsigned long func = I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL | I2C_FUNC_NOSTART;
 
@@ -178,6 +234,8 @@ const unsigned long func = I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL | I2C_FUNC_NOSTART
 
 static uint8_t status = STATUS_IDLE;
 
+int irqtype = 0;
+
 uint32_t i2c = I2C1;
 
 /*!
@@ -185,6 +243,71 @@ uint32_t i2c = I2C1;
  *
  * \todo There is no bus error checking at all...
  */
+ 
+ static void my_delay_2( void )
+{
+	for (unsigned i = 0; i < 20000; i++)
+	  {
+		__asm__("nop");
+	  }
+}
+
+static void irq_pin_init(void)
+{
+//    nvic_disable_irq(NVIC_EXTI0_IRQ);
+	my_delay_2();
+    nvic_enable_irq(NVIC_EXTI1_IRQ);					
+	gpio_set_mode(GPIO5_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO5_PIN);
+
+	my_delay_2();
+	exti_select_source(EXTI1, GPIO5_PORT);
+//	state.falling = false;
+//	exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
+    exti_set_trigger(EXTI1, irqtype);
+	exti_enable_request(EXTI1);
+}
+
+static void pwm_probe(void)
+{
+//    pwm_setup_timer(RCC_TIM3, TIM3, 2, 1000);
+//    pwm_setup_output_channel(TIM3, TIM_OC1, RCC_APB2ENR, GPIOA, GPIO8);
+//    pwm_set_pulse_width(TIM3, 0, 800);
+//    pwm_setup_output_channel(TIM3, TIM_OC2, RCC_APB2ENR, GPIOA, GPIO9);
+//    pwm_set_pulse_width(TIM3, 1, 400);
+//    pwm_setup_output_channel(TIM3, TIM_OC3, RCC_APB2ENR, GPIOA, GPIO10);
+//    pwm_set_pulse_width(TIM3, 2, 200);
+//    pwm_start_timer(TIM3);
+/*    pwm_init();
+    pwm_set_frequency(1000);
+	pwm_set_dc(PWM_CH1, 0);
+	pwm_set_dc(PWM_CH2, 0);
+	pwm_set_dc(PWM_CH3, 0);
+	pwm_start();
+	my_delay_2();
+    pwm_set_frequency(1000);
+	pwm_set_dc(PWM_CH1, 500);
+	pwm_set_dc(PWM_CH2, 500);
+	pwm_set_dc(PWM_CH3, 500);
+	my_delay_2();
+	*/
+
+}	
+	
+static void pwm_disable(void)
+{
+/*	timer_set_oc_value(TIM1, TIM_OC2, 0);
+	timer_set_oc_value(TIM1, TIM_OC3, 0);
+	pwm_set_dc(PWM_CH1, 0);
+	pwm_set_dc(PWM_CH2, 0);
+	pwm_set_dc(PWM_CH3, 0);
+	timer_disable_oc_output(TIM1, TIM_OC1);
+	timer_disable_oc_output(TIM1, TIM_OC2);
+	timer_disable_oc_output(TIM1, TIM_OC3);
+	my_delay_2();
+	* */
+}	
+
+
 static int usb_i2c_io(struct usb_setup_data *req, uint8_t *buf, uint16_t *len)
 {
 	uint32_t reg32 __attribute__((unused));
@@ -240,6 +363,353 @@ err:
 	status = STATUS_ADDRESS_NACK;
 	*len = 0;
 	return USBD_REQ_HANDLED;
+}
+
+static void my_delay_1( void )
+{
+   for (unsigned i = 0; i < 800000; i++)
+     {
+        __asm__("nop");
+     }
+}
+
+
+static void usbgpio_output(int gpio)
+{
+	if (gpio == 1) {
+	gpio_set_mode(GPIO1_PORT, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO1_PIN);
+	gpio_set(GPIO1_PORT, GPIO1_PIN);
+    } else if (gpio == 2) {
+	gpio_set_mode(GPIO2_PORT, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO2_PIN);
+	gpio_set(GPIO2_PORT, GPIO2_PIN);
+	} else if (gpio == 3) {
+	gpio_set_mode(GPIO3_PORT, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO3_PIN);
+	gpio_set(GPIO3_PORT, GPIO3_PIN);
+	} else if (gpio == 4) {
+	gpio_set_mode(GPIO4_PORT, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO4_PIN);
+	gpio_set(GPIO4_PORT, GPIO4_PIN);
+	} else if (gpio == 5) {
+	gpio_set_mode(GPIO5_PORT, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO5_PIN);
+	gpio_set(GPIO5_PORT, GPIO5_PIN);
+	}
+	
+    my_delay_1();
+}
+
+static void usbgpio_input(int gpio)
+{
+
+	if (gpio == 1) {
+	gpio_set_mode(GPIO1_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO1_PIN);
+	gpio_set(GPIO1_PORT, GPIO1_PIN);
+	} else if (gpio == 2) {
+	gpio_set_mode(GPIO2_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO2_PIN);
+	gpio_set(GPIO2_PORT, GPIO2_PIN);
+	} else if (gpio == 3) {
+	gpio_set_mode(GPIO3_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO3_PIN);
+	gpio_set(GPIO3_PORT, GPIO3_PIN);
+	} else if (gpio == 4) {
+	gpio_set_mode(GPIO4_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO4_PIN);
+	gpio_set(GPIO4_PORT, GPIO4_PIN);
+	} else if (gpio == 5) {
+	gpio_set_mode(GPIO5_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO5_PIN);
+	gpio_set(GPIO5_PORT, GPIO5_PIN);
+	}
+
+	my_delay_1();
+}
+
+static enum usbd_request_return_codes usb_control_gpio_request(
+    usbd_device *usbd_dev, struct usb_setup_data *req, uint8_t **buf,
+    uint16_t *len,
+    void (**complete)(usbd_device *, struct usb_setup_data *req))
+{
+    (void)complete;
+	(void)usbd_dev;
+
+   if ((req->bmRequestType & 0x7F) != USB_REQ_TYPE_VENDOR)
+     return 0;
+
+   (*len) = 1;
+   (*buf)[0] = 1; //success
+
+   if (req->wValue == 1)
+     {
+        if ( req->wIndex == 0 )
+			{
+				usbgpio_input(1);
+				return USBD_REQ_HANDLED;
+			}
+	    else if ( req->wIndex == 1 )
+			{
+				usbgpio_input(2);
+				return USBD_REQ_HANDLED;
+			}
+	    else if ( req->wIndex == 2 )
+			{
+				usbgpio_input(3);
+				return USBD_REQ_HANDLED;
+			}	
+	    else if ( req->wIndex == 3 )
+			{
+				usbgpio_input(4);
+				return USBD_REQ_HANDLED;
+			}
+		else if ( req->wIndex == 4 )
+			{
+				usbgpio_input(5);
+				return USBD_REQ_HANDLED;
+			}	
+      }
+   else if (req->wValue == 2)
+     {
+     if ( req->wIndex == 0 )
+			{
+				usbgpio_output(1);
+				return USBD_REQ_HANDLED;
+			}
+	    else if ( req->wIndex == 1 )
+			{
+				usbgpio_output(2);
+				return USBD_REQ_HANDLED;
+			}
+	    else if ( req->wIndex == 2 )
+			{
+				usbgpio_output(3);
+				return USBD_REQ_HANDLED;
+			}
+	    else if ( req->wIndex == 3 )
+			{
+				usbgpio_output(4);
+				return USBD_REQ_HANDLED;
+			}
+		else if ( req->wIndex == 4 )
+			{
+				usbgpio_output(5);
+				return USBD_REQ_HANDLED;
+			}
+      }
+   else if (req->wValue == 3)
+     {
+     if ( req->wIndex == 0 )
+			{
+            if (gpio_get(GPIO1_PORT, GPIO1_PIN)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			} else {
+				(*buf)[0] = 1; 
+		        (*buf)[1] = 3;
+		        (*buf)[2] = 3;
+		        (*buf)[3] = 3;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			}
+			return USBD_REQ_HANDLED;
+			}
+	    else if ( req->wIndex == 1 )
+			{
+            if (gpio_get(GPIO2_PORT, GPIO2_PIN)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			} else {
+				(*buf)[0] = 1; 
+		        (*buf)[1] = 3;
+		        (*buf)[2] = 3;
+		        (*buf)[3] = 3;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			}
+		    return USBD_REQ_HANDLED;
+		   }
+	    else if ( req->wIndex == 2 )
+			{
+            if (gpio_get(GPIO3_PORT, GPIO3_PIN)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			} else {
+				(*buf)[0] = 1; 
+		        (*buf)[1] = 3;
+		        (*buf)[2] = 3;
+		        (*buf)[3] = 3;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			}
+			return USBD_REQ_HANDLED;
+			}
+		 else if ( req->wIndex == 3 )
+			{
+            if (gpio_get(GPIO4_PORT, GPIO4_PIN)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			} else {
+				(*buf)[0] = 1; 
+		        (*buf)[1] = 3;
+		        (*buf)[2] = 3;
+		        (*buf)[3] = 3;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			}
+			return USBD_REQ_HANDLED;
+			}
+		else if ( req->wIndex == 4 )
+			{
+            if (gpio_get(GPIO5_PORT, GPIO5_PIN)) {
+            	(*buf)[0] = 1; 
+		        (*buf)[1] = 4;
+		        (*buf)[2] = 4;
+		        (*buf)[3] = 4;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			} else {
+				(*buf)[0] = 1; 
+		        (*buf)[1] = 3;
+		        (*buf)[2] = 3;
+		        (*buf)[3] = 3;
+			    *len = sizeof(buf);
+			    return USBD_REQ_HANDLED;
+			}
+			return USBD_REQ_HANDLED;
+			}
+         }
+  else if (req->wValue == 0)
+     { 
+	 if (req->bRequest == 1)
+        {
+        if ( req->wIndex == 0 )
+			{
+				gpio_clear(GPIO1_PORT, GPIO1_PIN);
+				return USBD_REQ_HANDLED;
+			}
+	    else if ( req->wIndex == 1 )
+			{
+				gpio_set(GPIO2_PORT, GPIO2_PIN);
+				return USBD_REQ_HANDLED;
+			}
+		else if ( req->wIndex == 2 )
+			{
+				gpio_set(GPIO3_PORT, GPIO3_PIN);
+				return USBD_REQ_HANDLED;
+			}
+		else if ( req->wIndex == 3 )
+			{
+				gpio_set(GPIO4_PORT, GPIO4_PIN);
+				return USBD_REQ_HANDLED;
+			}
+		else if ( req->wIndex == 4 )
+			{
+				gpio_set(GPIO5_PORT, GPIO5_PIN);
+				return USBD_REQ_HANDLED;
+			}
+        }
+   else if (req->bRequest == 0)
+     {
+     if (req->wIndex == 0)
+			{
+				gpio_set(GPIO1_PORT, GPIO1_PIN);
+				return USBD_REQ_HANDLED;
+			}
+	    else if ( req->wIndex == 1 )
+			{
+				gpio_clear(GPIO2_PORT, GPIO2_PIN);
+				return USBD_REQ_HANDLED;
+			}	
+		else if ( req->wIndex == 2 )
+			{
+				gpio_clear(GPIO3_PORT, GPIO3_PIN);
+				return USBD_REQ_HANDLED;
+			}
+		else if ( req->wIndex == 3 )
+			{
+				gpio_clear(GPIO4_PORT, GPIO4_PIN);
+				return USBD_REQ_HANDLED;
+			}
+		else if ( req->wIndex == 4 )
+			{
+				gpio_clear(GPIO5_PORT, GPIO5_PIN);
+				return USBD_REQ_HANDLED;
+			}	
+	  }
+    }
+       else if (req->wValue == 4)
+     { 
+     if (req->wIndex == 1) {
+          pwm_probe();
+          return USBD_REQ_HANDLED;
+     } else if (req->wIndex == 2) {
+          pwm_disable();
+          return USBD_REQ_HANDLED;
+       }
+     }
+    else if (req->wValue == 5)
+     { 
+//    pwm_period(1, req->wIndex);
+//    pwm_duty(req->bRequest);
+      if ( req->wIndex == 0 ) {
+ //       pwm_set_dc(PWM_CH1, req->bRequest*4);
+        return USBD_REQ_HANDLED;
+      }	    
+      else if ( req->wIndex == 104 ) {
+//        pwm_set_dc(PWM_CH2, req->bRequest*4);
+        return USBD_REQ_HANDLED;
+      }
+      else if ( req->wIndex == 208 ) {
+//        pwm_set_dc(PWM_CH3, req->bRequest*4);
+        return USBD_REQ_HANDLED;
+      }
+//        pwm_set_dc(PWM_CH2, req->bRequest);
+        return USBD_REQ_HANDLED;
+     }
+    else if (req->wValue == 9)
+     {
+     if ( req->wIndex == 2 ) {
+        irqtype = IRQ_TYPE_LEVEL_HIGH;
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 3 ) {
+        irqtype = IRQ_TYPE_LEVEL_LOW;
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 4 ) {
+//        irqtype = IRQ_TYPE_EDGE_BOTH;
+        irqtype = EXTI_TRIGGER_BOTH;   
+        irq_pin_init();
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 5 ) {
+//        irqtype = IRQ_TYPE_EDGE_RISING;
+        irqtype = EXTI_TRIGGER_RISING;
+        irq_pin_init();
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 6 ) {
+//        irqtype = IRQ_TYPE_EDGE_FALLING;
+        irqtype = EXTI_TRIGGER_FALLING;
+        irq_pin_init();
+     return USBD_REQ_HANDLED;
+     }
+     }
+   else
+     {
+        (*buf)[0] = -1; // FAILURE
+     }
+ 
+   return 1;
 }
 
 static enum usbd_request_return_codes usb_control_request(
@@ -312,6 +782,14 @@ static void usb_set_config(usbd_device *usbd_dev, uint16_t wValue)
 				USB_REQ_TYPE_VENDOR | USB_REQ_TYPE_INTERFACE,
 				USB_REQ_TYPE_TYPE | USB_REQ_TYPE_RECIPIENT,
 				usb_control_request);
+	
+	usbd_ep_setup(usbd_dev, 0x83, USB_ENDPOINT_ATTR_INTERRUPT, 9, NULL);
+
+	usbd_register_control_callback(
+				usbd_dev,
+				USB_REQ_TYPE_VENDOR,
+				USB_REQ_TYPE_TYPE,
+				usb_control_gpio_request);
 }
 
 static usbd_device *usbd_dev;
@@ -354,6 +832,16 @@ static int usb_fibre(fibre_t *fibre)
 }
 static fibre_t usb_task = FIBRE_VAR_INIT(usb_fibre);
 static console_t uart_console;
+
+void exti1_isr(void)
+{
+    // char buf2[64] __attribute__ ((aligned(4)));
+    uint8_t buft[4] = {3, 3, 3, 3};
+	exti_reset_request(EXTI1);
+//	usbd_ep_write_packet(usbd_device usbd_dev, 0x83, buf2, 64);
+    usbd_ep_write_packet(usbd_dev, 0x83, buft, 4);
+    exti_set_trigger(EXTI1, irqtype);
+}
 
 static void i2c_init(void)
 {
@@ -403,6 +891,25 @@ static const console_cmd_t cmds[] = {
 	CONSOLE_CMD_VAR_INIT("reboot", do_reboot),
 };
 
+static void gpio_init(void)
+{
+	rcc_periph_clock_enable(RCC_GPIOC);
+	
+	gpio_set_mode(GPIO1_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO1_PIN);
+	gpio_set_mode(GPIO2_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO2_PIN);
+	gpio_set_mode(GPIO3_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO3_PIN);
+	gpio_set_mode(GPIO4_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO4_PIN);
+	gpio_set_mode(GPIO5_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO5_PIN);
+
+    my_delay_1();
+	gpio_clear(GPIO1_PORT, GPIO1_PIN);
+	gpio_set(GPIO2_PORT, GPIO2_PIN);
+	gpio_set(GPIO4_PORT, GPIO4_PIN);
+	gpio_set(GPIO3_PORT, GPIO3_PIN);
+	gpio_set(GPIO5_PORT, GPIO5_PIN);
+
+}
+
 int main(void)
 {
 	unsigned int i;
@@ -418,7 +925,10 @@ int main(void)
 
 	i2c_init();
 	time_init();
-
+	tim_setup();
+	gpio_init();
+	irq_pin_init();
+	exti_setup();
 	printf("Booted OK\n");
 
 	for (i = 0; i < 0x800000; i++)

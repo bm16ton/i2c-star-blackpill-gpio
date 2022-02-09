@@ -67,7 +67,6 @@ libopencm3:
 
 #EXAMPLE_DIRS:=$(sort $(dir $(wildcard $(addsuffix /*/*/Makefile,$(addprefix examples/,$(TARGETS))))))
 EXAMPLE_DIRS := \
-	src/bootloader \
 	src/i2c-explorer \
 	src/i2c-stm32f1-usb \
 	src/i2c-stm32f4-usb \

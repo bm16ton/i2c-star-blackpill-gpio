@@ -43,6 +43,7 @@ BMP_PORT	?=
 
 include ../../mk/librfm3.rules.mk
 include ../../mk/librfn.rules.mk
+include ../../mk/pwmf1.rules.mk
 include ../../mk/libopencm3.rules.mk
 
 
