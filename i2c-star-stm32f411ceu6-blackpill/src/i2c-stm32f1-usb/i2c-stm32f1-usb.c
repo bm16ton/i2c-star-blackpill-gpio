@@ -38,7 +38,7 @@
 
 #include <libopencm3/stm32/exti.h>
 #include <libopencm3/stm32/timer.h>
-#include <pwmf1.h>
+// #include <pwmf1.h>
 
 static const struct usb_device_descriptor dev = {
 	.bLength = USB_DT_DEVICE_SIZE,
@@ -115,7 +115,7 @@ static const struct usb_config_descriptor config = {
 	.bLength = USB_DT_CONFIGURATION_SIZE,
 	.bDescriptorType = USB_DT_CONFIGURATION,
 	.wTotalLength = 0, /* ?automatically calculated? */
-	.bNumInterfaces = 1,
+	.bNumInterfaces = 2,
 	.bConfigurationValue = 1,
 	.iConfiguration = 0,
 	.bmAttributes = 0x80, /* bus powered */
@@ -199,14 +199,14 @@ uint8_t usbd_control_buffer[128];
                             I2C_FUNC_SMBUS_I2C_BLOCK
 
 #define GPIO1_PORT   GPIOC      //LED
-#define GPIO1_PIN    GPIO1     //LED
-#define GPIO2_PORT   GPIOC
-#define GPIO2_PIN    GPIO0
-#define GPIO3_PORT   GPIOA       //BTN
-#define GPIO3_PIN    GPIO0       //BTN
+#define GPIO1_PIN    GPIO13     //LED
+#define GPIO2_PORT   GPIOB
+#define GPIO2_PIN    GPIO12
+#define GPIO3_PORT   GPIOB       //BTN
+#define GPIO3_PIN    GPIO13       //BTN
 #define GPIO4_PORT   GPIOB
-#define GPIO4_PIN    GPIO4
-#define GPIO5_PORT   GPIOA
+#define GPIO4_PIN    GPIO14
+#define GPIO5_PORT   GPIOB
 #define GPIO5_PIN    GPIO1
 #define GPIO6_PORT
 #define GPIO6_PIN
@@ -218,6 +218,7 @@ uint8_t usbd_control_buffer[128];
 #define LED1_PORT
 #define LED1_PIN
 
+#define IRQ_TYPE_NONE		0
 #define IRQ_TYPE_EDGE_RISING	0x00000001
 #define IRQ_TYPE_EDGE_FALLING	0x00000002
 #define IRQ_TYPE_EDGE_BOTH	IRQ_TYPE_EDGE_FALLING | IRQ_TYPE_EDGE_RISING
@@ -234,7 +235,7 @@ const unsigned long func = I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL | I2C_FUNC_NOSTART
 
 static uint8_t status = STATUS_IDLE;
 
-int irqtype = 0;
+int irqtype = EXTI_TRIGGER_FALLING;
 
 uint32_t i2c = I2C1;
 
@@ -265,6 +266,14 @@ static void irq_pin_init(void)
 //	exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
     exti_set_trigger(EXTI1, irqtype);
 	exti_enable_request(EXTI1);
+}
+
+static void irq_none(void)
+{
+//    nvic_disable_irq(NVIC_EXTI1_IRQ);
+	my_delay_2();				
+	exti_disable_request(EXTI1);
+	my_delay_2();
 }
 
 static void pwm_probe(void)
@@ -677,7 +686,12 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      }
     else if (req->wValue == 9)
      {
-     if ( req->wIndex == 2 ) {
+     if ( req->wIndex == 1 ) {
+        irqtype = IRQ_TYPE_NONE;
+        irq_pin_init();
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 2 ) {
         irqtype = IRQ_TYPE_LEVEL_HIGH;
      return USBD_REQ_HANDLED;
      }
@@ -925,10 +939,10 @@ int main(void)
 
 	i2c_init();
 	time_init();
-	tim_setup();
+//	tim_setup();
 	gpio_init();
 	irq_pin_init();
-	exti_setup();
+//	exti_setup();
 	printf("Booted OK\n");
 
 	for (i = 0; i < 0x800000; i++)

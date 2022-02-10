@@ -36,7 +36,7 @@ void gpio_setup(void)
 
 	/* Set GPIO12 (in GPIO port C) to 'output push-pull'. */
 	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ,
-		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO12);
+		      GPIO_CNF_OUTPUT_PUSHPULL, GPIO14);
 }
 
 void exti_setup(void)
@@ -379,7 +379,7 @@ void tim1_trg_com_isr(void)
 		step = 0;
 		break;
 	}
-	gpio_toggle(GPIOC, GPIO12);
+//	gpio_toggle(GPIOC, GPIO12);
 }
 /*
 int main(void)

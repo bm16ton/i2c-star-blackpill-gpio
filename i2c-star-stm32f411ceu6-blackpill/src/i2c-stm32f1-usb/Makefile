@@ -24,6 +24,6 @@ DEFS += -DF_APB1=3600000
 
 OBJS += console.o console_stm32.o
 
-DFU_ADDRESS = 0x08002000
+DFU_ADDRESS = 0x08000000
 LDSCRIPT = ../lctech-f103.ld
 include ../../mk/libopencm3.stm32f1xx.mk
