@@ -207,7 +207,7 @@ uint8_t usbd_control_buffer[128];
 #define GPIO4_PORT   GPIOB
 #define GPIO4_PIN    GPIO14
 #define GPIO5_PORT   GPIOB
-#define GPIO5_PIN    GPIO1
+#define GPIO5_PIN    GPIO4
 #define GPIO6_PORT
 #define GPIO6_PIN
 #define GPIO7_PORT
@@ -257,22 +257,22 @@ static void irq_pin_init(void)
 {
 //    nvic_disable_irq(NVIC_EXTI0_IRQ);
 	my_delay_2();
-    nvic_enable_irq(NVIC_EXTI1_IRQ);					
+    nvic_enable_irq(NVIC_EXTI4_IRQ);					
 	gpio_set_mode(GPIO5_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO5_PIN);
 
 	my_delay_2();
-	exti_select_source(EXTI1, GPIO5_PORT);
+	exti_select_source(EXTI4, GPIO5_PORT);
 //	state.falling = false;
 //	exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
-    exti_set_trigger(EXTI1, irqtype);
-	exti_enable_request(EXTI1);
+    exti_set_trigger(EXTI4, irqtype);
+	exti_enable_request(EXTI4);
 }
 
 static void irq_none(void)
 {
 //    nvic_disable_irq(NVIC_EXTI1_IRQ);
 	my_delay_2();				
-	exti_disable_request(EXTI1);
+	exti_disable_request(EXTI4);
 	my_delay_2();
 }
 
@@ -847,14 +847,14 @@ static int usb_fibre(fibre_t *fibre)
 static fibre_t usb_task = FIBRE_VAR_INIT(usb_fibre);
 static console_t uart_console;
 
-void exti1_isr(void)
+void exti4_isr(void)
 {
     // char buf2[64] __attribute__ ((aligned(4)));
     uint8_t buft[4] = {3, 3, 3, 3};
-	exti_reset_request(EXTI1);
+	exti_reset_request(EXTI4);
 //	usbd_ep_write_packet(usbd_device usbd_dev, 0x83, buf2, 64);
     usbd_ep_write_packet(usbd_dev, 0x83, buft, 4);
-    exti_set_trigger(EXTI1, irqtype);
+    exti_set_trigger(EXTI4, irqtype);
 }
 
 static void i2c_init(void)
