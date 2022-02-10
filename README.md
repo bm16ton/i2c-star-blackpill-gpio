@@ -1,13 +1,13 @@
 i2c-star usb-to-i2c fork with additional usb to gpio firmware and kernel driver for stm32f411 blackpill
 
 
-4 working gpio PC13 LED, PC14, PC15, and PA0 BTN. (pin numbers subject to change wo notice)
+4 working gpio 
 
 gpio read now works fine (with realy good usb cable, usb cables apparently screw up the gpio state reading) Setting output/input wrks perfect on all 4 pins but obviously the BTN-PA0 should be kept input and LED-C13 kept output. Ill mask their directions eventually.
 
 Basic PWM now implimented on blackpill but I just realized im using the old PWM FOPS "configure" instead of "apply" etc. Also neither seem to supply an offset for the gpio pin number so currently dunno how to tell the usb device which pin to configure! ill get it eventually. 
 
-IRQ basic IRQ stuff has been added to driver and blackpill 411 but not everything and most of what added needs to be edited/changed. My next step will be to add a pin/button and have it be irq enabled and do something stupid, hen have it send an interrupt urb that the driver turns into irq via driver
+Currently IRQ support works! one pin only, al edges supported. Need to check why using libgpio can set the initial edge value and work but the one driver ive tried mcp251x needs me to export the gpio set the edge ad unexport it before it will work and fire irqs. Probly having irq enabled by default on pin will fix this.
 
 Finally ADC pins I havent started at all!
 
