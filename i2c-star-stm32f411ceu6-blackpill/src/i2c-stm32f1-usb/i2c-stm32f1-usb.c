@@ -850,10 +850,15 @@ static console_t uart_console;
 void exti4_isr(void)
 {
     // char buf2[64] __attribute__ ((aligned(4)));
-    uint8_t buft[4] = {3, 3, 3, 3};
+//    uint8_t buft[4] = {3, 3, 3, 3};
+    static uint8_t buft[4];
+    buft[0] = 1; 
+	buft[1] = 3;
+	buft[2] = 3;
+	buft[3] = 3;
 	exti_reset_request(EXTI4);
 //	usbd_ep_write_packet(usbd_device usbd_dev, 0x83, buf2, 64);
-    usbd_ep_write_packet(usbd_dev, 0x83, buft, 4);
+    usbd_ep_write_packet(usbd_dev, 0x83, buft, sizeof(buft));
     exti_set_trigger(EXTI4, irqtype);
 }
 
