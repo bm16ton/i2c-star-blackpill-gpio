@@ -57,7 +57,7 @@ struct my_usb {
      int               polarity;
      int duty_ns, period_ns;
     
-     u8 buf[4];
+     u8 bufr[4];
 };
 
 #define MY_USB_VENDOR_ID 0x0403
@@ -103,7 +103,7 @@ _gpio_work_job2(struct work_struct *work2)
                    usb_rcvctrlpipe(sd->udev, 0),
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
                    usbval, offs,
-                   (u8 *)sd->buf, 4,
+                   (u8 *)sd->bufr, 4,
                    1000);
 }
 
@@ -221,10 +221,10 @@ _gpioa_get(struct gpio_chip *chip,
                    (u8 *)data->buf, 4,
                    3000);
 */                   
-    retval = data->buf[0];
-    retval1 = data->buf[1];
-    retval2 = data->buf[2];
-    retval3 = data->buf[3];
+    retval = data->bufr[0];
+    retval1 = data->bufr[1];
+    retval2 = data->bufr[2];
+    retval3 = data->bufr[3];
     printk("buf0 =  %d", retval);
     printk("buf1 =  %d", retval1);
     printk("buf2 =  %d", retval2);
@@ -290,19 +290,23 @@ static void usb_gpio_irq_enable(struct irq_data *irqd)
 		return;
 
 	dev->irq.irq_enable = true;
-	usb_submit_urb(dev->int_in_urb, GFP_ATOMIC);
+//	usb_submit_urb(dev->int_in_urb, GFP_ATOMIC);
 }
 
 static void usb_gpio_irq_disable(struct irq_data *irqd)
 {
-	struct my_usb *dev = irq_data_get_irq_chip_data(irqd);
-
+    struct gpio_chip *chip = irq_data_get_irq_chip_data(irqd);
+    struct my_usb *data = container_of(chip, struct my_usb,
+                                      chip);
 	/* Is that needed? */
-	if (!dev->irq.irq_enable)
-		return;
-		
-	dev->irq.irq_enable = false;
-	usb_kill_urb(dev->int_in_urb);
+//	if (!dev->irq.irq_enable)
+//		return;
+   usbval = 9;
+   offs = 1;
+   gpio_val = 9;
+   schedule_work(&data->work);
+//	dev->irq.irq_enable = false;
+//	usb_kill_urb(dev->int_in_urb);
 }
 
 static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
@@ -315,6 +319,12 @@ static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
 //    GPIO_irqNumber = gpio_to_irq(pin);
     pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
     	switch (type) {
+    case IRQ_TYPE_NONE:
+		   usbval = 9;
+           offs = 1;
+           gpio_val = 9;
+           schedule_work(&data->work);
+		break;
 	case IRQ_TYPE_LEVEL_HIGH:
 		   usbval = 9;
            offs = 2;
@@ -566,7 +576,7 @@ my_usb_disconnect(struct usb_interface *interface)
    usb_free_urb(data->int_in_urb);
    kfree(data->int_in_buf);
 
-   kfree(data->buf);
+   kfree(data->bufr);
    irq_free_descs(data->irq_base, data->irq_num);
    usb_set_intfdata(interface, NULL);
    //deref the count

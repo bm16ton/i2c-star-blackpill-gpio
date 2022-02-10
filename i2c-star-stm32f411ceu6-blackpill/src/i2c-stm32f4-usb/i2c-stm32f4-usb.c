@@ -226,6 +226,7 @@ uint8_t usbd_control_buffer[128];
 #define LED1_PORT
 #define LED1_PIN
 
+#define IRQ_TYPE_NONE		0
 #define IRQ_TYPE_EDGE_RISING	0x00000001
 #define IRQ_TYPE_EDGE_FALLING	0x00000002
 #define IRQ_TYPE_EDGE_BOTH	IRQ_TYPE_EDGE_FALLING | IRQ_TYPE_EDGE_RISING
@@ -244,19 +245,7 @@ static uint8_t status = STATUS_IDLE;
 
 uint32_t i2c = I2C1;
 
-static struct state_t state;
-
-struct state_t {
-		bool falling;
-		int tickcount;
-};
-
 int irqtype = 0;
-/*!
- * \brief Handle I2C I/O request.
- *
- * \todo There is no bus error checking at all...
- */
  
 static void my_delay_2( void )
 {
@@ -274,23 +263,20 @@ static void irq_pin_init(void)
 	gpio_mode_setup(GPIO5_PORT, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO5_PIN);
 	my_delay_2();
 	exti_select_source(EXTI1, GPIO5_PORT);
-//	state.falling = false;
-//	exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
     exti_set_trigger(EXTI1, irqtype);
 	exti_enable_request(EXTI1);
 }
 
+static void irq_none(void)
+{
+    nvic_disable_irq(NVIC_EXTI1_IRQ);
+	my_delay_2();				
+	exti_disable_request(EXTI1);
+	my_delay_2();
+}
 
 static void pwm_probe(void)
 {
-//    pwm_setup_timer(RCC_TIM3, TIM3, 2, 1000);
-//    pwm_setup_output_channel(TIM3, TIM_OC1, RCC_APB2ENR, GPIOA, GPIO8);
-//    pwm_set_pulse_width(TIM3, 0, 800);
-//    pwm_setup_output_channel(TIM3, TIM_OC2, RCC_APB2ENR, GPIOA, GPIO9);
-//    pwm_set_pulse_width(TIM3, 1, 400);
-//    pwm_setup_output_channel(TIM3, TIM_OC3, RCC_APB2ENR, GPIOA, GPIO10);
-//    pwm_set_pulse_width(TIM3, 2, 200);
-//    pwm_start_timer(TIM3);
     pwm_init();
     pwm_set_frequency(1000);
 	pwm_set_dc(PWM_CH1, 0);
@@ -679,8 +665,6 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      }
     else if (req->wValue == 5)
      { 
-//    pwm_period(1, req->wIndex);
-//    pwm_duty(req->bRequest);
       if ( req->wIndex == 0 ) {
         pwm_set_dc(PWM_CH1, req->bRequest*4);
         return USBD_REQ_HANDLED;
@@ -693,12 +677,16 @@ static enum usbd_request_return_codes usb_control_gpio_request(
         pwm_set_dc(PWM_CH3, req->bRequest*4);
         return USBD_REQ_HANDLED;
       }
-//        pwm_set_dc(PWM_CH2, req->bRequest);
         return USBD_REQ_HANDLED;
      }
     else if (req->wValue == 9)
      {
-     if ( req->wIndex == 2 ) {
+     if ( req->wIndex == 1 ) {
+        irqtype = IRQ_TYPE_NONE;
+        irq_none();
+     return USBD_REQ_HANDLED;
+     }
+     else if ( req->wIndex == 2 ) {
         irqtype = IRQ_TYPE_LEVEL_HIGH;
      return USBD_REQ_HANDLED;
      }
@@ -873,10 +861,6 @@ static void i2c_init(void)
 				GPIO6 | GPIO9);
 	gpio_set_af(GPIOB, GPIO_AF4, GPIO6 | GPIO9);
 
-	/* take the DAC out of reset (so there is something in the bus) */
-//	rcc_periph_clock_enable(RCC_GPIOD);
-//	gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO4);
-//	gpio_set(GPIOD, GPIO4);
 }
 
 static void gpio_init(void)
@@ -923,7 +907,6 @@ int main(void)
 {
 	int i;
 
- //   rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
     rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
     
 	rcc_periph_clock_enable(RCC_GPIOA);
