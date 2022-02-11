@@ -245,7 +245,7 @@ static uint8_t status = STATUS_IDLE;
 
 uint32_t i2c = I2C1;
 
-int irqtype = 0;
+int irqtype = EXTI_TRIGGER_FALLING;
  
 static void my_delay_2( void )
 {
@@ -916,6 +916,7 @@ int main(void)
 	gpio_init();
 	i2c_init();
 	time_init();
+	irq_pin_init();
 //	pwm_probe();
 //	gpio_clear(GPIOC, GPIO13);
 

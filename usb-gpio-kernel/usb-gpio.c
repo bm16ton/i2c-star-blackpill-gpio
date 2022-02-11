@@ -301,10 +301,12 @@ static void usb_gpio_irq_disable(struct irq_data *irqd)
 	/* Is that needed? */
 //	if (!dev->irq.irq_enable)
 //		return;
+/*
    usbval = 9;
    offs = 1;
    gpio_val = 9;
    schedule_work(&data->work);
+*/
 //	dev->irq.irq_enable = false;
 //	usb_kill_urb(dev->int_in_urb);
 }
