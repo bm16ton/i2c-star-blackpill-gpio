@@ -67,7 +67,7 @@ void pwm_init(void)
 
 	/* Reset TIM3 peripheral */
 	//timer_reset(TIM3);
-    rcc_periph_reset_pulse(RST_TIM3);
+
 	/* Set the timers global mode to:
 	 * - use no divider
 	 * - alignment edge
@@ -92,71 +92,54 @@ void pwm_init(void)
 
 	/* Init output channels */
 
-	/* Enable GPIOD clock */
-	rcc_periph_clock_enable(RCC_GPIOA);
-	rcc_periph_clock_enable(RCC_GPIOB);
+	/* Enable GPIOC clock */
+	rcc_periph_clock_enable(RCC_GPIOC);
 
-	/* Set GPIO12, GPIO13, GPIO14, GPIO15 (in GPIO port D) to Alternate Function */
-	gpio_mode_setup(GPIOA,
+	/* Set GPIO6, GPIO7, GPIO8, GPIO9 (in GPIO port D) to Alternate Function */
+	gpio_mode_setup(GPIOC,
 					GPIO_MODE_AF,
 					GPIO_PUPD_NONE,
-					GPIO6 | GPIO7);
+					GPIO6 | GPIO7 | GPIO8 | GPIO9);
 
 	/* Push Pull, Speed 50 MHz */
-	gpio_set_output_options(GPIOA,
+	gpio_set_output_options(GPIOC,
 							GPIO_OTYPE_PP,
 							GPIO_OSPEED_50MHZ,
-							GPIO6 | GPIO7);
+							GPIO6 | GPIO7 | GPIO8 | GPIO9);
 
 	/* Alternate Function: TIM3 CH1/2/3/4 */
-	gpio_set_af(GPIOA,
+	gpio_set_af(GPIOC,
 				GPIO_AF2,
-				GPIO6 | GPIO7);
+				GPIO6 | GPIO7 | GPIO8 | GPIO9);
 
-	gpio_mode_setup(GPIOB,
-					GPIO_MODE_AF,
-					GPIO_PUPD_NONE,
-					GPIO0);
-
-	/* Push Pull, Speed 50 MHz */
-	gpio_set_output_options(GPIOB,
-							GPIO_OTYPE_PP,
-							GPIO_OSPEED_50MHZ,
-							GPIO0);
-
-	/* Alternate Function: TIM3 CH1/2/3/4 */
-	gpio_set_af(GPIOB,
-				GPIO_AF2,
-				GPIO0);
-				
 	/* disable TIM3 channels */
 	timer_disable_oc_output(TIM3, TIM_OC1);
 	timer_disable_oc_output(TIM3, TIM_OC2);
 	timer_disable_oc_output(TIM3, TIM_OC3);
-//	timer_disable_oc_output(TIM3, TIM_OC4);
+	timer_disable_oc_output(TIM3, TIM_OC4);
 
 	/* set OC mode for each channel */
 	timer_set_oc_mode(TIM3, TIM_OC1, TIM_OCM_PWM1);
 	timer_set_oc_mode(TIM3, TIM_OC2, TIM_OCM_PWM1);
 	timer_set_oc_mode(TIM3, TIM_OC3, TIM_OCM_PWM1);
-//	timer_set_oc_mode(TIM3, TIM_OC4, TIM_OCM_PWM1);
+	timer_set_oc_mode(TIM3, TIM_OC4, TIM_OCM_PWM1);
 
 	timer_enable_oc_preload(TIM3, TIM_OC1);
 	timer_enable_oc_preload(TIM3, TIM_OC2);
 	timer_enable_oc_preload(TIM3, TIM_OC3);
-//	timer_enable_oc_preload(TIM3, TIM_OC4);
+	timer_enable_oc_preload(TIM3, TIM_OC4);
 
 	/* reset OC value for each channel */
 	timer_set_oc_value(TIM3, TIM_OC1, 0);
 	timer_set_oc_value(TIM3, TIM_OC2, 0);
 	timer_set_oc_value(TIM3, TIM_OC3, 0);
-//	timer_set_oc_value(TIM3, TIM_OC4, 0);
+	timer_set_oc_value(TIM3, TIM_OC4, 0);
 
 	/* enable OC output for each channel */
 	timer_enable_oc_output(TIM3, TIM_OC1);
 	timer_enable_oc_output(TIM3, TIM_OC2);
 	timer_enable_oc_output(TIM3, TIM_OC3);
-//	timer_enable_oc_output(TIM3, TIM_OC4);
+	timer_enable_oc_output(TIM3, TIM_OC4);
 }
 
 

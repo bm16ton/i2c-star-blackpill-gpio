@@ -39,6 +39,31 @@
 #include <libopencm3/stm32/exti.h>
 #include <libopencm3/stm32/timer.h>
 #include <pwm.h>
+#include "clock.h"
+
+static volatile uint32_t system_millis;
+
+/* Called when systick fires */
+void sys_tick_handler(void)
+{
+	system_millis++;
+}
+
+/* simple sleep for delay milliseconds */
+void milli_sleep(uint32_t delay)
+{
+	uint32_t wake = system_millis + delay;
+	while (wake > system_millis) {
+		continue;
+	}
+}
+
+/* Getter function for the current time */
+uint32_t mtime(void)
+{
+	return system_millis;
+}
+
 
 static const struct usb_device_descriptor dev = {
 	.bLength = USB_DT_DEVICE_SIZE,
@@ -223,6 +248,15 @@ uint8_t usbd_control_buffer[128];
 #define GPIO8_PORT
 #define GPIO8_PIN
 
+#define PWM0_PORT    GPIOC
+#define PWM0_PIN     GPIO6
+#define PWM1_PORT    GPIOC
+#define PWM1_PIN     GPIO7
+#define PWM2_PORT    GPIOC
+#define PWM2_PIN     GPIO8
+#define PWM3_PORT    GPIOC
+#define PWM3_PIN     GPIO9
+
 #define LED1_PORT
 #define LED1_PIN
 
@@ -278,31 +312,36 @@ static void irq_none(void)
 static void pwm_probe(void)
 {
     pwm_init();
-    pwm_set_frequency(1000);
+    pwm_set_frequency(1000000);
 	pwm_set_dc(PWM_CH1, 0);
 	pwm_set_dc(PWM_CH2, 0);
 	pwm_set_dc(PWM_CH3, 0);
+	pwm_set_dc(PWM_CH4, 0);
 	pwm_start();
 	my_delay_2();
-    pwm_set_frequency(1000);
-	pwm_set_dc(PWM_CH1, 500);
-	pwm_set_dc(PWM_CH2, 500);
-	pwm_set_dc(PWM_CH3, 500);
+    pwm_set_frequency(1000000);
+	pwm_set_dc(PWM_CH1, 100);
+	pwm_set_dc(PWM_CH2, 200);
+	pwm_set_dc(PWM_CH3, 300);
+	pwm_set_dc(PWM_CH4, 500);
 	my_delay_2();
 
 }	
 	
 static void pwm_disable(void)
 {
-	timer_set_oc_value(TIM3, TIM_OC1, 0);
-	timer_set_oc_value(TIM3, TIM_OC2, 0);
-	timer_set_oc_value(TIM3, TIM_OC3, 0);
+	timer_set_oc_value(TIM8, TIM_OC1, 0);
+	timer_set_oc_value(TIM8, TIM_OC2, 0);
+	timer_set_oc_value(TIM8, TIM_OC3, 0);
+	timer_set_oc_value(TIM8, TIM_OC4, 0);
 	pwm_set_dc(PWM_CH1, 0);
 	pwm_set_dc(PWM_CH2, 0);
 	pwm_set_dc(PWM_CH3, 0);
-	timer_disable_oc_output(TIM3, TIM_OC1);
-	timer_disable_oc_output(TIM3, TIM_OC2);
-	timer_disable_oc_output(TIM3, TIM_OC3);
+	pwm_set_dc(PWM_CH4, 0);
+	timer_disable_oc_output(TIM8, TIM_OC1);
+	timer_disable_oc_output(TIM8, TIM_OC2);
+	timer_disable_oc_output(TIM8, TIM_OC3);
+	timer_disable_oc_output(TIM8, TIM_OC4);
 	my_delay_2();
 }	
 
@@ -581,15 +620,15 @@ static enum usbd_request_return_codes usb_control_gpio_request(
 		        (*buf)[1] = 4;
 		        (*buf)[2] = 4;
 		        (*buf)[3] = 4;
-			    *len = sizeof(buf);
-			    return USBD_REQ_HANDLED;
+			    *len = 4;
+			    return 1;
 			} else {
-				(*buf)[0] = 1; 
+				(*buf)[0] = 0; 
 		        (*buf)[1] = 3;
 		        (*buf)[2] = 3;
 		        (*buf)[3] = 3;
-			    *len = sizeof(buf);
-			    return USBD_REQ_HANDLED;
+			    *len = 4;
+			    return 1;
 			}
 			return USBD_REQ_HANDLED;
 			}
@@ -600,7 +639,7 @@ static enum usbd_request_return_codes usb_control_gpio_request(
         {
         if ( req->wIndex == 0 )
 			{
-				gpio_clear(GPIO1_PORT, GPIO1_PIN);
+				gpio_set(GPIO1_PORT, GPIO1_PIN);
 				return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 1 )
@@ -628,7 +667,7 @@ static enum usbd_request_return_codes usb_control_gpio_request(
      {
      if (req->wIndex == 0)
 			{
-				gpio_set(GPIO1_PORT, GPIO1_PIN);
+				gpio_clear(GPIO1_PORT, GPIO1_PIN);
 				return USBD_REQ_HANDLED;
 			}
 	    else if ( req->wIndex == 1 )
@@ -675,6 +714,10 @@ static enum usbd_request_return_codes usb_control_gpio_request(
       }
       else if ( req->wIndex == 208 ) {
         pwm_set_dc(PWM_CH3, req->bRequest*4);
+        return USBD_REQ_HANDLED;
+      }
+      else if ( req->wIndex == 56 ) {
+        pwm_set_dc(PWM_CH4, req->bRequest*4);
         return USBD_REQ_HANDLED;
       }
         return USBD_REQ_HANDLED;
@@ -903,20 +946,37 @@ static void gpio_init(void)
 	*/
 }
 
+void clock_setup(void)
+{
+	/* Base board frequency, set to 168Mhz */
+//	rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
+
+	/* clock rate / 168000 to get 1mS interrupt rate */
+	systick_set_reload(86000);
+	systick_set_clocksource(STK_CSR_CLKSOURCE_AHB);
+	systick_counter_enable();
+
+	/* this done last */
+	systick_interrupt_enable();
+}
+
 int main(void)
 {
 	int i;
 
-    rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
+    rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
     
 	rcc_periph_clock_enable(RCC_GPIOA);
 	rcc_periph_clock_enable(RCC_GPIOB);
 	rcc_periph_clock_enable(RCC_GPIOC);
+	rcc_periph_clock_enable(RCC_GPIOD);
+	rcc_periph_clock_enable(RCC_GPIOE);
 	
 	gpio_init();
 	i2c_init();
 	time_init();
-	irq_pin_init();
+	clock_setup();
+//	irq_pin_init();
 //	pwm_probe();
 //	gpio_clear(GPIOC, GPIO13);
 

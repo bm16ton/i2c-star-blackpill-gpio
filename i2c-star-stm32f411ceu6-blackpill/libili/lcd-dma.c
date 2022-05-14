@@ -10,7 +10,7 @@
 #include "clock.h"
 #include "console.h"
 #include "lcd-spi.h"
-#include "sdram.h"
+
 
 #define LCD_WIDTH  240
 #define LCD_HEIGHT 320

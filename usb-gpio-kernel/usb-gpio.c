@@ -104,7 +104,7 @@ _gpio_work_job2(struct work_struct *work2)
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
                    usbval, offs,
                    (u8 *)sd->bufr, 4,
-                   1000);
+                   100);
 }
 
 static void
@@ -204,32 +204,37 @@ _gpioa_get(struct gpio_chip *chip,
                                      chip);
 
    int retval, retval1, retval2, retval3;
-
+   char *rxbuf = kmalloc(4, GFP_KERNEL);
+   if (!rxbuf)
+		return -ENOMEM;
+		
     printk(KERN_INFO "GPIO GET INFO: %d", offset);
 
     usbval = 3;
 	offs = offset;
     gpio_val = 1;
 
-    usleep_range(1000, 1200);
-    schedule_work(&data->work2);
-    usleep_range(1000, 1200);
-/*    usb_control_msg(data->udev,
+//    usleep_range(1000, 1200);
+//    schedule_work(&data->work2);
+//    usleep_range(1000, 1200);
+    usb_control_msg(data->udev,
                    usb_rcvctrlpipe(data->udev, 0),
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
                    usbval, offs,
-                   (u8 *)data->buf, 4,
-                   3000);
-*/                   
-    retval = data->bufr[0];
-    retval1 = data->bufr[1];
-    retval2 = data->bufr[2];
-    retval3 = data->bufr[3];
+                   rxbuf, 4,
+                   100);
+                                      
+    retval = rxbuf[0];
+    retval1 = rxbuf[1];
+    retval2 = rxbuf[2];
+    retval3 = rxbuf[3];
     printk("buf0 =  %d", retval);
     printk("buf1 =  %d", retval1);
     printk("buf2 =  %d", retval2);
     printk("buf3 =  %d", retval3);
 
+    kfree(rxbuf);
+//    kfree(data->bufr);
  
     return retval1 - 3; 
 
@@ -301,12 +306,12 @@ static void usb_gpio_irq_disable(struct irq_data *irqd)
 	/* Is that needed? */
 //	if (!dev->irq.irq_enable)
 //		return;
-/*
+
    usbval = 9;
    offs = 1;
    gpio_val = 9;
    schedule_work(&data->work);
-*/
+
 //	dev->irq.irq_enable = false;
 //	usb_kill_urb(dev->int_in_urb);
 }
@@ -525,7 +530,7 @@ my_usb_probe(struct usb_interface *interface,
    data->pwmchip.dev = &udev->dev;
    data->pwmchip.ops = &gpio_pwm_ops;
    data->pwmchip.base = -1;
-   data->pwmchip.npwm = 3;
+   data->pwmchip.npwm = 4;
 
 
    err = pwmchip_add(&data->pwmchip);
