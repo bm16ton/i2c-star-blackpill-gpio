@@ -82,9 +82,9 @@ _gpio_work_job(struct work_struct *work)
 {
    struct my_usb *sd = container_of(work, struct my_usb, work);
 
-   printk(KERN_ALERT "gpioval i/o: %d", gpio_val);
-   printk(KERN_ALERT "usbval i/o: %d", usbval);
-   printk(KERN_ALERT "offset i/o: %d",offs);
+   printk(KERN_ALERT "gpioval i/o: %d \n", gpio_val);
+   printk(KERN_ALERT "usbval i/o: %d \n", usbval);
+   printk(KERN_ALERT "offset i/o: %d \n",offs);
    usb_control_msg(sd->udev,
                    usb_sndctrlpipe(sd->udev, 0),
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_OUT,
@@ -98,13 +98,13 @@ _gpio_work_job2(struct work_struct *work2)
 {
    struct my_usb *sd = container_of(work2, struct my_usb, work2);
 
-   printk(KERN_ALERT "Read port i/o: %d", offs);
+   printk(KERN_ALERT "Read port i/o: %d \n", offs);
    usb_control_msg(sd->udev,
                    usb_rcvctrlpipe(sd->udev, 0),
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
                    usbval, offs,
                    (u8 *)sd->bufr, 4,
-                   1000);
+                   100);
 }
 
 static void
@@ -112,7 +112,7 @@ int_cb(struct urb *urb)
 {
    struct my_usb *sd = urb->context;
    unsigned long flags;
-   printk(KERN_ALERT "urb interrupt is called");
+   printk(KERN_ALERT "urb interrupt is called \n");
 //   i2c_gpio_to_irq(&sd->chip, 3);
 //   GPIO_irqNumber = gpio_to_irq(2);
 //   pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
@@ -122,7 +122,7 @@ int_cb(struct urb *urb)
    generic_handle_irq(GPIO_irqNumber);
    //TODO: use endpoint3 also
    local_irq_restore(flags);
-   printk(KERN_ALERT "received data: %s", sd->int_in_buf);
+   printk(KERN_ALERT "received data: %s \n", sd->int_in_buf);
    usb_submit_urb(sd->int_in_urb, GFP_KERNEL);
 }
 
@@ -131,7 +131,7 @@ static int gpio_pwm_config(struct pwm_chip *pwmchip, struct pwm_device *pwm,
 {
    struct my_usb *data = container_of(pwmchip, struct my_usb,
                                       pwmchip);
-   printk(KERN_INFO "i2c_tiny_pwm_config");
+   printk(KERN_INFO "i2c_tiny_pwm_config \n");
    usbval = 5;
    gpio_val = duty_ns;
    offs = pwm;
@@ -147,10 +147,10 @@ static int gpio_pwm_enable(struct pwm_chip *pwmchip, struct pwm_device *pwm)
    offs = 1;
    gpio_val = 1;
    schedule_work(&data->work);
-   printk(KERN_INFO "pwm: %p", pwm);
-   printk(KERN_INFO "usb gpio_pwm_enable");
+   printk(KERN_INFO "pwm: %p \n", pwm);
+   printk(KERN_INFO "usb gpio_pwm_enable \n");
    if (pwm->label)
-     printk(KERN_INFO "label: %s", pwm->label);
+     printk(KERN_INFO "label: %s \n", pwm->label);
    return 0;
 }
 
@@ -162,7 +162,7 @@ static void gpio_pwm_disable(struct pwm_chip *pwmchip, struct pwm_device *pwm)
    offs = 2;
    gpio_val = 2;
    schedule_work(&data->work);
-   printk(KERN_INFO "gpio_pwm_disable");
+   printk(KERN_INFO "gpio_pwm_disable \n");
 }
 
 static const struct pwm_ops gpio_pwm_ops = {
@@ -187,7 +187,7 @@ _gpioa_set(struct gpio_chip *chip,
 {
    struct my_usb *data = container_of(chip, struct my_usb,
                                       chip);
-   printk(KERN_INFO "GPIO SET INFO for pin: %d", offset);
+   printk(KERN_INFO "GPIO SET INFO for pin: %d \n", offset);
 
    usbval = 0;
 
@@ -204,32 +204,39 @@ _gpioa_get(struct gpio_chip *chip,
                                      chip);
 
    int retval, retval1, retval2, retval3;
-
-    printk(KERN_INFO "GPIO GET INFO: %d", offset);
+   char *rxbuf = kmalloc(4, GFP_KERNEL);
+   if (!rxbuf)
+		return -ENOMEM;
+		
+    printk(KERN_INFO "GPIO GET INFO: %d \n", offset);
 
     usbval = 3;
 	offs = offset;
     gpio_val = 1;
 
-    usleep_range(1000, 1200);
-    schedule_work(&data->work2);
-    usleep_range(1000, 1200);
-/*    usb_control_msg(data->udev,
+//    usleep_range(1000, 1200);
+//    schedule_work(&data->work2);
+//    usleep_range(1000, 1200);
+    usb_control_msg(data->udev,
                    usb_rcvctrlpipe(data->udev, 0),
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
                    usbval, offs,
-                   (u8 *)data->buf, 4,
-                   3000);
-*/                   
-    retval = data->bufr[0];
-    retval1 = data->bufr[1];
-    retval2 = data->bufr[2];
-    retval3 = data->bufr[3];
-    printk("buf0 =  %d", retval);
-    printk("buf1 =  %d", retval1);
-    printk("buf2 =  %d", retval2);
-    printk("buf3 =  %d", retval3);
+                   rxbuf, 4,
+                   100);
+              
+    memcpy(data->bufr, rxbuf, 4);          
+                                      
+    retval = rxbuf[0];
+    retval1 = rxbuf[1];
+    retval2 = rxbuf[2];
+    retval3 = rxbuf[3];
+    printk("buf0 =  %d \n", retval);
+    printk("buf1 =  %d \n", retval1);
+    printk("buf2 =  %d \n", retval2);
+    printk("buf3 =  %d \n", retval3);
 
+    kfree(rxbuf);
+//    kfree(data->bufr);
  
     return retval1 - 3; 
 
@@ -241,7 +248,7 @@ _direction_output(struct gpio_chip *chip,
 {
 	   struct my_usb *data = container_of(chip, struct my_usb,
                                       chip);
-   printk("Setting pin to OUTPUT");
+   printk("Setting pin to OUTPUT \n");
    
         usbval = 2;
 		offs = offset;
@@ -258,7 +265,7 @@ _direction_input(struct gpio_chip *chip,
    struct my_usb *data = container_of(chip, struct my_usb,
                                       chip);
                                       
-   printk("Setting pin to INPUT");
+   printk("Setting pin to INPUT \n");
 
 
         usbval = 1;
@@ -286,11 +293,23 @@ static void usb_gpio_irq_enable(struct irq_data *irqd)
 	struct my_usb *dev = irq_data_get_irq_chip_data(irqd);
 
 	/* Is that needed? */
-	if (dev->irq.irq_enable)
+//	if (dev->irq.irq_enable)
+	if (dev->irq_enabled[4])
 		return;
 
-	dev->irq.irq_enable = true;
+//	dev->irq.irq_enable = true;
+    dev->irq_enabled[4] = true;
 //	usb_submit_urb(dev->int_in_urb, GFP_ATOMIC);
+}
+
+void set_irq_disabled(struct irq_data *irqd)
+{
+    struct my_usb *dev = irq_data_get_irq_chip_data(irqd);
+    
+    if (!dev->irq_enabled[4])
+        return;
+        
+    dev->irq_enabled[4] = false;
 }
 
 static void usb_gpio_irq_disable(struct irq_data *irqd)
@@ -299,14 +318,15 @@ static void usb_gpio_irq_disable(struct irq_data *irqd)
     struct my_usb *data = container_of(chip, struct my_usb,
                                       chip);
 	/* Is that needed? */
-//	if (!dev->irq.irq_enable)
+//	if (!chip->irq_enabled[4])
 //		return;
-/*
+
    usbval = 9;
    offs = 1;
    gpio_val = 9;
    schedule_work(&data->work);
-*/
+   set_irq_disabled(irqd);
+//   dev->irq_enabled[4] = false;
 //	dev->irq.irq_enable = false;
 //	usb_kill_urb(dev->int_in_urb);
 }
@@ -382,13 +402,13 @@ my_usb_probe(struct usb_interface *interface,
    int err;
    int rc;
    
-   printk(KERN_INFO "manufacturer: %s", udev->manufacturer);
-   printk(KERN_INFO "product: %s", udev->product);
+   printk(KERN_INFO "manufacturer: %s \n", udev->manufacturer);
+   printk(KERN_INFO "product: %s \n", udev->product);
 
    iface_desc = interface->cur_altsetting;
-   printk(KERN_INFO "vusb led %d probed: (%04X:%04X)",
+   printk(KERN_INFO "vusb led %d probed: (%04X:%04X) \n",
           iface_desc->desc.bInterfaceNumber, id->idVendor, id->idProduct);
-   printk(KERN_INFO "bNumEndpoints: %d", iface_desc->desc.bNumEndpoints);
+   printk(KERN_INFO "bNumEndpoints: %d \n", iface_desc->desc.bNumEndpoints);
 
    for (i = 0; i < iface_desc->desc.bNumEndpoints; i++)
      {
@@ -441,12 +461,12 @@ my_usb_probe(struct usb_interface *interface,
 
    usb_set_intfdata(interface, data);
 
-   printk(KERN_INFO "usb gpio irq is connected");
+   printk(KERN_INFO "usb gpio irq is connected \n");
 
    i = usb_submit_urb(data->int_in_urb, GFP_KERNEL);
    if (i)
      {
-        printk(KERN_ALERT "Failed to submit urb");
+        printk(KERN_ALERT "Failed to submit urb \n");
      }
      
 
@@ -492,7 +512,7 @@ my_usb_probe(struct usb_interface *interface,
 	
 	rc = irq_alloc_desc(0);
 	if (rc < 0) {
-		dev_err(&interface->dev, "Cannot allocate an IRQ desc");
+		dev_err(&interface->dev, "Cannot allocate an IRQ desc \n");
 		return rc;
 	}
 	
@@ -500,11 +520,11 @@ my_usb_probe(struct usb_interface *interface,
 	
    if (gpiochip_add(&data->chip) < 0)
      {
-        printk(KERN_ALERT "Failed to add gpio chip");
+        printk(KERN_ALERT "Failed to add gpio chip \n");
      }
    else
      {
-        printk(KERN_INFO "Able to add gpiochip: %s", data->chip.label);
+        printk(KERN_INFO "Able to add gpiochip: %s \n", data->chip.label);
      }
 
 //   gpio_direction_input(5);
@@ -525,7 +545,7 @@ my_usb_probe(struct usb_interface *interface,
    data->pwmchip.dev = &udev->dev;
    data->pwmchip.ops = &gpio_pwm_ops;
    data->pwmchip.base = -1;
-   data->pwmchip.npwm = 3;
+   data->pwmchip.npwm = 4;
 
 
    err = pwmchip_add(&data->pwmchip);
@@ -534,7 +554,7 @@ my_usb_probe(struct usb_interface *interface,
   
    usb_set_intfdata(interface, data);
 
-   printk(KERN_INFO "usb device is connected");
+   printk(KERN_INFO "usb device is connected \n");
 
    INIT_WORK(&data->work, _gpio_work_job);
    INIT_WORK(&data->work2, _gpio_work_job2);
@@ -586,7 +606,7 @@ my_usb_disconnect(struct usb_interface *interface)
 //   usb_put_dev(pwmd->udev);
    kfree(data); //deallocate, allocated by kzmalloc()
 
-   printk(KERN_INFO "usb device is disconnected");
+   printk(KERN_INFO "usb device is disconnected \n");
 }
 
 static struct usb_driver my_usb_driver = {
@@ -604,16 +624,16 @@ static int __init
 _usb_init(void)
 {
    int result;
-   printk(KERN_INFO "usb driver is loaded");
+   printk(KERN_INFO "usb driver is loaded \n");
 
    result = usb_register(&my_usb_driver);
    if (result)
      {
-        printk(KERN_ALERT "device registeration failed!!");
+        printk(KERN_ALERT "device registeration failed!! \n");
      }
    else
      {
-        printk(KERN_INFO "device registered");
+        printk(KERN_INFO "device registered\n");
      }
 
    return result;
@@ -623,7 +643,7 @@ _usb_init(void)
 static void __exit
 _usb_exit(void)
 {
-   printk(KERN_INFO "usb driver is unloaded");
+   printk(KERN_INFO "usb driver is unloaded\n");
    usb_deregister(&my_usb_driver);
 }
 
