@@ -112,7 +112,12 @@ int_cb(struct urb *urb)
 {
    struct my_usb *sd = urb->context;
    unsigned long flags;
+   char *intrxbuf = kmalloc(4, GFP_KERNEL);
+   if (!intrxbuf)
+		printk(KERN_ALERT "Failed to create intrxbuf \n");
+		
    printk(KERN_ALERT "urb interrupt is called \n");
+   memcpy(sd->int_in_buf, intrxbuf, 4);
 //   i2c_gpio_to_irq(&sd->chip, 3);
 //   GPIO_irqNumber = gpio_to_irq(2);
 //   pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
@@ -122,8 +127,9 @@ int_cb(struct urb *urb)
    generic_handle_irq(GPIO_irqNumber);
    //TODO: use endpoint3 also
    local_irq_restore(flags);
-   printk(KERN_ALERT "received data: %s \n", sd->int_in_buf);
+   printk(KERN_ALERT "received data: %s \n", intrxbuf);
    usb_submit_urb(sd->int_in_urb, GFP_KERNEL);
+   kfree(intrxbuf);
 }
 
 static int gpio_pwm_config(struct pwm_chip *pwmchip, struct pwm_device *pwm,
