@@ -4,6 +4,7 @@
 #include <linux/module.h>// Core header for loading LKMs into the kernel
 #include <linux/kernel.h>// Contains types, macros, functions for the kernel
 #include <linux/device.h>// Header to support the kernel Driver Model
+#include <linux/version.h>
 
 #include <linux/usb.h> //for usb stuffs
 #include <linux/slab.h> //for kzmalloc and kfree
@@ -127,7 +128,7 @@ int_cb(struct urb *urb)
 //    handle_simple_irq (sd->irq_descs[3]);
    local_irq_save(flags);
    generic_handle_irq(GPIO_irqNumber);
-   //TODO: use endpoint3 also
+
    local_irq_restore(flags);
    printk(KERN_ALERT "received data: %s \n", intrxbuf);
    usb_submit_urb(sd->int_in_urb, GFP_KERNEL);
@@ -188,7 +189,7 @@ static const struct pwm_ops gpio_pwm_ops = {
      .owner = THIS_MODULE,
 };
 
-//this is called when you do echo 1 > value
+
 static void
 _gpioa_set(struct gpio_chip *chip,
            unsigned offset, int value)
@@ -392,7 +393,8 @@ static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
 
 	return 0;
 }    
-    
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5,18,0)    
 static const struct irq_chip usb_gpio_irqchip = {
 	.name = "usbgpio-irq",
 	.irq_enable =  usb_gpio_irq_enable,
@@ -400,7 +402,7 @@ static const struct irq_chip usb_gpio_irqchip = {
 	.irq_set_type = usbirq_irq_set_type,
 	.flags = IRQCHIP_IMMUTABLE, GPIOCHIP_IRQ_RESOURCE_HELPERS,
 };
-
+#endif
 
 const char *gpio_names[] = { "LED", "usbGPIO2", "BTN", "usbGPIO4", "IRQpin" };
 
@@ -514,16 +516,18 @@ my_usb_probe(struct usb_interface *interface,
    data->chip.direction_output = _direction_output;
    data->chip.to_irq = i2c_gpio_to_irq;
    data->chip.names = gpio_names;
-/*   data->irq.name = "usbgpio-irq";
+   #if LINUX_VERSION_CODE <= KERNEL_VERSION(5,18,0)    
+   data->irq.name = "usbgpio-irq";
    data->irq.irq_set_type = usbirq_irq_set_type;
    data->irq.irq_enable = usb_gpio_irq_enable;
    data->irq.irq_disable = usb_gpio_irq_disable;
-*/
-//   data->irq.irq_enabled = false;
 
 	girq = &data->chip.irq;
-//	girq->chip = &data->irq;
+	girq->chip = &data->irq;
+	#else 
+	girq = &data->chip.irq;
     gpio_irq_chip_set_chip(girq, &usb_gpio_irqchip);
+    #endif
 	girq->parent_handler = NULL;
 	girq->num_parents = 0;
 	girq->parents = NULL;
