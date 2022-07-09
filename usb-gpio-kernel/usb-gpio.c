@@ -45,7 +45,8 @@ struct my_usb {
      int               num;
      uint8_t           irq_num;                            // number of pins with IRQs
      int               irq_base;                           // base IRQ allocated
-     struct irq_desc*  irq_descs    [5]; // IRQ descriptors used (irq_num elements)
+//     struct irq_desc*  irq_descs    [5]; // IRQ descriptors used (irq_num elements)
+    const struct cpumask *aff_mask;
      int               irq_types    [5]; // IRQ types (irq_num elements)
      bool              irq_enabled  [5]; // IRQ enabled flag (irq_num elements)
      int               irq_gpio_map [5]; // IRQ to GPIO pin map (irq_num elements)
@@ -76,6 +77,7 @@ unsigned int GPIO_irqNumber;
 static uint8_t gpio_val = 0;      // brequest
 static uint8_t offs = 0;          // windex?
 static uint8_t usbval = 0;        // wvalue
+int irqt = 2;
 
 static void
 _gpio_work_job(struct work_struct *work)
@@ -345,6 +347,7 @@ static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
     int pin = irqd_to_hwirq(irqd);
     pr_info("irq pin = %d\n", pin);
 //    GPIO_irqNumber = gpio_to_irq(pin);
+    irqt = type;
     pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
     	switch (type) {
     case IRQ_TYPE_NONE:
