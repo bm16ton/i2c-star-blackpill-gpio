@@ -39,11 +39,14 @@
 #include <libopencm3/stm32/exti.h>
 #include <libopencm3/stm32/timer.h>
 #include <pwm.h>
-//#include "clock.h"
+
+#include "clock.h"
+
 
 static volatile uint32_t system_millis;
 
 /* Called when systick fires */
+
 //void sys_tick_handler(void)
 //{
 //	system_millis++;
@@ -51,6 +54,14 @@ static volatile uint32_t system_millis;
 
 /* simple sleep for delay milliseconds */
 /*
+=======
+void sys_tick_handler(void)
+{
+	system_millis++;
+}
+
+/* simple sleep for delay milliseconds */
+
 void milli_sleep(uint32_t delay)
 {
 	uint32_t wake = system_millis + delay;
@@ -58,13 +69,19 @@ void milli_sleep(uint32_t delay)
 		continue;
 	}
 }
+
 */
 /* Getter function for the current time */
 /*
+=======
+
+/* Getter function for the current time */
+
 uint32_t mtime(void)
 {
 	return system_millis;
 }
+
 */
 
 static const struct usb_device_descriptor dev = {
@@ -250,12 +267,14 @@ uint8_t usbd_control_buffer[128];
 #define GPIO8_PORT
 #define GPIO8_PIN
 
-#define PWM0_PORT    GPIOA
-#define PWM0_PIN     GPIO8
-#define PWM1_PORT    GPIOA
-#define PWM1_PIN     GPIO9
-#define PWM2_PORT    GPIOA
-#define PWM2_PIN     GPIO10
+
+#define PWM0_PORT    GPIOC
+#define PWM0_PIN     GPIO6
+#define PWM1_PORT    GPIOC
+#define PWM1_PIN     GPIO7
+#define PWM2_PORT    GPIOC
+#define PWM2_PIN     GPIO8
+
 #define PWM3_PORT    GPIOC
 #define PWM3_PIN     GPIO9
 
@@ -318,14 +337,22 @@ static void pwm_probe(void)
 	pwm_set_dc(PWM_CH1, 0);
 	pwm_set_dc(PWM_CH2, 0);
 	pwm_set_dc(PWM_CH3, 0);
+
 //	pwm_set_dc(PWM_CH4, 0);
+
+	pwm_set_dc(PWM_CH4, 0);
+
 	pwm_start();
 	my_delay_2();
     pwm_set_frequency(1000000);
 	pwm_set_dc(PWM_CH1, 100);
 	pwm_set_dc(PWM_CH2, 200);
 	pwm_set_dc(PWM_CH3, 300);
+
 //	pwm_set_dc(PWM_CH4, 500);
+
+	pwm_set_dc(PWM_CH4, 500);
+
 	my_delay_2();
 
 }	
@@ -335,6 +362,7 @@ static void pwm_disable(void)
 	timer_set_oc_value(TIM8, TIM_OC1, 0);
 	timer_set_oc_value(TIM8, TIM_OC2, 0);
 	timer_set_oc_value(TIM8, TIM_OC3, 0);
+
 //	timer_set_oc_value(TIM8, TIM_OC4, 0);
 	pwm_set_dc(PWM_CH1, 0);
 	pwm_set_dc(PWM_CH2, 0);
@@ -344,6 +372,8 @@ static void pwm_disable(void)
 	timer_disable_oc_output(TIM8, TIM_OC2);
 	timer_disable_oc_output(TIM8, TIM_OC3);
 //	timer_disable_oc_output(TIM8, TIM_OC4);
+
+
 	my_delay_2();
 }	
 
@@ -954,7 +984,9 @@ void clock_setup(void)
 //	rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
 
 	/* clock rate / 168000 to get 1mS interrupt rate */
+
 	systick_set_reload(84000);
+
 	systick_set_clocksource(STK_CSR_CLKSOURCE_AHB);
 	systick_counter_enable();
 
@@ -966,7 +998,7 @@ int main(void)
 {
 	int i;
 
-    rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
+    rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
     
 	rcc_periph_clock_enable(RCC_GPIOA);
 	rcc_periph_clock_enable(RCC_GPIOB);
