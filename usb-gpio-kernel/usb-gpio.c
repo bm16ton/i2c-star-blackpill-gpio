@@ -393,6 +393,15 @@ static int usbirq_irq_set_type(struct irq_data *irqd, unsigned type)
 	return 0;
 }    
     
+static const struct irq_chip usb_gpio_irqchip = {
+	.name = "usbgpio-irq",
+	.irq_enable =  usb_gpio_irq_enable,
+	.irq_disable = usb_gpio_irq_disable,
+	.irq_set_type = usbirq_irq_set_type,
+	.flags = IRQCHIP_IMMUTABLE, GPIOCHIP_IRQ_RESOURCE_HELPERS,
+};
+
+
 const char *gpio_names[] = { "LED", "usbGPIO2", "BTN", "usbGPIO4", "IRQpin" };
 
 //called when a usb device is connected to PC
@@ -505,14 +514,16 @@ my_usb_probe(struct usb_interface *interface,
    data->chip.direction_output = _direction_output;
    data->chip.to_irq = i2c_gpio_to_irq;
    data->chip.names = gpio_names;
-   data->irq.name = "usbgpio-irq";
+/*   data->irq.name = "usbgpio-irq";
    data->irq.irq_set_type = usbirq_irq_set_type;
    data->irq.irq_enable = usb_gpio_irq_enable;
    data->irq.irq_disable = usb_gpio_irq_disable;
+*/
 //   data->irq.irq_enabled = false;
 
 	girq = &data->chip.irq;
-	girq->chip = &data->irq;
+//	girq->chip = &data->irq;
+    gpio_irq_chip_set_chip(girq, &usb_gpio_irqchip);
 	girq->parent_handler = NULL;
 	girq->num_parents = 0;
 	girq->parents = NULL;
