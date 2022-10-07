@@ -174,31 +174,6 @@ static void gpio_pwm_disable(struct pwm_chip *pwmchip, struct pwm_device *pwm)
    printk(KERN_INFO "gpio_pwm_disable \n");
 }
 
-static int gpio_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-			     const struct pwm_state *state)
-{
-	int err;
-
-	if (state->polarity != PWM_POLARITY_NORMAL)
-		return -EINVAL;
-
-	if (!state->enabled) {
-		if (pwm->state.enabled)
-			gpio_pwm_disable(chip, pwm);
-
-		return 0;
-	}
-
-	err = gpio_pwm_config(pwm->chip, pwm, state->duty_cycle, state->period);
-	if (err)
-		return err;
-
-	if (!pwm->state.enabled)
-		err = gpio_pwm_enable(chip, pwm);
-
-	return err;
-}
-
 static const struct pwm_ops gpio_pwm_ops = {
      //int (*request)(struct pwm_chip *pwmchip, struct pwm_device *pwm);
      // optional hook for requesting a PWM
@@ -206,12 +181,11 @@ static const struct pwm_ops gpio_pwm_ops = {
      //@free: optional hook for freeing a PWM
      // void (*free)(struct pwm_chip *pwmchip, struct pwm_device *pwm);
      //pwm_config, configure duty cycles and period length for this PWM
- //    .config = gpio_pwm_config,
+     .config = gpio_pwm_config,
      //pwm_enable - enable pwm output toggling
-//     .enable = gpio_pwm_enable,
+     .enable = gpio_pwm_enable,
      //pwm_disable - disable pwm output toggling
-//     .disable = gpio_pwm_disable,
-    .apply = gpio_pwm_apply,
+     .disable = gpio_pwm_disable,
      .owner = THIS_MODULE,
 };
 
@@ -582,6 +556,12 @@ my_usb_probe(struct usb_interface *interface,
    i2c_gpio_to_irq(&data->chip, 4);
   
   
+//   data->pwmchip = kzalloc(sizeof(struct pwm_chip), GFP_KERNEL);
+//   if (pwmd == NULL)
+//     {
+        //handle error
+//     }
+
    memset(&data->pwmchip, 0x00, sizeof(data->pwmchip));
    //increase ref count, make sure u call usb_put_dev() in disconnect()
    data->udev = usb_get_dev(udev);

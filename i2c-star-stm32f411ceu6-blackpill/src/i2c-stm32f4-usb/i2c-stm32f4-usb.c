@@ -40,49 +40,17 @@
 #include <libopencm3/stm32/timer.h>
 #include <pwm.h>
 
-#include "clock.h"
 
-
+/*
 static volatile uint32_t system_millis;
 
-/* Called when systick fires */
-
-//void sys_tick_handler(void)
-//{
-//	system_millis++;
-//}
-
-/* simple sleep for delay milliseconds */
-/*
-=======
-void sys_tick_handler(void)
-{
-	system_millis++;
-}
-
-/* simple sleep for delay milliseconds */
-
-void milli_sleep(uint32_t delay)
-{
-	uint32_t wake = system_millis + delay;
-	while (wake > system_millis) {
-		continue;
-	}
-}
-
-*/
-/* Getter function for the current time */
-/*
-=======
-
-/* Getter function for the current time */
 
 uint32_t mtime(void)
 {
 	return system_millis;
 }
-
 */
+
 
 static const struct usb_device_descriptor dev = {
 	.bLength = USB_DT_DEVICE_SIZE,
@@ -290,7 +258,7 @@ uint8_t usbd_control_buffer[128];
 	
 /* the currently support capability is quite limited */
 const unsigned long func = I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
-
+void clock_setup(void);
 
 #define STATUS_IDLE	   0
 #define STATUS_ADDRESS_ACK 1
