@@ -862,9 +862,7 @@ static int usb_fibre(fibre_t *fibre)
 			usb_strings, 2,
 			usbd_control_buffer, sizeof(usbd_control_buffer));
 	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS;
-//    OTG_FS_GUSBCFG |= OTG_GUSBCFG_FDMOD | OTG_GUSBCFG_TRDT_MASK;
-//	OTG_FS_GCCFG |= OTG_GCCFG_NOVBUSSENS | OTG_GCCFG_PWRDWN;
-//	OTG_FS_GCCFG &= ~(OTG_GCCFG_VBUSBSEN | OTG_GCCFG_VBUSASEN);
+
 	usbd_register_set_config_callback(usbd_dev, usb_set_config);
 
 	while (true) {
@@ -909,16 +907,13 @@ static void i2c_init(void)
 static void gpio_init(void)
 {
 	rcc_periph_clock_enable(RCC_GPIOC);
-//	nvic_enable_irq(NVIC_EXTI0_IRQ);
+
 	gpio_mode_setup(GPIO1_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO1_PIN);
 	gpio_set_output_options(GPIO1_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO1_PIN);
 
 	gpio_set(GPIO1_PORT, GPIO1_PIN);
 
-//	gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO14);
-//	gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
-//							GPIO14);
 
 	gpio_mode_setup(GPIO2_PORT, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO2_PIN);
 	
@@ -926,7 +921,7 @@ static void gpio_init(void)
 	gpio_set_output_options(GPIO4_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ,
 							GPIO4_PIN);
 		
-//	nvic_enable_irq(NVIC_EXTI0_IRQ);					
+			
 	gpio_mode_setup(GPIO3_PORT, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO3_PIN);
 	gpio_mode_setup(GPIO5_PORT, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO5_PIN);
 	
@@ -938,12 +933,6 @@ static void gpio_init(void)
 	gpio_set(GPIO5_PORT, GPIO5_PIN);
 	
 
-	/* Configure the EXTI subsystem. 
-	exti_select_source(EXTI0, GPIO3_PORT);
-	state.falling = false;
-	exti_set_trigger(EXTI0, EXTI_TRIGGER_RISING);
-	exti_enable_request(EXTI0);
-	*/
 }
 
 void clock_setup(void)
@@ -966,13 +955,13 @@ int main(void)
 {
 	int i;
 
-    rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
+    rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
     
 	rcc_periph_clock_enable(RCC_GPIOA);
 	rcc_periph_clock_enable(RCC_GPIOB);
 	rcc_periph_clock_enable(RCC_GPIOC);
-	rcc_periph_clock_enable(RCC_GPIOD);
-	rcc_periph_clock_enable(RCC_GPIOE);
+//	rcc_periph_clock_enable(RCC_GPIOD);
+//	rcc_periph_clock_enable(RCC_GPIOE);
 	
 	gpio_init();
 	i2c_init();
