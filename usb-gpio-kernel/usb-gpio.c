@@ -30,7 +30,7 @@ struct my_usb {
      //this gonna hold the data which we send to device
      uint8_t *int_out_buf;
      struct urb *int_out_urb;
-
+     struct mutex		io_mutex;
      //ENPOINT IN - 1 - interrupt
      struct usb_endpoint_descriptor *int_in_endpoint;
      uint8_t *int_in_buf;
@@ -78,13 +78,18 @@ unsigned int GPIO_irqNumber;
 static uint8_t gpio_val = 0;      // brequest
 static uint8_t offs = 0;          // windex?
 static uint8_t usbval = 0;        // wvalue
+int shutdval = 0;
 int irqt = 2;
-
+int irqon = 0;
 static void
 _gpio_work_job(struct work_struct *work)
 {
    struct my_usb *sd = container_of(work, struct my_usb, work);
-
+	mutex_lock(&sd->io_mutex);
+	if (!sd->interface) {
+		mutex_unlock(&sd->io_mutex);
+    return;
+	}
    printk(KERN_ALERT "gpioval i/o: %d \n", gpio_val);
    printk(KERN_ALERT "usbval i/o: %d \n", usbval);
    printk(KERN_ALERT "offset i/o: %d \n",offs);
@@ -94,6 +99,7 @@ _gpio_work_job(struct work_struct *work)
                    usbval, offs,
                    NULL, 0,
                    3000);
+    mutex_unlock(&sd->io_mutex);
 }
 
 static void
@@ -101,6 +107,11 @@ _gpio_work_job2(struct work_struct *work2)
 {
    struct my_usb *sd = container_of(work2, struct my_usb, work2);
 
+	mutex_lock(&sd->io_mutex);
+	if (!sd->interface) {
+		mutex_unlock(&sd->io_mutex);
+    return;
+    }
    printk(KERN_ALERT "Read port i/o: %d \n", offs);
    usb_control_msg(sd->udev,
                    usb_rcvctrlpipe(sd->udev, 0),
@@ -108,6 +119,7 @@ _gpio_work_job2(struct work_struct *work2)
                    usbval, offs,
                    (u8 *)sd->bufr, 4,
                    100);
+    mutex_unlock(&sd->io_mutex);
 }
 
 static void
@@ -121,17 +133,17 @@ int_cb(struct urb *urb)
 		
    printk(KERN_ALERT "urb interrupt is called \n");
    memcpy(sd->int_in_buf, intrxbuf, 4);
-//   i2c_gpio_to_irq(&sd->chip, 3);
-//   GPIO_irqNumber = gpio_to_irq(2);
-//   pr_info("GPIO_irqNumber = %d\n", GPIO_irqNumber);
-//   generic_handle_domain_irq(sd->chip.irq.domain, 2);
-//    handle_simple_irq (sd->irq_descs[3]);
+if (irqon == 1) {
    local_irq_save(flags);
    generic_handle_irq(GPIO_irqNumber);
-
    local_irq_restore(flags);
-   printk(KERN_ALERT "received data: %s \n", intrxbuf);
+   printk(KERN_ALERT "irq fired, and received data: %s \n", intrxbuf);
+} else {
+   printk(KERN_ALERT "but irq currently disabled");
+}
+if (shutdval == 0) {
    usb_submit_urb(sd->int_in_urb, GFP_KERNEL);
+}
    kfree(intrxbuf);
 }
 
@@ -249,9 +261,7 @@ _gpioa_get(struct gpio_chip *chip,
 	offs = offset;
     gpio_val = 1;
 
-//    usleep_range(1000, 1200);
-//    schedule_work(&data->work2);
-//    usleep_range(1000, 1200);
+
     usb_control_msg(data->udev,
                    usb_rcvctrlpipe(data->udev, 0),
                    gpio_val, USB_TYPE_VENDOR | USB_DIR_IN,
@@ -271,7 +281,6 @@ _gpioa_get(struct gpio_chip *chip,
     printk("buf3 =  %d \n", retval3);
 
     kfree(rxbuf);
-//    kfree(data->bufr);
  
     return retval1 - 3; 
 
@@ -326,21 +335,19 @@ i2c_gpio_to_irq(struct gpio_chip *chip,
 static void usb_gpio_irq_enable(struct irq_data *irqd)
 {
 	struct my_usb *dev = irq_data_get_irq_chip_data(irqd);
-
-	/* Is that needed? */
-//	if (dev->irq.irq_enable)
+    irqon = 1;
 	if (dev->irq_enabled[4])
 		return;
 
-//	dev->irq.irq_enable = true;
+
     dev->irq_enabled[4] = true;
-//	usb_submit_urb(dev->int_in_urb, GFP_ATOMIC);
+
 }
 
 void set_irq_disabled(struct irq_data *irqd)
 {
     struct my_usb *dev = irq_data_get_irq_chip_data(irqd);
-    
+    irqon = 0;
     if (!dev->irq_enabled[4])
         return;
         
@@ -602,22 +609,8 @@ my_usb_probe(struct usb_interface *interface,
 
    INIT_WORK(&data->work, _gpio_work_job);
    INIT_WORK(&data->work2, _gpio_work_job2);
-
-   //swith off the led
-/*   usb_control_msg(data->udev,
-                   usb_sndctrlpipe(data->udev, 0),
-                   0, USB_TYPE_VENDOR | USB_DIR_OUT,
-                   0, 0,
-                   NULL, 0,
-                   1000);
-
-   usb_control_msg(data->udev,
-                   usb_sndctrlpipe(data->udev, 0),
-                   1, USB_TYPE_VENDOR | USB_DIR_OUT,
-                   0, 1,
-                   NULL, 0,
-                   1000);
-*/                   
+   mutex_init(&data->io_mutex);
+                   
    return 0;
 }
 
@@ -633,18 +626,41 @@ my_usb_disconnect(struct usb_interface *interface)
    
 //   cancel_work_sync(&pwmd->work);
 //   pwmchip_remove(&pwmd->pwmchip);
-   cancel_work_sync(&data->work);
-   pwmchip_remove(&data->pwmchip);
-   cancel_work_sync(&data->work2);
-   gpiochip_remove(&data->chip);
+   shutdval = 1;
 
+    if (&data->work) {
+   cancel_work_sync(&data->work);
+   }
+   if (&data->pwmchip) {
+   pwmchip_remove(&data->pwmchip);
+   }
+   if (&data->work2) {
+   cancel_work_sync(&data->work2);
+   }
+   if (&data->chip) {
+   gpiochip_remove(&data->chip);
+   }
+   if (data->int_in_urb) {
    usb_kill_urb(data->int_in_urb);
    usb_free_urb(data->int_in_urb);
+   }
+   if (data->irq_enabled[4]) {
+   data->irq_enabled[4] = false;
+   }
+   if (data->int_in_buf) {
    kfree(data->int_in_buf);
-
+   }
+   if (data->bufr) {
    kfree(data->bufr);
+   }
+   if (data->irq_base) {
    irq_free_descs(data->irq_base, data->irq_num);
+   }
+   
+    mutex_lock(&data->io_mutex);
+ 	data->interface = NULL;
    usb_set_intfdata(interface, NULL);
+   mutex_unlock(&data->io_mutex);
    //deref the count
    usb_put_dev(data->udev);
 //   usb_put_dev(pwmd->udev);
