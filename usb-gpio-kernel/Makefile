@@ -1,4 +1,4 @@
-obj-m += usb-gpio.o
+obj-m += usb-skeleton.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
